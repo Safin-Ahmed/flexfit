@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "lerna": "^6.4.1"
+  },
+  "name": "flexfit",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ]
+}
