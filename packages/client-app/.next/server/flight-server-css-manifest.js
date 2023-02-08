@@ -1,16 +1,16 @@
 self.__RSC_CSS_MANIFEST={
   "__entry_css_mods__": {
-    "H:\\flexfit\\packages\\client-app\\app\\page": [
-      "H:\\flexfit\\packages\\client-app\\app\\page.module.css",
-      "H:\\flexfit\\node_modules\\@next\\font\\google\\target.css?{\"path\":\"app\\\\page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}",
-      "H:\\flexfit\\packages\\client-app\\app\\globals.css"
+    "/home/hun73r/Desktop/flexfit/packages/client-app/app/page": [
+      "/home/hun73r/Desktop/flexfit/packages/client-app/app/page.module.css",
+      "/home/hun73r/Desktop/flexfit/node_modules/@next/font/google/target.css?{\"path\":\"app/page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}",
+      "/home/hun73r/Desktop/flexfit/packages/client-app/app/globals.css"
     ]
   },
-  "H:\\flexfit\\packages\\client-app\\app\\page.tsx": [
-    "H:\\flexfit\\packages\\client-app\\app\\page.module.css",
-    "H:\\flexfit\\node_modules\\@next\\font\\google\\target.css?{\"path\":\"app\\\\page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}"
+  "/home/hun73r/Desktop/flexfit/packages/client-app/app/page.tsx": [
+    "/home/hun73r/Desktop/flexfit/node_modules/@next/font/google/target.css?{\"path\":\"app/page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}",
+    "/home/hun73r/Desktop/flexfit/packages/client-app/app/page.module.css"
   ],
-  "H:\\flexfit\\packages\\client-app\\app\\layout.tsx": [
-    "H:\\flexfit\\packages\\client-app\\app\\globals.css"
+  "/home/hun73r/Desktop/flexfit/packages/client-app/app/layout.tsx": [
+    "/home/hun73r/Desktop/flexfit/packages/client-app/app/globals.css"
   ]
 }

@@ -133,15 +133,15 @@ self.__RSC_MANIFEST={
   },
   "__edge_ssr_module_mapping__": {},
   "__entry_css_files__": {
-    "H:\\flexfit\\packages\\client-app\\app\\layout": [
+    "/home/hun73r/Desktop/flexfit/packages/client-app/app/layout": [
       "static/css/_app-client_app_globals_css.css"
     ],
-    "H:\\flexfit\\packages\\client-app\\app\\page": [
-      "static/css/_app-client_node_modules_next_font_google_target_css_path_app_page_tsx_import_Inter_arguments-2f8da4.css",
-      "static/css/_app-client_app_page_module_css.css"
+    "/home/hun73r/Desktop/flexfit/packages/client-app/app/page": [
+      "static/css/_app-client_app_page_module_css.css",
+      "static/css/_app-client_node_modules_next_font_google_target_css_path_app_page_tsx_import_Inter_arguments-2f8da4.css"
     ]
   },
-  "H:\\flexfit\\node_modules\\next\\dist\\client\\image.js": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/client/image.js": {
     "": {
       "id": "(app-client)/../../node_modules/next/dist/client/image.js",
       "name": "",
@@ -167,7 +167,33 @@ self.__RSC_MANIFEST={
       "async": false
     }
   },
-  "H:\\flexfit\\node_modules\\next\\dist\\client\\components\\app-router.js": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/esm/client/image.js": {
+    "": {
+      "id": "(app-client)/../../node_modules/next/dist/client/image.js",
+      "name": "",
+      "chunks": [
+        "app/page:app/page"
+      ],
+      "async": false
+    },
+    "*": {
+      "id": "(app-client)/../../node_modules/next/dist/client/image.js",
+      "name": "*",
+      "chunks": [
+        "app/page:app/page"
+      ],
+      "async": false
+    },
+    "default": {
+      "id": "(app-client)/../../node_modules/next/dist/client/image.js",
+      "name": "default",
+      "chunks": [
+        "app/page:app/page"
+      ],
+      "async": false
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/client/components/app-router.js": {
     "": {
       "id": "(app-client)/../../node_modules/next/dist/client/components/app-router.js",
       "name": "",
@@ -193,7 +219,33 @@ self.__RSC_MANIFEST={
       "async": false
     }
   },
-  "H:\\flexfit\\node_modules\\next\\dist\\client\\components\\error-boundary.js": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/esm/client/components/app-router.js": {
+    "": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/app-router.js",
+      "name": "",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "*": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/app-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "default": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/app-router.js",
+      "name": "default",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/client/components/error-boundary.js": {
     "": {
       "id": "(app-client)/../../node_modules/next/dist/client/components/error-boundary.js",
       "name": "",
@@ -219,7 +271,33 @@ self.__RSC_MANIFEST={
       "async": false
     }
   },
-  "H:\\flexfit\\node_modules\\next\\dist\\client\\components\\layout-router.js": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/esm/client/components/error-boundary.js": {
+    "": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/error-boundary.js",
+      "name": "",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "*": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/error-boundary.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "default": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/error-boundary.js",
+      "name": "default",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/client/components/layout-router.js": {
     "": {
       "id": "(app-client)/../../node_modules/next/dist/client/components/layout-router.js",
       "name": "",
@@ -245,7 +323,33 @@ self.__RSC_MANIFEST={
       "async": false
     }
   },
-  "H:\\flexfit\\node_modules\\next\\dist\\client\\components\\render-from-template-context.js": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/esm/client/components/layout-router.js": {
+    "": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/layout-router.js",
+      "name": "",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "*": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/layout-router.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "default": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/layout-router.js",
+      "name": "default",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/client/components/render-from-template-context.js": {
     "": {
       "id": "(app-client)/../../node_modules/next/dist/client/components/render-from-template-context.js",
       "name": "",
@@ -271,7 +375,33 @@ self.__RSC_MANIFEST={
       "async": false
     }
   },
-  "H:\\flexfit\\packages\\client-app\\app\\globals.css": {
+  "/home/hun73r/Desktop/flexfit/node_modules/next/dist/esm/client/components/render-from-template-context.js": {
+    "": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "*": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "*",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    },
+    "default": {
+      "id": "(app-client)/../../node_modules/next/dist/client/components/render-from-template-context.js",
+      "name": "default",
+      "chunks": [
+        "app-client-internals:app-client-internals"
+      ],
+      "async": false
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/packages/client-app/app/globals.css": {
     "default": {
       "id": "null",
       "name": "default",
@@ -280,21 +410,21 @@ self.__RSC_MANIFEST={
       ]
     }
   },
-  "H:\\flexfit\\packages\\client-app\\app\\page.module.css": {
-    "default": {
-      "id": "null",
-      "name": "default",
-      "chunks": [
-        "static/css/_app-client_app_page_module_css.css"
-      ]
-    }
-  },
-  "H:\\flexfit\\node_modules\\@next\\font\\google\\target.css?{\"path\":\"app\\\\page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}": {
+  "/home/hun73r/Desktop/flexfit/node_modules/@next/font/google/target.css?{\"path\":\"app/page.tsx\",\"import\":\"Inter\",\"arguments\":[{\"subsets\":[\"latin\"]}],\"variableName\":\"inter\"}": {
     "default": {
       "id": "null",
       "name": "default",
       "chunks": [
         "static/css/_app-client_node_modules_next_font_google_target_css_path_app_page_tsx_import_Inter_arguments-2f8da4.css"
+      ]
+    }
+  },
+  "/home/hun73r/Desktop/flexfit/packages/client-app/app/page.module.css": {
+    "default": {
+      "id": "null",
+      "name": "default",
+      "chunks": [
+        "static/css/_app-client_app_page_module_css.css"
       ]
     }
   }
