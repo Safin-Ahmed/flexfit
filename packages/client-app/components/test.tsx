@@ -1,5 +1,13 @@
-const TestComponent = (): JSX.Element => {
-  return <div>This is test Component</div>;
+"use client";
+
+import { Box, Typography } from "@mui/material";
+
+const Test: React.FC = () => {
+  return (
+    <Box>
+      <Typography variant="h3">Everything is Fine!</Typography>
+    </Box>
+  );
 };
 
-export default TestComponent;
+export default Test;
