@@ -9,7 +9,6 @@ export const userWorkoutInfo = {
       exercises: [
         {
           id: "1",
-          order: "1",
           workoutId: "1",
           title: "Chest workout",
           chest: [
