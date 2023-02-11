@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workouts",
+  "info": {
+    "singularName": "workout",
+    "pluralName": "workouts",
+    "displayName": "Workout"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "exercise_datum": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exercise-data.exercise-data",
+      "inversedBy": "workout"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "workouts"
+    },
+    "recurring_date": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::recurring-date.recurring-date",
+      "mappedBy": "workout"
+    }
+  }
+}

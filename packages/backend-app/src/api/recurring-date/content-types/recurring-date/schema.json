@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "recurring_dates",
+  "info": {
+    "singularName": "recurring-date",
+    "pluralName": "recurring-dates",
+    "displayName": "RecurringDate"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "startDate": {
+      "type": "date"
+    },
+    "FinishDate": {
+      "type": "date"
+    },
+    "workout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workout.workout",
+      "inversedBy": "recurring_date"
+    }
+  }
+}

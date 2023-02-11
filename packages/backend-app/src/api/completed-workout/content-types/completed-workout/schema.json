@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "completed_workouts",
+  "info": {
+    "singularName": "completed-workout",
+    "pluralName": "completed-workouts",
+    "displayName": "completedWorkout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "workout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workout.workout"
+    },
+    "completedOn": {
+      "type": "datetime"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "completed_workouts"
+    }
+  }
+}
