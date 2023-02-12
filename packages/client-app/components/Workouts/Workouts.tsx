@@ -3,48 +3,45 @@ import * as React from 'react';
 import {
   Box,
   Button,
-  Checkbox,
   Chip,
   Divider,
-  FormControlLabel,
-  FormGroup,
   TextField,
   Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
+import SingleWorkout from '../SingleWorkout/SingleWorkout';
 
-interface WorkoutData {
+export interface WorkoutData {
   attributes: {
     id: number;
     order: number;
     title: string;
     recurringDate: RecurringData;
     exercises: ExerciseData[];
-    // exercise_datum: {
-    //   [key: string]: ExerciseDatum;
-    // };
   };
 }
 [];
 type RecurringData = { startDate: Date; finishDate: Date };
-interface ExerciseData {
+export interface ExerciseData {
   id: number;
-  partName: string[];
+  partName: string;
 }
 [];
 
 const Workouts = () => {
   const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
+  const [createExercise, setCreateExercise] = React.useState<ExerciseData[]>(
+    []
+  );
 
   const [inputValue, setInputValue] = React.useState('');
-  const [bodyParts, setBodyParts] = React.useState<string[]>([]);
-  // const [bodyPartValue, setBodyPartValue] = React.useState('');
 
   const handleBodyPart = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    let exerciseId = createExercise.length + 1;
     // @ts-ignore
     let value = e.target.innerText;
-    setBodyParts([...bodyParts, value]);
+    setCreateExercise([...createExercise, { id: exerciseId, partName: value }]);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,16 +61,12 @@ const Workouts = () => {
             finishDate: new Date(),
             startDate: new Date(),
           },
-          exercises: [
-            {
-              id: updatedIdAndOrder,
-              partName: bodyParts,
-            },
-          ],
+          exercises: [...createExercise],
         },
       },
     ]);
     setInputValue('');
+    setCreateExercise([]);
     console.log(createWorkouts);
   };
 
@@ -142,43 +135,11 @@ const Workouts = () => {
       >
         {createWorkouts &&
           createWorkouts.map((workout) => (
-            <Box
-              boxShadow={2}
-              padding={2}
-              borderRadius={1}
+            <SingleWorkout
+              workout={workout}
+              handleBodyPart={handleBodyPart}
               key={workout.attributes.id}
-            >
-              <Typography variant="h6">{workout.attributes.title}</Typography>
-              <Stack direction="row" mt={2} justifyContent="space-between">
-                <Typography variant="caption" mr={1}>
-                  Starts:{' '}
-                  {workout?.attributes.recurringDate?.startDate.toLocaleDateString()}
-                </Typography>
-                <Typography variant="caption">
-                  Ends:{' '}
-                  {workout?.attributes.recurringDate?.finishDate.toLocaleDateString()}
-                </Typography>
-              </Stack>
-              <Stack direction={'row'} justifyContent={'start'} gap={2}>
-                {workout?.attributes?.exercises &&
-                  workout?.attributes?.exercises[0].partName.map(
-                    (name, index) => (
-                      <Typography
-                        boxShadow={2}
-                        p={3}
-                        mt={2}
-                        borderRadius={2}
-                        onClick={handleBodyPart}
-                        sx={{ cursor: 'pointer' }}
-                        key={index}
-                      >
-                        {' '}
-                        {name}{' '}
-                      </Typography>
-                    )
-                  )}
-              </Stack>
-            </Box>
+            />
           ))}
       </Stack>
     </Container>
