@@ -1,0 +1,39 @@
+.progress__wrapper {
+  .progress__content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(350px, 1fr));
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+
+    @media only screen and (max-width: 768px) {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .progress--chart {
+      width: 70%;
+
+      canvas {
+        width: 50%;
+      }
+    }
+
+    .circular--progress {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        width: 57% !important;
+        margin-top: 1.5rem;
+
+        @media only screen and (max-width: 768px) {
+          width: 50% !important;
+        }
+      }
+    }
+  }
+}
