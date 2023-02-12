@@ -25,7 +25,10 @@
       "@pages/*": ["./pages/*"],
       "@components/*": ["./components/*"],
       "@data/*": ["./data/*"],
-      "@shared/*": ["./shared/*"]
+      "@shared/*": ["./shared/*"],
+      "@utils/*": ["./utils/*"],
+      "@redux/*": ["./redux/*"],
+      "@hooks/*": ["./hooks/*"]
     }
   },
   "include": [

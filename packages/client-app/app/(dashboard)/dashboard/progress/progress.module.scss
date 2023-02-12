@@ -1,0 +1,34 @@
+.progress__wrapper {
+  .progress__content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(350px, 1fr));
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+
+    @media only screen and (max-width: 768px) {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+
+    .progress--chart {
+      width: 70%;
+
+      canvas {
+        width: 50%;
+      }
+    }
+
+    .circular--progress {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        width: 60% !important;
+        margin-top: 3rem;
+      }
+    }
+  }
+}
