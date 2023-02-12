@@ -4,7 +4,8 @@
   "info": {
     "singularName": "body-part",
     "pluralName": "body-parts",
-    "displayName": "bodyPart"
+    "displayName": "bodyPart",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,9 +17,9 @@
     },
     "exercises": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::exercise.exercise",
-      "mappedBy": "body_parts"
+      "mappedBy": "body_part"
     }
   }
 }

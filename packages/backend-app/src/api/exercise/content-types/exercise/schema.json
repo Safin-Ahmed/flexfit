@@ -25,9 +25,9 @@
     "videoUrl": {
       "type": "string"
     },
-    "body_parts": {
+    "body_part": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::body-part.body-part",
       "inversedBy": "exercises"
     }

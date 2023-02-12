@@ -17,16 +17,16 @@
       "relation": "oneToOne",
       "target": "api::body-part.body-part"
     },
-    "user_exercises": {
+    "exercises": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::user-exercise.user-exercise"
     },
     "workout": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::workout.workout",
-      "mappedBy": "exercise_datum"
+      "inversedBy": "details"
     }
   }
 }

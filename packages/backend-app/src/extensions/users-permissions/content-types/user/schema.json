@@ -70,12 +70,6 @@
       "type": "media",
       "multiple": false
     },
-    "workouts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::workout.workout",
-      "mappedBy": "users_permissions_user"
-    },
     "reminders": {
       "type": "relation",
       "relation": "oneToMany",
@@ -98,6 +92,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::completed-workout.completed-workout",
+      "mappedBy": "user"
+    },
+    "workouts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workout.workout",
       "mappedBy": "user"
     }
   }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "workout",
     "pluralName": "workouts",
-    "displayName": "Workout"
+    "displayName": "Workout",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,13 +16,13 @@
       "type": "string",
       "required": true
     },
-    "exercise_datum": {
+    "details": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::exercise-data.exercise-data",
-      "inversedBy": "workout"
+      "mappedBy": "workout"
     },
-    "users_permissions_user": {
+    "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
@@ -32,6 +33,12 @@
       "relation": "oneToOne",
       "target": "api::recurring-date.recurring-date",
       "mappedBy": "workout"
+    },
+    "progress": {
+      "type": "integer"
+    },
+    "isCompleted": {
+      "type": "boolean"
     }
   }
 }
