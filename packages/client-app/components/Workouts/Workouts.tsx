@@ -3,81 +3,49 @@ import * as React from 'react';
 import {
   Box,
   Button,
+  Checkbox,
   Chip,
   Divider,
+  FormControlLabel,
+  FormGroup,
   TextField,
   Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 
-// interface Workout {
-//   id: number;
-//   title: string;
-//   bodyParts: BodyPartsType;
-//   //   exerciseData: {}[];
-//   recurringData: null | RecurringInterface;
-// }
-
-// interface RecurringInterface {
-//   startData: Date;
-//   finishData: Date;
-// }
-
-// type BodyPartsType = 'chest' | 'legs' | 'back';
-const exercise = [
-  {
-    id: '1',
-    order: '1',
-    workoutId: '1',
-    title: 'Chest Workout',
-    chest: [],
-  },
-  {
-    id: '2',
-    order: '2',
-    title: 'Second Workout',
-    recurringDate: {
-      startDate: new Date(),
-      finishDate: new Date(),
-    },
-    exercises: [
-      {
-        id: '2',
-        order: '2',
-        workoutId: '2',
-        title: 'Chest Workout',
-        chest: [],
-      },
-    ],
-  },
-];
-
 interface WorkoutData {
-  id: number;
-  order: number;
-  title: string;
-  recurringDate: RecurringData;
+  attributes: {
+    id: number;
+    order: number;
+    title: string;
+    recurringDate: RecurringData;
+    exercises: ExerciseData[];
+    // exercise_datum: {
+    //   [key: string]: ExerciseDatum;
+    // };
+  };
 }
 [];
 type RecurringData = { startDate: Date; finishDate: Date };
-
-const workouts: WorkoutData[] = [
-  {
-    id: 1,
-    order: 1,
-    title: 'First Workout',
-    recurringDate: {
-      finishDate: new Date(),
-      startDate: new Date(),
-    },
-  },
-];
+interface ExerciseData {
+  id: number;
+  partName: string[];
+}
+[];
 
 const Workouts = () => {
   const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
 
   const [inputValue, setInputValue] = React.useState('');
+  const [bodyParts, setBodyParts] = React.useState<string[]>([]);
+  // const [bodyPartValue, setBodyPartValue] = React.useState('');
+
+  const handleBodyPart = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    // @ts-ignore
+    let value = e.target.innerText;
+    setBodyParts([...bodyParts, value]);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -88,15 +56,24 @@ const Workouts = () => {
     setCreateWorkouts([
       ...createWorkouts,
       {
-        id: updatedIdAndOrder,
-        order: updatedIdAndOrder,
-        title: inputValue,
-        recurringDate: {
-          finishDate: new Date(),
-          startDate: new Date(),
+        attributes: {
+          id: updatedIdAndOrder,
+          order: updatedIdAndOrder,
+          title: inputValue,
+          recurringDate: {
+            finishDate: new Date(),
+            startDate: new Date(),
+          },
+          exercises: [
+            {
+              id: updatedIdAndOrder,
+              partName: bodyParts,
+            },
+          ],
         },
       },
     ]);
+    setInputValue('');
     console.log(createWorkouts);
   };
 
@@ -121,6 +98,29 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
+        <Stack direction={'row'} justifyContent={'start'} gap={2}>
+          <Typography
+            boxShadow={2}
+            p={3}
+            mt={2}
+            borderRadius={2}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleBodyPart}
+          >
+            Chest
+          </Typography>
+          <Typography
+            boxShadow={2}
+            p={3}
+            mt={2}
+            borderRadius={2}
+            sx={{ cursor: 'pointer' }}
+            onClick={handleBodyPart}
+          >
+            Legs
+          </Typography>
+        </Stack>
+
         <Button
           variant="contained"
           sx={{ display: 'block', marginTop: '.5rem' }}
@@ -142,17 +142,41 @@ const Workouts = () => {
       >
         {createWorkouts &&
           createWorkouts.map((workout) => (
-            <Box boxShadow={2} padding={2} borderRadius={1} key={workout.id}>
-              <Typography variant="h6">{workout.title}</Typography>
+            <Box
+              boxShadow={2}
+              padding={2}
+              borderRadius={1}
+              key={workout.attributes.id}
+            >
+              <Typography variant="h6">{workout.attributes.title}</Typography>
               <Stack direction="row" mt={2} justifyContent="space-between">
                 <Typography variant="caption" mr={1}>
                   Starts:{' '}
-                  {workout?.recurringDate?.startDate.toLocaleDateString()}
+                  {workout?.attributes.recurringDate?.startDate.toLocaleDateString()}
                 </Typography>
                 <Typography variant="caption">
                   Ends:{' '}
-                  {workout?.recurringDate?.finishDate.toLocaleDateString()}
+                  {workout?.attributes.recurringDate?.finishDate.toLocaleDateString()}
                 </Typography>
+              </Stack>
+              <Stack direction={'row'} justifyContent={'start'} gap={2}>
+                {workout?.attributes?.exercises &&
+                  workout?.attributes?.exercises[0].partName.map(
+                    (name, index) => (
+                      <Typography
+                        boxShadow={2}
+                        p={3}
+                        mt={2}
+                        borderRadius={2}
+                        onClick={handleBodyPart}
+                        sx={{ cursor: 'pointer' }}
+                        key={index}
+                      >
+                        {' '}
+                        {name}{' '}
+                      </Typography>
+                    )
+                  )}
               </Stack>
             </Box>
           ))}
