@@ -5,12 +5,11 @@ import { WorkoutData } from '../Workouts/Workouts';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
-  handleBodyPart: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
-  deleteWorkout: (id: number) => void;
+  deleteWorkout: (id: string) => void;
 }
 
 const SingleWorkout = (props: SingleWorkoutProps) => {
-  const { workout, handleBodyPart, deleteWorkout } = props;
+  const { workout, deleteWorkout } = props;
   return (
     <Box boxShadow={2} padding={2} borderRadius={1}>
       <Stack
@@ -35,14 +34,11 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
           Ends: {workout?.recurringDate?.finishDate.toLocaleDateString()}
         </Typography>
       </Stack>
+
       <Stack direction={'row'} justifyContent={'start'} gap={2}>
         {workout?.details &&
           workout?.details?.map((exercise) => (
-            <ExerciseList
-              exercise={exercise}
-              handleBodyPart={handleBodyPart}
-              key={exercise.id}
-            />
+            <ExerciseList exercise={exercise} key={exercise.id} />
           ))}
       </Stack>
     </Box>

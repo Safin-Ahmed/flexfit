@@ -6,14 +6,20 @@ import {
   Chip,
   Divider,
   TextField,
+  ToggleButton,
   Typography,
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
 
+function randomId(): string {
+  const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
+  return uint32.toString(16);
+}
+
 export interface WorkoutData {
-  id: number;
+  id: string;
   order: number;
   title: string;
   recurringDate: RecurringData;
@@ -22,7 +28,7 @@ export interface WorkoutData {
 [];
 type RecurringData = { startDate: Date; finishDate: Date };
 export interface ExerciseData {
-  id: number;
+  id: string;
   partName: string;
   exercises: IndividualExercise[];
 }
@@ -30,28 +36,53 @@ export interface ExerciseData {
 
 interface IndividualExercise {
   name: string;
-  exerciseId: number;
-  workoutId: number;
+  exerciseId: string;
+  workoutId: string;
   sets: string;
   reps: string;
   time: string;
 }
+[];
 
 const Workouts = () => {
   const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
-  const [createExercise, setCreateExercise] = React.useState<ExerciseData[]>(
-    []
-  );
+  const [createBodyParts, setBodyParts] = React.useState<ExerciseData[]>([]);
+  const [createExercises, setCreateExercises] = React.useState<
+    IndividualExercise[]
+  >([]);
 
   const [inputValue, setInputValue] = React.useState('');
+  const [toggle, setToggle] = React.useState<boolean>(false);
 
-  const handleBodyPart = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    let exerciseId = createExercise.length + 1;
-    // @ts-ignore
+  //Individual exercise data
+  const handleSingleExercise = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    //@ts-ignore
     let value = e.target.innerText;
-    setCreateExercise([
-      ...createExercise,
-      { id: exerciseId, partName: value, exercises: [] },
+    setCreateExercises([
+      ...createExercises,
+      {
+        name: value,
+        exerciseId: randomId(),
+        reps: 'Demo',
+        sets: 'Demo',
+        time: 'Demo',
+        workoutId: randomId(),
+      },
+    ]);
+    console.log({ createExercises });
+  };
+
+  //Body part data
+  const handleBodyPart = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    // @ts-ignore
+    let value = e.target.value;
+    setToggle(!toggle);
+
+    setBodyParts([
+      ...createBodyParts,
+      { id: randomId(), partName: value, exercises: [...createExercises] },
     ]);
   };
 
@@ -65,23 +96,24 @@ const Workouts = () => {
     setCreateWorkouts([
       ...createWorkouts,
       {
-        id: updatedIdAndOrder,
+        id: randomId(),
         order: updatedIdAndOrder,
         title: inputValue,
         recurringDate: {
           finishDate: new Date(),
           startDate: new Date(),
         },
-        details: [...createExercise],
+        details: [...createBodyParts],
       },
     ]);
     setInputValue('');
-    setCreateExercise([]);
+    setBodyParts([]);
+
     console.log(createWorkouts);
   };
 
   //delete a particular workout
-  const deleteWorkout = (id: number) => {
+  const deleteWorkout = (id: string) => {
     setCreateWorkouts(createWorkouts.filter((workout) => workout.id !== id));
   };
 
@@ -106,28 +138,56 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
-        <Stack direction={'row'} justifyContent={'start'} gap={2}>
-          <Typography
-            boxShadow={2}
-            p={3}
-            mt={2}
-            borderRadius={2}
-            sx={{ cursor: 'pointer' }}
-            onClick={handleBodyPart}
-          >
-            Chest
-          </Typography>
-          <Typography
-            boxShadow={2}
-            p={3}
-            mt={2}
-            borderRadius={2}
-            sx={{ cursor: 'pointer' }}
-            onClick={handleBodyPart}
+        <Stack direction={'row'} justifyContent={'start'} gap={2} mt={2}>
+          <ToggleButton
+            value={'legs'}
+            sx={
+              toggle === true
+                ? { backgroundColor: '#5C6BC0' }
+                : { cursor: 'pointer' }
+            }
+            onChange={handleBodyPart}
           >
             Legs
-          </Typography>
+          </ToggleButton>
+          <ToggleButton value={'chest'} onChange={handleBodyPart}>
+            Chest
+          </ToggleButton>
+          <ToggleButton value={'biceps'} onChange={handleBodyPart}>
+            Biceps
+          </ToggleButton>
         </Stack>
+
+        {toggle === true ? (
+          <Box>
+            <Stack direction={'row'} justifyContent={'start'} gap={2}>
+              <Typography
+                boxShadow={2}
+                p={3}
+                mt={2}
+                borderRadius={2}
+                bgcolor={'skyblue'}
+                sx={{ cursor: 'pointer' }}
+                onClick={handleSingleExercise}
+              >
+                Pushups
+              </Typography>
+              <Typography
+                boxShadow={2}
+                p={3}
+                mt={2}
+                bgcolor={'skyblue'}
+                borderRadius={2}
+                sx={{ cursor: 'pointer' }}
+                onClick={handleSingleExercise}
+              >
+                chest press
+              </Typography>
+            </Stack>
+          </Box>
+        ) : (
+          ''
+        )}
 
         <Button
           variant="contained"
@@ -153,7 +213,6 @@ const Workouts = () => {
             <SingleWorkout
               deleteWorkout={deleteWorkout}
               workout={workout}
-              handleBodyPart={handleBodyPart}
               key={workout.id}
             />
           ))}
