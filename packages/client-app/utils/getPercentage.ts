@@ -41,8 +41,7 @@ interface WorkoutInfo {
  * It takes in a workout object and returns the percentage of the workout that has been completed
  * @param { WorkoutInfo } workoutInfo - This is the workout object that we get from the API.
  * @returns A number between 0 and 100.
- */
-export const currentWorkoutProgress = (workoutInfo: any) => {
+ */ export const currentWorkoutProgress = (workoutInfo: WorkoutInfo) => {
   let currentWorkout;
   let totalBodyPartsExercises = 0;
   let finishedBodyPartsExercises = 0;

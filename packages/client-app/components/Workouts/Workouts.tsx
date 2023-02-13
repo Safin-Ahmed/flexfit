@@ -1,5 +1,5 @@
-'use client';
-import * as React from 'react';
+"use client";
+import * as React from "react";
 import {
   Box,
   Button,
@@ -8,10 +8,10 @@ import {
   TextField,
   ToggleButton,
   Typography,
-} from '@mui/material';
-import Stack from '@mui/material/Stack';
-import Container from '@mui/material/Container';
-import SingleWorkout from '../SingleWorkout/SingleWorkout';
+} from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container";
+import SingleWorkout from "../SingleWorkout/SingleWorkout";
 
 function randomId(): string {
   const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
@@ -22,7 +22,7 @@ export interface WorkoutData {
   id: string;
   order: number;
   title: string;
-  recurringDate: RecurringData;
+  recurringDate: null | RecurringData;
   details: ExerciseData[];
 }
 [];
@@ -42,7 +42,6 @@ interface IndividualExercise {
   reps: string;
   time: string;
 }
-[];
 
 const Workouts = () => {
   const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
@@ -51,7 +50,7 @@ const Workouts = () => {
     IndividualExercise[]
   >([]);
 
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = React.useState("");
   const [toggle, setToggle] = React.useState<boolean>(false);
 
   //Individual exercise data
@@ -65,9 +64,9 @@ const Workouts = () => {
       {
         name: value,
         exerciseId: randomId(),
-        reps: 'Demo',
-        sets: 'Demo',
-        time: 'Demo',
+        reps: "Demo",
+        sets: "Demo",
+        time: "Demo",
         workoutId: randomId(),
       },
     ]);
@@ -106,7 +105,7 @@ const Workouts = () => {
         details: [...createBodyParts],
       },
     ]);
-    setInputValue('');
+    setInputValue("");
     setBodyParts([]);
 
     console.log(createWorkouts);
@@ -119,7 +118,7 @@ const Workouts = () => {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ textAlign: 'center' }}>
+      <Typography variant="h2" sx={{ textAlign: "center" }}>
         Workouts
       </Typography>
       <Divider variant="middle" />
@@ -138,36 +137,36 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
-        <Stack direction={'row'} justifyContent={'start'} gap={2} mt={2}>
+        <Stack direction={"row"} justifyContent={"start"} gap={2} mt={2}>
           <ToggleButton
-            value={'legs'}
+            value={"legs"}
             sx={
               toggle === true
-                ? { backgroundColor: '#5C6BC0' }
-                : { cursor: 'pointer' }
+                ? { backgroundColor: "#5C6BC0" }
+                : { cursor: "pointer" }
             }
             onChange={handleBodyPart}
           >
             Legs
           </ToggleButton>
-          <ToggleButton value={'chest'} onChange={handleBodyPart}>
+          <ToggleButton value={"chest"} onChange={handleBodyPart}>
             Chest
           </ToggleButton>
-          <ToggleButton value={'biceps'} onChange={handleBodyPart}>
+          <ToggleButton value={"biceps"} onChange={handleBodyPart}>
             Biceps
           </ToggleButton>
         </Stack>
 
         {toggle === true ? (
           <Box>
-            <Stack direction={'row'} justifyContent={'start'} gap={2}>
+            <Stack direction={"row"} justifyContent={"start"} gap={2}>
               <Typography
                 boxShadow={2}
                 p={3}
                 mt={2}
                 borderRadius={2}
-                bgcolor={'skyblue'}
-                sx={{ cursor: 'pointer' }}
+                bgcolor={"skyblue"}
+                sx={{ cursor: "pointer" }}
                 onClick={handleSingleExercise}
               >
                 Pushups
@@ -176,9 +175,9 @@ const Workouts = () => {
                 boxShadow={2}
                 p={3}
                 mt={2}
-                bgcolor={'skyblue'}
+                bgcolor={"skyblue"}
                 borderRadius={2}
-                sx={{ cursor: 'pointer' }}
+                sx={{ cursor: "pointer" }}
                 onClick={handleSingleExercise}
               >
                 chest press
@@ -186,19 +185,19 @@ const Workouts = () => {
             </Stack>
           </Box>
         ) : (
-          ''
+          ""
         )}
 
         <Button
           variant="contained"
-          sx={{ display: 'block', marginTop: '.5rem' }}
+          sx={{ display: "block", marginTop: ".5rem" }}
           onClick={handleClick}
         >
           Create
         </Button>
       </Box>
 
-      <Divider sx={{ marginY: '2rem' }}>
+      <Divider sx={{ marginY: "2rem" }}>
         <Chip label="Your Workout List" />
       </Divider>
       <Stack
