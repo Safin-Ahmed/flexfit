@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "body_parts",
+  "info": {
+    "singularName": "body-part",
+    "pluralName": "body-parts",
+    "displayName": "bodyPart",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "partName": {
+      "type": "string"
+    },
+    "exercises": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exercise.exercise",
+      "mappedBy": "body_part"
+    }
+  }
+}

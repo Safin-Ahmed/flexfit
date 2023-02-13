@@ -1,10 +1,14 @@
 {
+  "name": "@flexfit/core",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "lerna run develop"
+  },
   "devDependencies": {
     "lerna": "^6.4.1"
   },
-  "name": "flexfit",
-  "version": "1.0.0",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "private": true
 }

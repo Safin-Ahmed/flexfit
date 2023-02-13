@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "workout_histories",
+  "info": {
+    "singularName": "workout-history",
+    "pluralName": "workout-histories",
+    "displayName": "WorkoutHistory"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "workout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workout.workout"
+    },
+    "lastActive": {
+      "type": "datetime"
+    },
+    "progress": {
+      "type": "integer"
+    }
+  }
+}

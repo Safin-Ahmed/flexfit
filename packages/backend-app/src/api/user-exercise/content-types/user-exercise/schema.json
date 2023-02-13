@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_exercises",
+  "info": {
+    "singularName": "user-exercise",
+    "pluralName": "user-exercises",
+    "displayName": "userExercise"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "exercise": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exercise.exercise"
+    },
+    "reps": {
+      "type": "integer"
+    },
+    "weight": {
+      "type": "integer"
+    },
+    "time": {
+      "type": "integer"
+    },
+    "set": {
+      "type": "integer"
+    }
+  }
+}

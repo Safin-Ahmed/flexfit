@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exercises",
+  "info": {
+    "singularName": "exercise",
+    "pluralName": "exercises",
+    "displayName": "exercise",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "exerciseId": {
+      "type": "uid",
+      "required": true,
+      "targetField": "title"
+    },
+    "title": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "videoUrl": {
+      "type": "string"
+    },
+    "body_part": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::body-part.body-part",
+      "inversedBy": "exercises"
+    }
+  }
+}
