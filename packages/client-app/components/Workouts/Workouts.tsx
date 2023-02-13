@@ -24,8 +24,18 @@ type RecurringData = { startDate: Date; finishDate: Date };
 export interface ExerciseData {
   id: number;
   partName: string;
+  exercises: IndividualExercise[];
 }
 [];
+
+interface IndividualExercise {
+  name: string;
+  exerciseId: number;
+  workoutId: number;
+  sets: string;
+  reps: string;
+  time: string;
+}
 
 const Workouts = () => {
   const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
@@ -39,7 +49,10 @@ const Workouts = () => {
     let exerciseId = createExercise.length + 1;
     // @ts-ignore
     let value = e.target.innerText;
-    setCreateExercise([...createExercise, { id: exerciseId, partName: value }]);
+    setCreateExercise([
+      ...createExercise,
+      { id: exerciseId, partName: value, exercises: [] },
+    ]);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
