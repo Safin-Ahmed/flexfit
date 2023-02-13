@@ -1,8 +1,7 @@
-"use client";
-import { Provider } from "react-redux";
-import store from "redux/store";
-import "react-circular-progressbar/dist/styles.css";
-
+'use client';
+import { Provider } from 'react-redux';
+import store from 'redux/store';
+import 'react-circular-progressbar/dist/styles.css';
 
 export default function RootLayout({
   children,
