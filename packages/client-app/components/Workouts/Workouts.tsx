@@ -13,13 +13,11 @@ import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
 
 export interface WorkoutData {
-  attributes: {
-    id: number;
-    order: number;
-    title: string;
-    recurringDate: RecurringData;
-    exercises: ExerciseData[];
-  };
+  id: number;
+  order: number;
+  title: string;
+  recurringDate: RecurringData;
+  details: ExerciseData[];
 }
 [];
 type RecurringData = { startDate: Date; finishDate: Date };
@@ -48,21 +46,20 @@ const Workouts = () => {
     setInputValue(e.target.value);
   };
 
+  //create workouts
   const handleClick = () => {
     let updatedIdAndOrder = createWorkouts.length + 1;
     setCreateWorkouts([
       ...createWorkouts,
       {
-        attributes: {
-          id: updatedIdAndOrder,
-          order: updatedIdAndOrder,
-          title: inputValue,
-          recurringDate: {
-            finishDate: new Date(),
-            startDate: new Date(),
-          },
-          exercises: [...createExercise],
+        id: updatedIdAndOrder,
+        order: updatedIdAndOrder,
+        title: inputValue,
+        recurringDate: {
+          finishDate: new Date(),
+          startDate: new Date(),
         },
+        details: [...createExercise],
       },
     ]);
     setInputValue('');
@@ -138,7 +135,7 @@ const Workouts = () => {
             <SingleWorkout
               workout={workout}
               handleBodyPart={handleBodyPart}
-              key={workout.attributes.id}
+              key={workout.id}
             />
           ))}
       </Stack>

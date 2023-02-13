@@ -1,4 +1,5 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ExerciseList from '../ExerciseList/ExerciseList';
 import { WorkoutData } from '../Workouts/Workouts';
 
@@ -11,31 +12,27 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
   const { workout, handleBodyPart } = props;
   return (
     <Box boxShadow={2} padding={2} borderRadius={1}>
-      <Typography variant="h6">{workout.attributes.title}</Typography>
+      <Stack
+        direction="row"
+        alignItems={'center'}
+        justifyContent="space-between"
+      >
+        <Typography variant="h6">{workout.title}</Typography>
+        <IconButton aria-label="delete" size="large">
+          <DeleteIcon fontSize="inherit" />
+        </IconButton>
+      </Stack>
       <Stack direction="row" mt={2} justifyContent="space-between">
         <Typography variant="caption" mr={1}>
-          Starts:{' '}
-          {workout?.attributes.recurringDate?.startDate.toLocaleDateString()}
+          Starts: {workout?.recurringDate?.startDate.toLocaleDateString()}
         </Typography>
         <Typography variant="caption">
-          Ends:{' '}
-          {workout?.attributes.recurringDate?.finishDate.toLocaleDateString()}
+          Ends: {workout?.recurringDate?.finishDate.toLocaleDateString()}
         </Typography>
       </Stack>
       <Stack direction={'row'} justifyContent={'start'} gap={2}>
-        {workout?.attributes?.exercises &&
-          workout?.attributes?.exercises?.map((exercise) => (
-            // <Typography
-            //   boxShadow={2}
-            //   p={3}
-            //   mt={2}
-            //   borderRadius={2}
-            //   onClick={handleBodyPart}
-            //   sx={{ cursor: 'pointer' }}
-            //   key={exercise.id}
-            // >
-            //   {exercise.partName}
-            // </Typography>
+        {workout?.details &&
+          workout?.details?.map((exercise) => (
             <ExerciseList
               exercise={exercise}
               handleBodyPart={handleBodyPart}
