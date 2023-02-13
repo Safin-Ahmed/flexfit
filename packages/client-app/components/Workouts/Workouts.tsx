@@ -80,6 +80,11 @@ const Workouts = () => {
     console.log(createWorkouts);
   };
 
+  //delete a particular workout
+  const deleteWorkout = (id: number) => {
+    setCreateWorkouts(createWorkouts.filter((workout) => workout.id !== id));
+  };
+
   return (
     <Container>
       <Typography variant="h2" sx={{ textAlign: 'center' }}>
@@ -146,6 +151,7 @@ const Workouts = () => {
         {createWorkouts &&
           createWorkouts.map((workout) => (
             <SingleWorkout
+              deleteWorkout={deleteWorkout}
               workout={workout}
               handleBodyPart={handleBodyPart}
               key={workout.id}

@@ -6,10 +6,11 @@ import { WorkoutData } from '../Workouts/Workouts';
 interface SingleWorkoutProps {
   workout: WorkoutData;
   handleBodyPart: (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => void;
+  deleteWorkout: (id: number) => void;
 }
 
 const SingleWorkout = (props: SingleWorkoutProps) => {
-  const { workout, handleBodyPart } = props;
+  const { workout, handleBodyPart, deleteWorkout } = props;
   return (
     <Box boxShadow={2} padding={2} borderRadius={1}>
       <Stack
@@ -18,7 +19,11 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
         justifyContent="space-between"
       >
         <Typography variant="h6">{workout.title}</Typography>
-        <IconButton aria-label="delete" size="large">
+        <IconButton
+          aria-label="delete"
+          size="large"
+          onClick={() => deleteWorkout(workout.id)}
+        >
           <DeleteIcon fontSize="inherit" />
         </IconButton>
       </Stack>
