@@ -4,21 +4,22 @@
   "info": {
     "singularName": "point",
     "pluralName": "points",
-    "displayName": "point"
+    "displayName": "point",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "totalPoints": {
-      "type": "integer"
+    "totalPoint": {
+      "type": "integer",
+      "default": 0
     },
     "users_permissions_user": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "point"
+      "target": "plugin::users-permissions.user"
     }
   }
 }

@@ -4,23 +4,34 @@
   "info": {
     "singularName": "workout-history",
     "pluralName": "workout-histories",
-    "displayName": "WorkoutHistory"
+    "displayName": "workout_history",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "workout": {
+    "workout_id": {
+      "type": "integer",
+      "required": true
+    },
+    "workout_name": {
+      "type": "string",
+      "required": true
+    },
+    "point": {
+      "type": "integer",
+      "required": true
+    },
+    "completed_date": {
+      "type": "date"
+    },
+    "users_permissions_user": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::workout.workout"
-    },
-    "lastActive": {
-      "type": "datetime"
-    },
-    "progress": {
-      "type": "integer"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "workout_histories"
     }
   }
 }

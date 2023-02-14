@@ -4,7 +4,7 @@
   "info": {
     "singularName": "body-part",
     "pluralName": "body-parts",
-    "displayName": "bodyPart",
+    "displayName": "body_part",
     "description": ""
   },
   "options": {
@@ -12,8 +12,28 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "partName": {
-      "type": "string"
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "isCompleted": {
+      "type": "boolean",
+      "default": false
+    },
+    "point": {
+      "type": "integer",
+      "default": 0
+    },
+    "workout": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::workout.workout",
+      "inversedBy": "body_parts"
     },
     "exercises": {
       "type": "relation",

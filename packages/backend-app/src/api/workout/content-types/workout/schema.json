@@ -4,7 +4,7 @@
   "info": {
     "singularName": "workout",
     "pluralName": "workouts",
-    "displayName": "Workout",
+    "displayName": "workout",
     "description": ""
   },
   "options": {
@@ -14,31 +14,44 @@
   "attributes": {
     "title": {
       "type": "string",
+      "unique": true,
       "required": true
     },
-    "details": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::exercise-data.exercise-data",
-      "mappedBy": "workout"
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
     },
-    "user": {
+    "users_permissions_users": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "workouts"
     },
-    "recurring_date": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::recurring-date.recurring-date",
-      "mappedBy": "workout"
+    "isCompleted": {
+      "type": "boolean",
+      "default": false
     },
     "progress": {
-      "type": "integer"
+      "type": "decimal",
+      "default": 0,
+      "max": 100,
+      "min": 0
     },
-    "isCompleted": {
-      "type": "boolean"
+    "point": {
+      "type": "integer",
+      "default": 0
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "body_parts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::body-part.body-part",
+      "mappedBy": "workout"
     }
   }
 }
