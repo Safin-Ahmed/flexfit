@@ -1,17 +1,20 @@
-"use client";
-import * as React from "react";
+'use client';
+import * as React from 'react';
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Button,
   Chip,
   Divider,
   TextField,
-  ToggleButton,
   Typography,
-} from "@mui/material";
-import Stack from "@mui/material/Stack";
-import Container from "@mui/material/Container";
-import SingleWorkout from "../SingleWorkout/SingleWorkout";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
+import SingleWorkout from '../SingleWorkout/SingleWorkout';
 
 function randomId(): string {
   const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
@@ -23,16 +26,15 @@ export interface WorkoutData {
   order: number;
   title: string;
   recurringDate: null | RecurringData;
-  details: ExerciseData[];
+  details: BodyPartsWithExercise[];
 }
 [];
 type RecurringData = { startDate: Date; finishDate: Date };
-export interface ExerciseData {
+export interface BodyPartsWithExercise {
   id: string;
-  partName: string;
+  bodyPart: string;
   exercises: IndividualExercise[];
 }
-[];
 
 interface IndividualExercise {
   name: string;
@@ -44,81 +46,100 @@ interface IndividualExercise {
 }
 
 const Workouts = () => {
-  const [createWorkouts, setCreateWorkouts] = React.useState<WorkoutData[]>([]);
-  const [createBodyParts, setBodyParts] = React.useState<ExerciseData[]>([]);
-  const [createExercises, setCreateExercises] = React.useState<
-    IndividualExercise[]
-  >([]);
+  const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
+  const [bodyParts, setBodyParts] = React.useState<BodyPartsWithExercise[]>([]);
+  const [exercises, setExercises] = React.useState<IndividualExercise[]>([]);
 
-  const [inputValue, setInputValue] = React.useState("");
-  const [toggle, setToggle] = React.useState<boolean>(false);
-
-  //Individual exercise data
-  const handleSingleExercise = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    //@ts-ignore
-    let value = e.target.innerText;
-    setCreateExercises([
-      ...createExercises,
-      {
-        name: value,
-        exerciseId: randomId(),
-        reps: "Demo",
-        sets: "Demo",
-        time: "Demo",
-        workoutId: randomId(),
-      },
-    ]);
-    console.log({ createExercises });
-  };
-
-  //Body part data
-  const handleBodyPart = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    // @ts-ignore
-    let value = e.target.value;
-    setToggle(!toggle);
-
-    setBodyParts([
-      ...createBodyParts,
-      { id: randomId(), partName: value, exercises: [...createExercises] },
-    ]);
-  };
+  const [inputValue, setInputValue] = React.useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  //create workouts
-  const handleClick = () => {
-    let updatedIdAndOrder = createWorkouts.length + 1;
-    setCreateWorkouts([
-      ...createWorkouts,
+  //Create exercise data
+  ///////////////////////////
+  const createSingleExercise = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    //@ts-ignore
+    let value = e.target.innerText;
+    setExercises([
+      ...exercises,
       {
-        id: randomId(),
-        order: updatedIdAndOrder,
-        title: inputValue,
-        recurringDate: {
-          finishDate: new Date(),
-          startDate: new Date(),
-        },
-        details: [...createBodyParts],
+        name: value,
+        exerciseId: randomId(),
+        reps: 'Demo',
+        sets: 'Demo',
+        time: 'Demo',
+        workoutId: randomId(),
       },
     ]);
-    setInputValue("");
-    setBodyParts([]);
-
-    console.log(createWorkouts);
+    console.log({ exercises });
   };
 
-  //delete a particular workout
+  //Create Body part data
+  //////////////////////////
+  const createBodyPartsWithExercise = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
+  ) => {
+    // @ts-ignore
+    let value = e.target.innerText;
+
+    if (inputValue.length) {
+      setBodyParts([
+        ...bodyParts,
+        {
+          id: randomId(),
+          bodyPart: value,
+          exercises: [...exercises],
+        },
+      ]);
+    }
+  };
+
+  //create workouts
+  //////////////////////
+  const createWorkouts = () => {
+    let updatedIdAndOrder = workouts.length + 1;
+
+    //simple validation
+    if (inputValue.length && bodyParts.length) {
+      setWorkouts([
+        ...workouts,
+        {
+          id: randomId(),
+          order: updatedIdAndOrder,
+          title: inputValue,
+          recurringDate: {
+            finishDate: new Date(),
+            startDate: new Date(),
+          },
+          //filter only the unique bodyParts object by reduce, set, map
+          details: [
+            ...bodyParts
+              .reduce((map, obj) => map.set(obj.bodyPart, obj), new Map())
+              .values(),
+          ],
+        },
+      ]);
+    }
+
+    setInputValue('');
+    setBodyParts([]);
+    setExercises([]);
+
+    console.log({ workouts });
+  };
+
+  //delete a single workout
+  //////////////////////////////
   const deleteWorkout = (id: string) => {
-    setCreateWorkouts(createWorkouts.filter((workout) => workout.id !== id));
+    setWorkouts(workouts.filter((workout) => workout.id !== id));
   };
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ textAlign: "center" }}>
+      <Typography variant="h2" sx={{ textAlign: 'center' }}>
         Workouts
       </Typography>
       <Divider variant="middle" />
@@ -137,67 +158,94 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
-        <Stack direction={"row"} justifyContent={"start"} gap={2} mt={2}>
-          <ToggleButton
-            value={"legs"}
-            sx={
-              toggle === true
-                ? { backgroundColor: "#5C6BC0" }
-                : { cursor: "pointer" }
-            }
-            onChange={handleBodyPart}
-          >
-            Legs
-          </ToggleButton>
-          <ToggleButton value={"chest"} onChange={handleBodyPart}>
-            Chest
-          </ToggleButton>
-          <ToggleButton value={"biceps"} onChange={handleBodyPart}>
-            Biceps
-          </ToggleButton>
-        </Stack>
 
-        {toggle === true ? (
-          <Box>
-            <Stack direction={"row"} justifyContent={"start"} gap={2}>
-              <Typography
-                boxShadow={2}
-                p={3}
-                mt={2}
-                borderRadius={2}
-                bgcolor={"skyblue"}
-                sx={{ cursor: "pointer" }}
-                onClick={handleSingleExercise}
-              >
-                Pushups
-              </Typography>
-              <Typography
-                boxShadow={2}
-                p={3}
-                mt={2}
-                bgcolor={"skyblue"}
-                borderRadius={2}
-                sx={{ cursor: "pointer" }}
-                onClick={handleSingleExercise}
-              >
-                chest press
-              </Typography>
-            </Stack>
-          </Box>
-        ) : (
-          ""
-        )}
+        {/* Inputs of body parts and exercise starts============================= */}
+        <Box my={3}>
+          <Accordion>
+            <AccordionSummary
+              onClick={createBodyPartsWithExercise}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Chest</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction={'row'} justifyContent={'start'} gap={2}>
+                <Typography
+                  boxShadow={2}
+                  p={3}
+                  mt={2}
+                  borderRadius={2}
+                  bgcolor={'skyblue'}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={(e) => createSingleExercise}
+                >
+                  Pushups
+                </Typography>
+                <Typography
+                  boxShadow={2}
+                  p={3}
+                  mt={2}
+                  bgcolor={'skyblue'}
+                  borderRadius={2}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={createSingleExercise}
+                >
+                  chest press
+                </Typography>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary
+              onClick={createBodyPartsWithExercise}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Legs</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction={'row'} justifyContent={'start'} gap={2}>
+                {/* <Typography
+                  boxShadow={2}
+                  p={3}
+                  mt={2}
+                  borderRadius={2}
+                  bgcolor={'skyblue'}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={createSingleExercise}
+                >
+                  squats
+                </Typography>
+                <Typography
+                  boxShadow={2}
+                  p={3}
+                  mt={2}
+                  bgcolor={'skyblue'}
+                  borderRadius={2}
+                  sx={{ cursor: 'pointer' }}
+                  onClick={createSingleExercise}
+                >
+                  hip hinges
+                </Typography> */}
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        {/* Inputs of body parts and exercise ends=============================== */}
 
         <Button
           variant="contained"
-          sx={{ display: "block", marginTop: ".5rem" }}
-          onClick={handleClick}
+          sx={{ display: 'block', marginTop: '.5rem' }}
+          onClick={createWorkouts}
         >
           Create
         </Button>
       </Box>
 
-      <Divider sx={{ marginY: "2rem" }}>
+      <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
       <Stack
@@ -207,8 +255,8 @@ const Workouts = () => {
         alignItems="center"
         spacing={3}
       >
-        {createWorkouts &&
-          createWorkouts.map((workout) => (
+        {workouts &&
+          workouts.map((workout) => (
             <SingleWorkout
               deleteWorkout={deleteWorkout}
               workout={workout}
