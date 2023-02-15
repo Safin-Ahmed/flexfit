@@ -12,24 +12,47 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "exerciseId": {
-      "type": "uid",
-      "required": true,
-      "targetField": "title"
-    },
     "title": {
       "type": "string",
-      "unique": true,
-      "required": true
+      "required": true,
+      "unique": true
     },
-    "videoUrl": {
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "time": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "reps": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "weight": {
+      "type": "integer",
+      "required": true,
+      "min": 1
+    },
+    "video_url": {
       "type": "string"
+    },
+    "isCompleted": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     },
     "body_part": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::body-part.body-part",
       "inversedBy": "exercises"
+    },
+    "sets": {
+      "type": "integer",
+      "required": true
     }
   }
 }

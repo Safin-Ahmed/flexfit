@@ -4,7 +4,7 @@
   "info": {
     "singularName": "reminder",
     "pluralName": "reminders",
-    "displayName": "Reminder"
+    "displayName": "reminder"
   },
   "options": {
     "draftAndPublish": true
@@ -12,22 +12,16 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string",
-      "required": true,
-      "unique": false
+      "type": "string"
     },
-    "dateTime": {
-      "type": "datetime",
-      "required": true,
-      "unique": false
+    "date": {
+      "type": "datetime"
     },
     "email": {
-      "type": "email",
-      "required": true,
-      "unique": true
+      "type": "email"
     },
     "frequency": {
-      "type": "string"
+      "type": "integer"
     },
     "users_permissions_user": {
       "type": "relation",

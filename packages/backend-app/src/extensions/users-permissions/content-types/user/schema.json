@@ -63,6 +63,25 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "workouts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::workout.workout",
+      "mappedBy": "users_permissions_users"
+    },
+    "lavel": {
+      "type": "enumeration",
+      "enum": [
+        "Beginner",
+        "Intermediate",
+        "Advanced"
+      ],
+      "default": "Beginner"
+    },
+    "age": {
+      "type": "integer",
+      "min": 16
+    },
     "avatar": {
       "allowedTypes": [
         "images"
@@ -70,35 +89,17 @@
       "type": "media",
       "multiple": false
     },
+    "workout_histories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workout-history.workout-history",
+      "mappedBy": "users_permissions_user"
+    },
     "reminders": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::reminder.reminder",
       "mappedBy": "users_permissions_user"
-    },
-    "point": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::point.point",
-      "mappedBy": "users_permissions_user"
-    },
-    "user_progress": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::user-progress.user-progress",
-      "mappedBy": "users_permissions_user"
-    },
-    "completed_workouts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::completed-workout.completed-workout",
-      "mappedBy": "user"
-    },
-    "workouts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::workout.workout",
-      "mappedBy": "user"
     }
   }
 }
