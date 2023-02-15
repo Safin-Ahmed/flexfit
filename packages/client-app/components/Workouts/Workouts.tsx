@@ -36,7 +36,7 @@ export interface BodyPartsWithExercise {
   exercises: IndividualExercise[];
 }
 
-interface IndividualExercise {
+export interface IndividualExercise {
   name: string;
   exerciseId: string;
   workoutId: string;
@@ -248,6 +248,7 @@ const Workouts = () => {
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
+
       <Stack
         direction="row"
         mt={4}
