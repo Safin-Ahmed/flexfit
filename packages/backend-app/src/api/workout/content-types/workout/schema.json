@@ -50,8 +50,7 @@
     "body_parts": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::body-part.body-part",
-      "mappedBy": "workout"
+      "target": "api::body-part.body-part"
     }
   }
 }

@@ -29,16 +29,10 @@
       "type": "integer",
       "default": 0
     },
-    "workout": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::workout.workout",
-      "inversedBy": "body_parts"
-    },
-    "exercises": {
+    "exerciseList": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::exercise.exercise",
+      "target": "api::user-exercise.user-exercise",
       "mappedBy": "body_part"
     }
   }
