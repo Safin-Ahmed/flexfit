@@ -63,12 +63,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "workouts": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::workout.workout",
-      "mappedBy": "users_permissions_users"
-    },
     "lavel": {
       "type": "enumeration",
       "enum": [
@@ -100,6 +94,12 @@
       "relation": "oneToMany",
       "target": "api::reminder.reminder",
       "mappedBy": "users_permissions_user"
+    },
+    "workouts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::workout.workout",
+      "mappedBy": "user"
     }
   }
 }

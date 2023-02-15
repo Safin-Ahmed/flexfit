@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "routines",
+  "info": {
+    "singularName": "routine",
+    "pluralName": "routines",
+    "displayName": "Routine",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "exercise_lists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-exercise.user-exercise",
+      "mappedBy": "routine"
+    },
+    "points": {
+      "type": "integer"
+    },
+    "isCompleted": {
+      "type": "boolean"
+    },
+    "workout": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::workout.workout",
+      "inversedBy": "routines"
+    }
+  }
+}
