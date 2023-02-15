@@ -4,7 +4,8 @@
   "info": {
     "singularName": "user-exercise",
     "pluralName": "user-exercises",
-    "displayName": "userExercise"
+    "displayName": "userExercise",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,17 +17,31 @@
       "relation": "oneToOne",
       "target": "api::exercise.exercise"
     },
+    "weight": {
+      "type": "integer"
+    },
     "reps": {
       "type": "integer"
     },
-    "weight": {
+    "sets": {
       "type": "integer"
     },
     "time": {
       "type": "integer"
     },
-    "set": {
-      "type": "integer"
+    "isCompleted": {
+      "type": "boolean"
+    },
+    "body_part": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::body-part.body-part",
+      "inversedBy": "exerciseList"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }

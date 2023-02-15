@@ -10,9 +10,9 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.6.0",
-    "@strapi/plugin-users-permissions": "4.6.0",
-    "@strapi/strapi": "4.6.0",
+    "@strapi/plugin-i18n": "4.6.1",
+    "@strapi/plugin-users-permissions": "4.6.1",
+    "@strapi/strapi": "4.6.1",
     "pg": "^8.9.0",
     "strapi-plugin-populate-deep": "^2.0.0"
   },
@@ -20,15 +20,11 @@
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "3e55e2e7-0a97-4ef8-b50b-8454f1be3c2c",
-    "template": "--ts"
+    "uuid": "85db2214-1f11-48a4-9dbd-50f6429509fe"
   },
   "engines": {
     "node": ">=14.19.1 <=18.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/pg": "^8.6.6"
-  }
+  "license": "MIT"
 }
