@@ -3,6 +3,7 @@
 import PieChart from "@components/pie-chart/pie-chart";
 import { Box, Typography } from "@mui/material";
 import PageHead from "@shared/head";
+import { getRoutineProgress } from "@utils/getRoutineProgress";
 import { getWorkoutProgress } from "@utils/getWorkoutProgress";
 import React, { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
@@ -28,6 +29,9 @@ const Progress: React.FC = () => {
     };
     getWorkoutInfo();
   }, []);
+
+  const result = getRoutineProgress(workoutData);
+  console.log(result);
 
   return (
     <>
