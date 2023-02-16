@@ -17,8 +17,6 @@ export const getWorkoutProgress = (workoutData: any) => {
     }
   }
 
-  console.log("Current Workout: ", currentWorkout);
-
   // If there is no workout
   if (!currentWorkout) return 100;
 
