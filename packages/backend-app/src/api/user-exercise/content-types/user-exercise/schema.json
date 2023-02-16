@@ -32,16 +32,11 @@
     "isCompleted": {
       "type": "boolean"
     },
-    "body_part": {
+    "routine": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::body-part.body-part",
-      "inversedBy": "exerciseList"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "api::routine.routine",
+      "inversedBy": "exercise_lists"
     }
   }
 }

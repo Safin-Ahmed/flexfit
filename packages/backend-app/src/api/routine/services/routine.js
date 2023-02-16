@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * body-part service
+ * routine service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::body-part.body-part');
+module.exports = createCoreService('api::routine.routine');

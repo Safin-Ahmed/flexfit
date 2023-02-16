@@ -21,9 +21,9 @@
       "type": "uid",
       "targetField": "title"
     },
-    "users_permissions_users": {
+    "user": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "workouts"
     },
@@ -47,10 +47,11 @@
     "endDate": {
       "type": "date"
     },
-    "body_parts": {
+    "routines": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::body-part.body-part"
+      "target": "api::routine.routine",
+      "mappedBy": "workout"
     }
   }
 }
