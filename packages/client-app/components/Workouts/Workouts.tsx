@@ -1,9 +1,6 @@
 'use client';
 import * as React from 'react';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Button,
   Chip,
@@ -11,10 +8,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
+const shortid = require('shortid');
 
 function randomId(): string {
   const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
@@ -25,30 +22,13 @@ export interface WorkoutData {
   id: string;
   order: number;
   title: string;
-  recurringDate: null | RecurringData;
-  details: BodyPartsWithExercise[];
+  startDate: Date;
+  finishDate: Date;
 }
 [];
-type RecurringData = { startDate: Date; finishDate: Date };
-export interface BodyPartsWithExercise {
-  id: string;
-  bodyPart: string;
-  exercises: IndividualExercise[];
-}
-
-export interface IndividualExercise {
-  name: string;
-  exerciseId: string;
-  workoutId: string;
-  sets: string;
-  reps: string;
-  time: string;
-}
 
 const Workouts = () => {
   const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
-  const [bodyParts, setBodyParts] = React.useState<BodyPartsWithExercise[]>([]);
-  const [exercises, setExercises] = React.useState<IndividualExercise[]>([]);
 
   const [inputValue, setInputValue] = React.useState('');
 
@@ -56,77 +36,22 @@ const Workouts = () => {
     setInputValue(e.target.value);
   };
 
-  //Create exercise data
-  ///////////////////////////
-  const createSingleExercise = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    //@ts-ignore
-    let value = e.target.innerText;
-    setExercises([
-      ...exercises,
-      {
-        name: value,
-        exerciseId: randomId(),
-        reps: 'Demo',
-        sets: 'Demo',
-        time: 'Demo',
-        workoutId: randomId(),
-      },
-    ]);
-    console.log({ exercises });
-  };
-
-  //Create Body part data
-  //////////////////////////
-  const createBodyPartsWithExercise = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
-  ) => {
-    // @ts-ignore
-    let value = e.target.innerText;
-
-    if (inputValue.length) {
-      setBodyParts([
-        ...bodyParts,
-        {
-          id: randomId(),
-          bodyPart: value,
-          exercises: [...exercises],
-        },
-      ]);
-    }
-  };
-
   //create workouts
   //////////////////////
   const createWorkouts = () => {
     let updatedIdAndOrder = workouts.length + 1;
-
-    //simple validation
-    if (inputValue.length && bodyParts.length) {
-      setWorkouts([
-        ...workouts,
-        {
-          id: randomId(),
-          order: updatedIdAndOrder,
-          title: inputValue,
-          recurringDate: {
-            finishDate: new Date(),
-            startDate: new Date(),
-          },
-          //filter only the unique bodyParts object by reduce, set, map
-          details: [
-            ...bodyParts
-              .reduce((map, obj) => map.set(obj.bodyPart, obj), new Map())
-              .values(),
-          ],
-        },
-      ]);
-    }
+    setWorkouts([
+      ...workouts,
+      {
+        id: shortid.generate(),
+        order: updatedIdAndOrder,
+        title: inputValue,
+        startDate: new Date(),
+        finishDate: new Date(),
+      },
+    ]);
 
     setInputValue('');
-    setBodyParts([]);
-    setExercises([]);
 
     console.log({ workouts });
   };
@@ -158,83 +83,6 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
-
-        {/* Inputs of body parts and exercise starts============================= */}
-        <Box my={3}>
-          <Accordion>
-            <AccordionSummary
-              onClick={createBodyPartsWithExercise}
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Chest</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction={'row'} justifyContent={'start'} gap={2}>
-                <Typography
-                  boxShadow={2}
-                  p={3}
-                  mt={2}
-                  borderRadius={2}
-                  bgcolor={'skyblue'}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={(e) => createSingleExercise}
-                >
-                  Pushups
-                </Typography>
-                <Typography
-                  boxShadow={2}
-                  p={3}
-                  mt={2}
-                  bgcolor={'skyblue'}
-                  borderRadius={2}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={createSingleExercise}
-                >
-                  chest press
-                </Typography>
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-          <Accordion>
-            <AccordionSummary
-              onClick={createBodyPartsWithExercise}
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Legs</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Stack direction={'row'} justifyContent={'start'} gap={2}>
-                {/* <Typography
-                  boxShadow={2}
-                  p={3}
-                  mt={2}
-                  borderRadius={2}
-                  bgcolor={'skyblue'}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={createSingleExercise}
-                >
-                  squats
-                </Typography>
-                <Typography
-                  boxShadow={2}
-                  p={3}
-                  mt={2}
-                  bgcolor={'skyblue'}
-                  borderRadius={2}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={createSingleExercise}
-                >
-                  hip hinges
-                </Typography> */}
-              </Stack>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-        {/* Inputs of body parts and exercise ends=============================== */}
 
         <Button
           variant="contained"

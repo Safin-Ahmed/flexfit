@@ -1,26 +1,18 @@
 import React from 'react';
-import { IndividualExercise } from '../Workouts';
+import { IndividualExerciseData, RoutineData } from '../types';
 
 interface DisplayExerciseProps {
-  exerciseListValues: [IndividualExercise];
-  bodyPartValues: {
-    id: string;
-    bodyPart: string;
-  };
+  exerciseListValues: [IndividualExerciseData];
+  routine: RoutineData;
 }
 
 const DisplayExercise = ({
   exerciseListValues,
-  bodyPartValues,
+  routine,
 }: DisplayExerciseProps) => {
-  console.log(bodyPartValues);
-
   return (
     <div>
-      <h1>
-        {' '}
-        {bodyPartValues.id} |||| Body: {bodyPartValues.bodyPart}
-      </h1>
+      <h1>|||| Routine: {routine.routineTitle}</h1>
       {exerciseListValues.map((item, index) => (
         <div key={index}>
           <h3>Exercise Name: {item.name} </h3>

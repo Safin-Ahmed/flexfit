@@ -1,11 +1,10 @@
 import React from 'react';
-import DisplayBodyParts from '../BodyParts/DisplayBodyParts';
-import ExerciseList from './ExerciseList';
+import { RoutineData } from '../types';
 const shortid = require('shortid');
 const INIT_DATA = {
   name: '',
   exerciseId: '',
-  bodyPartId: '',
+  routineId: '',
   sets: '',
   reps: '',
   time: '',
@@ -13,13 +12,10 @@ const INIT_DATA = {
 
 interface ExerciseFormProps {
   formData: (data: object) => void;
-  bodyPartValues: {
-    id: string;
-    bodyPart: string;
-  };
+  routine: RoutineData;
 }
 
-const ExerciseForm = ({ formData, bodyPartValues }: ExerciseFormProps) => {
+const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,14 +23,15 @@ const ExerciseForm = ({ formData, bodyPartValues }: ExerciseFormProps) => {
       ...prev,
       [e.target.name]: e.target.value,
       exerciseId: shortid.generate(),
-      bodyPartId: bodyPartValues.id,
+      routineId: routine.id,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ formValues });
-    formData(formValues);
+    if (formValues.name && formValues.sets) {
+      formData(formValues);
+    }
     setFormValues(INIT_DATA);
   };
 

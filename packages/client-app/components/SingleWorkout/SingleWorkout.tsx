@@ -1,7 +1,7 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ExerciseList from '../ExerciseList/ExerciseList';
 import { WorkoutData } from '../Workouts/Workouts';
+import RoutineList from '@components/Workouts/Routines/RoutineList';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
@@ -28,19 +28,23 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
       </Stack>
       <Stack direction="row" mt={2} justifyContent="space-between">
         <Typography variant="caption" mr={1}>
-          Starts: {workout?.recurringDate?.startDate.toLocaleDateString()}
+          Starts: {workout?.startDate.toLocaleDateString()}
         </Typography>
         <Typography variant="caption">
-          Ends: {workout?.recurringDate?.finishDate.toLocaleDateString()}
+          Ends: {workout?.finishDate.toLocaleDateString()}
         </Typography>
       </Stack>
 
-      <Stack direction={'row'} justifyContent={'start'} gap={2}>
+      <Box my={3}>
+        <RoutineList />
+      </Box>
+
+      {/* <Stack direction={'row'} justifyContent={'start'} gap={2}>
         {workout?.details &&
           workout?.details?.map((exercise) => (
             <ExerciseList exercise={exercise} key={exercise.id} />
           ))}
-      </Stack>
+      </Stack> */}
     </Box>
   );
 };

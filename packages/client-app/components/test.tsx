@@ -2,8 +2,7 @@
 
 import { Box, Typography } from '@mui/material';
 import { useAppSelector } from 'hooks/reduxHooks';
-import BodyPartsList from './Workouts/BodyParts/BodyPartsList';
-import ExerciseList from './Workouts/Exercises/ExerciseList';
+import RoutineList from './Workouts/Routines/RoutineList';
 
 const Test: React.FC = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -15,11 +14,7 @@ const Test: React.FC = () => {
         <Typography variant="h3">Everything is not Fine!</Typography>
       )}
       <Box>
-        <BodyPartsList />
-        {/* <div>============</div>
-        <h3>Exercise List</h3> */}
-
-        {/* <ExerciseList /> */}
+        <RoutineList />
       </Box>
     </Box>
   );
