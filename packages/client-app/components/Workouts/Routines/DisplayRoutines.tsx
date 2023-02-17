@@ -9,11 +9,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 export interface DisplayRoutines {
   routineList: RoutineData[];
   handleClickOpenForUpdate: (id: string) => void;
+  deleteRoutine: (id: string) => void;
 }
 
 const DisplayRoutines = ({
   routineList,
   handleClickOpenForUpdate,
+  deleteRoutine,
 }: DisplayRoutines) => {
   return (
     <div>
@@ -48,7 +50,7 @@ const DisplayRoutines = ({
                       size="small"
                       color="warning"
                       variant="contained"
-                      onClick={() => handleClickOpenForUpdate(item.id)}
+                      onClick={() => deleteRoutine(item.id)}
                     >
                       <DeleteForeverIcon />
                     </Button>

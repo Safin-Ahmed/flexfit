@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
 import DisplayRoutines from './DisplayRoutines';
 import RoutineForm from './RoutineForm';
@@ -70,6 +70,16 @@ const RoutineList = () => {
     setRoutineList(updatedRoutine);
   };
 
+  // Delete a Routine
+  ///////////////////////////
+  const deleteRoutine = (id: string) => {
+    const updatedRoutineList = routineList.filter(
+      //@ts-ignore
+      (routine) => routine.id !== id
+    );
+    setRoutineList(updatedRoutineList);
+  };
+
   return (
     <Box>
       {
@@ -79,6 +89,7 @@ const RoutineList = () => {
             //@ts-ignore
             routineList={routineList}
             handleClickOpenForUpdate={handleClickOpenForUpdate}
+            deleteRoutine={deleteRoutine}
           />
         )
       }
