@@ -9,6 +9,7 @@ export const getRoutineProgress = (workoutData: any) => {
   let activeRoutine = null;
   let totalExercises = 0;
   let completedExercises = 0;
+  let progress = 0;
 
   // Calculate current workout
   for (let i = 0; i < workoutData.length; i++) {
@@ -30,7 +31,8 @@ export const getRoutineProgress = (workoutData: any) => {
     }
   }
 
-  if (!activeRoutine) return 100;
+  // If there is no active routine
+  if (!activeRoutine) return;
 
   // Calculate progress based on active routine and its exercise lists
   if (activeRoutine) {
@@ -40,10 +42,15 @@ export const getRoutineProgress = (workoutData: any) => {
     }
   }
 
-  return Number(
+  progress = Number(
     (totalExercises > 0
       ? (completedExercises / totalExercises) * 100
       : 0
     ).toFixed()
   );
+
+  return {
+    activeRoutine,
+    progress,
+  };
 };

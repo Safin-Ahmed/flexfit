@@ -1,7 +1,13 @@
 "use client";
 
 import PieChart from "@components/pie-chart/pie-chart";
-import { Box, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import PageHead from "@shared/head";
 import { getRoutineProgress } from "@utils/getRoutineProgress";
 import { getWorkoutProgress } from "@utils/getWorkoutProgress";
@@ -30,8 +36,8 @@ const Progress: React.FC = () => {
     getWorkoutInfo();
   }, []);
 
+  // @ts-ignore
   const result = getRoutineProgress(workoutData);
-  console.log(result);
 
   return (
     <>
@@ -53,7 +59,31 @@ const Progress: React.FC = () => {
             />
           </Box>
 
-          <Box className={styles["progress--chart"]}></Box>
+          <Box className={styles["progress--chart"]}>
+            <Typography className={styles.routine__title} variant="h5">
+              Today Routine
+            </Typography>
+            <Card className={styles.routine__content}>
+              <CardContent>
+                <Typography variant="h6">
+                  {/* @ts-ignore */}
+                  {result?.activeRoutine
+                    ? // @ts-ignore
+                      result?.activeRoutine?.attributes?.title
+                    : "No active routine"}
+                </Typography>
+
+                <LinearProgress
+                  className={styles.progress}
+                  variant="determinate"
+                  // @ts-ignore
+                  value={result?.progress ? result.progress : 0}
+                  // @ts-ignore
+                  title={result?.progress && result.progress}
+                />
+              </CardContent>
+            </Card>
+          </Box>
         </Box>
       </Box>
     </>
