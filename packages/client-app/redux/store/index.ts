@@ -1,12 +1,15 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import authReducer from "../features/Auth";
 import themeReducer from "../features/theme";
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  theme: themeReducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    theme: themeReducer,
-  },
+  reducer: rootReducer,
 });
 
 export default store;
