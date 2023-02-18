@@ -4,7 +4,8 @@
     grid-template-columns: repeat(3, minmax(350px, 1fr));
     justify-items: center;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 3rem;
 
     @media only screen and (max-width: 768px) {
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -16,6 +17,20 @@
 
       canvas {
         width: 50%;
+      }
+
+      .routine__title {
+        @media only screen and (max-width: 768px) {
+          text-align: center;
+        }
+      }
+
+      .routine__content {
+        margin-top: 1rem;
+
+        .progress {
+          margin-top: 1rem;
+        }
       }
     }
 
