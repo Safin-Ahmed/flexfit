@@ -5,6 +5,8 @@ import { RoutineData } from '../types';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 
 export interface DisplayRoutines {
   routineList: RoutineData[];
@@ -18,7 +20,7 @@ const DisplayRoutines = ({
   deleteRoutine,
 }: DisplayRoutines) => {
   return (
-    <div>
+    <>
       <Stack
         direction={'row'}
         justifyContent={'start'}
@@ -29,39 +31,29 @@ const DisplayRoutines = ({
           routineList?.map((item, index) => (
             <React.Fragment key={index}>
               {item.routineTitle && (
-                <Box
-                  border={1}
-                  borderRadius={2}
-                  padding={1}
-                  mt={2}
-                  boxShadow={1}
-                >
-                  <Stack direction={'row'} justifyContent={'space-between'}>
-                    <Typography variant="h4">{item.routineTitle}</Typography>
-                    <Button
-                      size="small"
-                      color="info"
-                      variant="contained"
-                      onClick={() => handleClickOpenForUpdate(item.id)}
+                <Card>
+                  <CardContent>
+                    <Stack
+                      direction={'row'}
+                      justifyContent={'space-around'}
+                      gap={1}
+                      sx={{ py: '1rem' }}
                     >
-                      <EditIcon />
-                    </Button>
-                    <Button
-                      size="small"
-                      color="warning"
-                      variant="contained"
-                      onClick={() => deleteRoutine(item.id)}
-                    >
-                      <DeleteForeverIcon />
-                    </Button>
-                  </Stack>
+                      <Typography variant="h4">{item.routineTitle}</Typography>
+                      <Button onClick={() => handleClickOpenForUpdate(item.id)}>
+                        <EditIcon />
+                      </Button>
+                      <Button onClick={() => deleteRoutine(item.id)}>
+                        <DeleteForeverIcon />
+                      </Button>
+                    </Stack>
 
-                  <ExerciseList
-                    //@ts-ignore
-                    routine={item}
-                  />
-                  <hr />
-                </Box>
+                    <ExerciseList
+                      //@ts-ignore
+                      routine={item}
+                    />
+                  </CardContent>
+                </Card>
               )}
             </React.Fragment>
           ))
@@ -71,7 +63,7 @@ const DisplayRoutines = ({
           </Typography>
         )}
       </Stack>
-    </div>
+    </>
   );
 };
 

@@ -13,17 +13,12 @@ import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
 const shortid = require('shortid');
 
-function randomId(): string {
-  const uint32 = window.crypto.getRandomValues(new Uint32Array(1))[0];
-  return uint32.toString(16);
-}
-
 export interface WorkoutData {
   id: string;
   order: number;
   title: string;
   startDate: Date;
-  finishDate: Date;
+  finishDate: string;
 }
 [];
 
@@ -31,9 +26,14 @@ const Workouts = () => {
   const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
 
   const [inputValue, setInputValue] = React.useState('');
+  const [inputDate, setInputDate] = React.useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
+  };
+  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    console.log(inputDate);
   };
 
   //create workouts
@@ -47,7 +47,7 @@ const Workouts = () => {
         order: updatedIdAndOrder,
         title: inputValue,
         startDate: new Date(),
-        finishDate: new Date(),
+        finishDate: inputDate,
       },
     ]);
 
@@ -59,7 +59,8 @@ const Workouts = () => {
   //delete a single workout
   //////////////////////////////
   const deleteWorkout = (id: string) => {
-    setWorkouts(workouts.filter((workout) => workout.id !== id));
+    const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
+    setWorkouts(updatedWorkouts);
   };
 
   return (
@@ -83,13 +84,16 @@ const Workouts = () => {
           value={inputValue}
           onChange={handleChange}
         />
+        <br />
+        <br />
+        {/* <input type={'date'} value={inputDate} onChange={handleChangeDate} /> */}
 
         <Button
           variant="contained"
           sx={{ display: 'block', marginTop: '.5rem' }}
           onClick={createWorkouts}
         >
-          Create
+          Create Workout
         </Button>
       </Box>
 

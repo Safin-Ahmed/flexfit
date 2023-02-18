@@ -41,8 +41,8 @@ const RoutineForm = ({
   const [routineFormValue, setRoutineFormValue] = React.useState<FormData>({
     ...RoutineData,
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //@ts-ignore
+  const handleChange = (e: React.SelectChangeEvent<string>) => {
     setRoutineFormValue((prev) => ({
       ...prev,
       id: shortid.generate(),
@@ -59,8 +59,8 @@ const RoutineForm = ({
     handleClose();
   };
   return (
-    <div>
-      <Dialog open={open} onClose={handleClose}>
+    <>
+      <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>{isUpdate ? 'Edit Title' : 'Your Title'}</DialogTitle>
         <DialogContent>
           {isUpdate ? (
@@ -73,7 +73,7 @@ const RoutineForm = ({
               fullWidth
               variant="standard"
               //@ts-ignore
-              value={updateData?.routineTitle}
+              value={updateData.routineTitle}
               onChange={(e) => dataHolder(e)}
             />
           ) : (
@@ -97,12 +97,9 @@ const RoutineForm = ({
           ) : (
             <Button onClick={handleSubmit}>Submit</Button>
           )}
-          {/* <Button onClick={handleSubmit} type="submit">
-            Submit
-          </Button> */}
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 };
 

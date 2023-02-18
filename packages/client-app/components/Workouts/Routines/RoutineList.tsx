@@ -68,6 +68,14 @@ const RoutineList = () => {
     });
 
     setRoutineList(updatedRoutine);
+
+    //clear input field of update form
+    setUpdateData((prev) => ({
+      ...prev,
+      //@ts-ignore
+      id: routineId,
+      routineTitle: '',
+    }));
   };
 
   // Delete a Routine

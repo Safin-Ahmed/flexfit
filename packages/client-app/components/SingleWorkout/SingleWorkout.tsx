@@ -30,21 +30,12 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
         <Typography variant="caption" mr={1}>
           Starts: {workout?.startDate.toLocaleDateString()}
         </Typography>
-        <Typography variant="caption">
-          Ends: {workout?.finishDate.toLocaleDateString()}
-        </Typography>
+        <Typography variant="caption">Ends: {workout?.finishDate}</Typography>
       </Stack>
 
       <Box my={3}>
         <RoutineList />
       </Box>
-
-      {/* <Stack direction={'row'} justifyContent={'start'} gap={2}>
-        {workout?.details &&
-          workout?.details?.map((exercise) => (
-            <ExerciseList exercise={exercise} key={exercise.id} />
-          ))}
-      </Stack> */}
     </Box>
   );
 };
