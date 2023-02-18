@@ -30,7 +30,8 @@
       "type": "integer"
     },
     "isCompleted": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "routine": {
       "type": "relation",

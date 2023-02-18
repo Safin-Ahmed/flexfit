@@ -29,7 +29,8 @@
       "type": "integer"
     },
     "isCompleted": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "workout": {
       "type": "relation",
