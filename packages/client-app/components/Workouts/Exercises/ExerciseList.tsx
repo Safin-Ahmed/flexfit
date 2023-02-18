@@ -15,10 +15,27 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   const [exerciseListValues, setExerciseListValues] = React.useState<{}[]>([]);
   const [isCreate, setIsCreate] = React.useState(false);
 
-  //state lifting
+  //For Updating states
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const [updateData, setUpdateData] = React.useState({});
+
+  //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
     setExerciseListValues((prev) => [...prev, data]);
     setIsCreate(!formCollapse);
+  };
+
+  //Update data holder starts===========
+  //@ts-ignore
+  const dataHolder = (e: SelectChangeEvent<string>) => {
+    console.log(e.target.value);
+  };
+
+  // Update or edit a Exercise
+  ///////////////////////////
+  const UpdateExercise = (id: string) => {
+    console.log({ id });
+    setIsUpdate(!isUpdate);
   };
 
   // Delete a Exercise
@@ -44,7 +61,18 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           //@ts-ignore
           routine={routine}
           //@ts-ignore
-          isCreate={isCreate}
+          isUpdate={isUpdate}
+          dataHolder={dataHolder}
+        />
+      )}
+      {isUpdate && (
+        <ExerciseForm
+          formData={liftFormData}
+          //@ts-ignore
+          routine={routine}
+          //@ts-ignore
+          isUpdate={isUpdate}
+          dataHolder={dataHolder}
         />
       )}
 
@@ -63,6 +91,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         // @ts-ignore
         routine={routine}
         deleteExercise={deleteExercise}
+        UpdateExercise={UpdateExercise}
       />
     </Box>
   );

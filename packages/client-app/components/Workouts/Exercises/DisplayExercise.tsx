@@ -6,33 +6,48 @@ import React from 'react';
 import { IndividualExerciseData, RoutineData } from '../types';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 interface DisplayExerciseProps {
   exerciseListValues: [IndividualExerciseData];
   routine: RoutineData;
   deleteExercise: (id: string) => void;
+  UpdateExercise: (id: string) => void;
 }
 
 const DisplayExercise = ({
   exerciseListValues,
   routine,
   deleteExercise,
+  UpdateExercise,
 }: DisplayExerciseProps) => {
   return (
     <Stack>
       {exerciseListValues.map((item, index) => (
         <Box mt={1} key={index}>
           <Divider />
-          <Stack direction={'row'} justifyContent={'space-between'}>
+          <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+          >
             <Typography variant="body1">
               {index + 1}. Exercise Name: {item.name}
             </Typography>
-            <Button
-              color="warning"
-              onClick={() => deleteExercise(item.exerciseId)}
-            >
-              <DeleteForeverIcon />
-            </Button>
+            <Stack direction={'row'} justifyContent={'start'}>
+              <Button
+                color="warning"
+                onClick={() => deleteExercise(item.exerciseId)}
+              >
+                <DeleteForeverIcon />
+              </Button>
+              <Button
+                color="secondary"
+                onClick={() => UpdateExercise(item.exerciseId)}
+              >
+                <BorderColorIcon />
+              </Button>
+            </Stack>
           </Stack>
           <Typography variant="body2"> sets: {item.sets} </Typography>
           <Typography variant="body2"> reps: {item.reps} </Typography>

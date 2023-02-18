@@ -21,9 +21,17 @@ const INIT_DATA = {
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;
   routine: RoutineData;
+  isUpdate: boolean;
+  //@ts-ignore
+  dataHolder: (e: SelectChangeEvent<string>) => void;
 }
 
-const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
+const ExerciseForm = ({
+  formData,
+  routine,
+  isUpdate,
+  dataHolder,
+}: ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
@@ -52,22 +60,41 @@ const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
     <Box>
       <FormControl component={'form'} onSubmit={handleSubmit}>
         <Divider sx={{ my: '1rem' }} />
-        <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-select-small">Select an Exercise</InputLabel>
-          <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            name="name"
-            label="Select one"
-            value={formValues.name}
-            onChange={handleChange}
-            autoWidth={true}
-          >
-            <MenuItem value={'Chest'}>Chest</MenuItem>
-            <MenuItem value={'Legs'}>Legs</MenuItem>
-            <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
-          </Select>
-        </FormControl>
+        {isUpdate ? (
+          <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Update Exercise</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              name="name"
+              label="Select one"
+              value={formValues.name}
+              onChange={(e) => dataHolder(e)}
+              autoWidth={true}
+            >
+              <MenuItem value={'Chest'}>Chest</MenuItem>
+              <MenuItem value={'Legs'}>Legs</MenuItem>
+              <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
+            </Select>
+          </FormControl>
+        ) : (
+          <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Select Exercise</InputLabel>
+            <Select
+              labelId="demo-select-small"
+              id="demo-select-small"
+              name="name"
+              label="Select one"
+              value={formValues.name}
+              onChange={handleChange}
+              autoWidth={true}
+            >
+              <MenuItem value={'Chest'}>Chest</MenuItem>
+              <MenuItem value={'Legs'}>Legs</MenuItem>
+              <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
+            </Select>
+          </FormControl>
+        )}
 
         <br />
 
@@ -91,9 +118,15 @@ const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
         <br />
         <br />
 
-        <Button variant="contained" color="success" type="submit">
-          Submit
-        </Button>
+        {isUpdate ? (
+          <Button variant="contained" color="success" type="submit">
+            Update
+          </Button>
+        ) : (
+          <Button variant="contained" color="success" type="submit">
+            Submit
+          </Button>
+        )}
       </FormControl>
     </Box>
   );

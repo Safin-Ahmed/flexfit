@@ -9,7 +9,7 @@ const RoutineList = () => {
 
   const [isCreate, setIsCreate] = React.useState(false);
 
-  //To Update
+  //For Updating state
   const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
   const [routineId, setRoutineId] = React.useState<string>('');
   const [updateData, setUpdateData] = React.useState({});

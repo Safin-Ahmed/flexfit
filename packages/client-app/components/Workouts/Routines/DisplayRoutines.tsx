@@ -35,17 +35,21 @@ const DisplayRoutines = ({
                   <CardContent>
                     <Stack
                       direction={'row'}
-                      justifyContent={'space-around'}
+                      justifyContent={'space-between'}
                       gap={1}
                       sx={{ py: '1rem' }}
                     >
                       <Typography variant="h4">{item.routineTitle}</Typography>
-                      <Button onClick={() => handleClickOpenForUpdate(item.id)}>
-                        <EditIcon />
-                      </Button>
-                      <Button onClick={() => deleteRoutine(item.id)}>
-                        <DeleteForeverIcon />
-                      </Button>
+                      <Stack direction={'row'} justifyContent={'start'}>
+                        <Button
+                          onClick={() => handleClickOpenForUpdate(item.id)}
+                        >
+                          <EditIcon />
+                        </Button>
+                        <Button onClick={() => deleteRoutine(item.id)}>
+                          <DeleteForeverIcon />
+                        </Button>
+                      </Stack>
                     </Stack>
 
                     <ExerciseList
