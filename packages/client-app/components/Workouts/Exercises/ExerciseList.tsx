@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import Box from '@mui/material/Box/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import React from 'react';
@@ -15,8 +16,9 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   const [isCreate, setIsCreate] = React.useState(false);
 
   //state lifting
-  const liftFormData = (data: object) => {
+  const liftFormData = (data: object, formCollapse: boolean) => {
     setExerciseListValues((prev) => [...prev, data]);
+    setIsCreate(!formCollapse);
   };
 
   // Delete a Exercise
@@ -31,14 +33,10 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   };
 
   return (
-    <div>
-      {Object.keys(routine).length !== null ? (
-        <Button variant="outlined" onClick={() => setIsCreate(!isCreate)}>
-          Create Exercises
-        </Button>
-      ) : (
-        ''
-      )}
+    <Box>
+      <Button variant="outlined" onClick={() => setIsCreate(!isCreate)}>
+        Create Exercises
+      </Button>
 
       {isCreate && (
         <ExerciseForm
@@ -46,6 +44,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           //@ts-ignore
           routine={routine}
           //@ts-ignore
+          isCreate={isCreate}
         />
       )}
 
@@ -65,7 +64,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         routine={routine}
         deleteExercise={deleteExercise}
       />
-    </div>
+    </Box>
   );
 };
 

@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Button, TextField } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box/Box';
 
 const INIT_DATA = {
   name: '',
@@ -18,12 +19,13 @@ const INIT_DATA = {
 };
 
 interface ExerciseFormProps {
-  formData: (data: object) => void;
+  formData: (data: object, formCollapse: boolean) => void;
   routine: RoutineData;
 }
 
 const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
+  const [formIsOpen, setFormIsOpen] = React.useState(true);
 
   const handleChange = (
     //@ts-ignore
@@ -39,15 +41,16 @@ const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormIsOpen(!formIsOpen);
     if (formValues.name && formValues.sets) {
-      formData(formValues);
+      formData(formValues, formIsOpen);
     }
     setFormValues(INIT_DATA);
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <Box>
+      <FormControl component={'form'} onSubmit={handleSubmit}>
         <Divider sx={{ my: '1rem' }} />
         <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-select-small">Select an Exercise</InputLabel>
@@ -91,8 +94,8 @@ const ExerciseForm = ({ formData, routine }: ExerciseFormProps) => {
         <Button variant="contained" color="success" type="submit">
           Submit
         </Button>
-      </form>
-    </div>
+      </FormControl>
+    </Box>
   );
 };
 
