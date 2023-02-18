@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "downlevelIteration": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -21,14 +26,30 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@apps/*": ["./app/*"],
-      "@pages/*": ["./pages/*"],
-      "@components/*": ["./components/*"],
-      "@data/*": ["./data/*"],
-      "@shared/*": ["./shared/*"],
-      "@utils/*": ["./utils/*"],
-      "@redux/*": ["./redux/*"],
-      "@hooks/*": ["./hooks/*"]
+      "@apps/*": [
+        "./app/*"
+      ],
+      "@pages/*": [
+        "./pages/*"
+      ],
+      "@components/*": [
+        "./components/*"
+      ],
+      "@data/*": [
+        "./data/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+      "@redux/*": [
+        "./redux/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ]
     }
   },
   "include": [
@@ -38,5 +59,7 @@
     ".next/types/**/*.ts",
     "."
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
