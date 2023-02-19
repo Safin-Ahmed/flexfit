@@ -2,15 +2,25 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React from 'react';
+import { WorkoutData } from './types';
+const shortid = require('shortid');
 
 interface WorkoutFormProps {
   liftCreateWorkouts: (formData: object) => void;
+  updateWorkout: (formData: object) => void;
+  isUpdate: boolean;
 }
 
-const WorkoutForm = ({ liftCreateWorkouts }: WorkoutFormProps) => {
-  const [inputValue, setInputValue] = React.useState({
+const WorkoutForm = ({
+  liftCreateWorkouts,
+  updateWorkout,
+  isUpdate,
+}: WorkoutFormProps) => {
+  const [inputValue, setInputValue] = React.useState<WorkoutData>({
     title: '',
     endDate: '',
+    id: shortid.generate(),
+    startDate: new Date(),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,16 +34,21 @@ const WorkoutForm = ({ liftCreateWorkouts }: WorkoutFormProps) => {
   const formData = () => {
     if (inputValue.title && inputValue.endDate) {
       liftCreateWorkouts(inputValue);
+      if (isUpdate) {
+        updateWorkout(inputValue);
+      }
     }
 
     //empty fields
     setInputValue({
       title: '',
       endDate: '',
+      id: '',
+      startDate: new Date(),
     });
   };
   return (
-    <Box>
+    <Box my={2}>
       <TextField
         label="Title"
         name="title"
@@ -61,7 +76,7 @@ const WorkoutForm = ({ liftCreateWorkouts }: WorkoutFormProps) => {
         sx={{ display: 'block', marginTop: '.5rem' }}
         onClick={formData}
       >
-        Create Workout
+        {isUpdate ? 'Update Workout' : 'Create Workout'}
       </Button>
     </Box>
   );

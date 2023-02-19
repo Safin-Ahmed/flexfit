@@ -1,6 +1,5 @@
 export interface WorkoutData {
   id: string;
-  order: number;
   title: string;
   startDate: Date;
   endDate: string;

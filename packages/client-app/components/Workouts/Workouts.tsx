@@ -4,37 +4,65 @@ import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
-import { WorkoutData } from './types';
 import WorkoutForm from './WorkoutForm';
-const shortid = require('shortid');
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const Workouts = () => {
-  const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
+  const [workouts, setWorkouts] = React.useState([]);
   const [isAdd, setIsAdd] = React.useState(false);
+
+  // For Update States
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const [workoutId, setWorkoutId] = React.useState('');
 
   //lift and create workouts
   //////////////////////
   const liftCreateWorkouts = (formData: object) => {
-    let updatedIdAndOrder = workouts.length + 1;
-    setWorkouts([
-      ...workouts,
-      {
-        id: shortid.generate(),
-        order: updatedIdAndOrder,
-        //@ts-ignore
-        title: formData.title,
-        startDate: new Date(),
-        //@ts-ignore
-        endDate: formData.endDate,
-      },
-    ]);
+    //@ts-ignore
+    setWorkouts([...workouts, formData]);
+
+    console.log({ workouts });
+
     //closing the workout form
     setIsAdd(false);
+  };
+
+  // get workout id
+  const getWorkoutId = (id: string) => {
+    setWorkoutId(id);
+    setIsUpdate(!isUpdate);
+  };
+
+  //edit or update your workouts
+  ///////////////////////////////
+  const updateWorkout = (formData: object) => {
+    setIsUpdate(!isUpdate);
+    //@ts-ignore
+    const updatedWorkout = workouts.map((workout) => {
+      //@ts-ignore
+      if (workout.id === workoutId) {
+        //@ts-ignore
+        return {
+          //@ts-ignore
+          ...workout,
+          //@ts-ignore
+          title: formData.title,
+          //@ts-ignore
+          id: formData.id,
+          //@ts-ignore
+          endDate: formData.endDate,
+        };
+      }
+      return workout;
+    });
+    //@ts-ignore
+    setWorkouts(updatedWorkout);
   };
 
   //delete a single workout
   //////////////////////////////
   const deleteWorkout = (id: string) => {
+    //@ts-ignore
     const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
     setWorkouts(updatedWorkouts);
   };
@@ -50,16 +78,53 @@ const Workouts = () => {
         Create & Customize your Workouts
       </Typography>
 
-      <Button
-        variant="contained"
-        color="info"
-        sx={{ my: '1rem' }}
-        onClick={() => setIsAdd(!isAdd)}
-      >
-        Add Your Workouts
-      </Button>
+      {!isAdd ? (
+        <Button
+          variant="contained"
+          color="info"
+          sx={isUpdate ? { display: 'none' } : { my: '1rem', display: 'block' }}
+          onClick={() => setIsAdd(!isAdd)}
+          disabled={isUpdate}
+        >
+          Add Your Workouts
+        </Button>
+      ) : (
+        <Button
+          variant="outlined"
+          color="warning"
+          sx={{ my: '1rem' }}
+          onClick={() => setIsAdd(!isAdd)}
+          disabled={isUpdate}
+        >
+          <CancelIcon /> Cancel
+        </Button>
+      )}
 
-      {isAdd && <WorkoutForm liftCreateWorkouts={liftCreateWorkouts} />}
+      {isUpdate && (
+        <Button
+          variant="outlined"
+          color="warning"
+          onClick={() => setIsUpdate(!isUpdate)}
+        >
+          <CancelIcon /> Cancel Update
+        </Button>
+      )}
+
+      {!isUpdate && isAdd && (
+        <WorkoutForm
+          liftCreateWorkouts={liftCreateWorkouts}
+          updateWorkout={updateWorkout}
+          isUpdate={isUpdate}
+        />
+      )}
+
+      {!isAdd && isUpdate && (
+        <WorkoutForm
+          liftCreateWorkouts={liftCreateWorkouts}
+          updateWorkout={updateWorkout}
+          isUpdate={isUpdate}
+        />
+      )}
 
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
@@ -76,10 +141,18 @@ const Workouts = () => {
         >
           {workouts &&
             workouts.map((workout) => (
-              <Grid item xs={12} sm={12} md={12} key={workout.id}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                //@ts-ignore
+                key={workout.id}
+              >
                 <SingleWorkout
                   deleteWorkout={deleteWorkout}
                   workout={workout}
+                  getWorkoutId={getWorkoutId}
                 />
               </Grid>
             ))}
