@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
 
 export interface DisplayRoutines {
   routineList: RoutineData[];
@@ -21,15 +22,14 @@ const DisplayRoutines = ({
 }: DisplayRoutines) => {
   return (
     <>
-      <Stack
-        direction={'row'}
-        justifyContent={'start'}
-        gap={1}
-        flexWrap={'wrap'}
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {routineList.length ? (
+        {routineList.length >= 1 &&
           routineList?.map((item, index) => (
-            <React.Fragment key={index}>
+            <Grid item xs={12} sm={12} md={12} key={index}>
               {item.routineTitle && (
                 <Card>
                   <CardContent>
@@ -59,14 +59,9 @@ const DisplayRoutines = ({
                   </CardContent>
                 </Card>
               )}
-            </React.Fragment>
-          ))
-        ) : (
-          <Typography color={'warning'}>
-            No Routines to show. Please create one...
-          </Typography>
-        )}
-      </Stack>
+            </Grid>
+          ))}
+      </Grid>
     </>
   );
 };

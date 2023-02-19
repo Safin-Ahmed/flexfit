@@ -3,9 +3,8 @@ export interface WorkoutData {
   order: number;
   title: string;
   startDate: Date;
-  finishDate: Date;
+  endDate: string;
 }
-[];
 
 export interface RoutineData {
   id: string;

@@ -7,11 +7,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-const RoutineData = {
-  id: '',
-  routineTitle: '',
-};
-
 interface FormData {
   id: string;
   routineTitle: string;
@@ -39,7 +34,8 @@ const RoutineForm = ({
   updateData,
 }: RoutineFormProps) => {
   const [routineFormValue, setRoutineFormValue] = React.useState<FormData>({
-    ...RoutineData,
+    id: '',
+    routineTitle: '',
   });
   //@ts-ignore
   const handleChange = (e: React.SelectChangeEvent<string>) => {
@@ -51,11 +47,13 @@ const RoutineForm = ({
   };
 
   const handleSubmit = () => {
+    //@ts-ignore
     if (routineFormValue.routineTitle) {
+      //@ts-ignore
       liftRoutineData(routineFormValue);
     }
 
-    setRoutineFormValue(RoutineData);
+    setRoutineFormValue({ id: '', routineTitle: '' });
     handleClose();
   };
   return (
@@ -73,7 +71,7 @@ const RoutineForm = ({
               fullWidth
               variant="standard"
               //@ts-ignore
-              value={updateData.routineTitle}
+              value={updateData && updateData.routineTitle}
               onChange={(e) => dataHolder(e)}
             />
           ) : (
@@ -85,6 +83,7 @@ const RoutineForm = ({
               type="text"
               fullWidth
               variant="standard"
+              //@ts-ignore
               value={routineFormValue.routineTitle}
               onChange={handleChange}
             />

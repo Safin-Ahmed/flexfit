@@ -22,8 +22,6 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
 
   //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
-    console.log('formValues: ', data);
-
     setExerciseListValues((prev) => [...prev, data]);
     setIsCreate(!formCollapse);
     setIsUpdate(!formCollapse);
@@ -32,7 +30,6 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   const getExerciseId = (id: string) => {
     //@ts-ignore
     setExerciseId(id);
-    console.log(id);
     setIsUpdate(!isUpdate);
   };
 

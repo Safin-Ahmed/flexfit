@@ -1,7 +1,7 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { WorkoutData } from '../Workouts/Workouts';
 import RoutineList from '@components/Workouts/Routines/RoutineList';
+import { WorkoutData } from '@components/Workouts/types';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
@@ -30,7 +30,7 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
         <Typography variant="caption" mr={1}>
           Starts: {workout?.startDate.toLocaleDateString()}
         </Typography>
-        <Typography variant="caption">Ends: {workout?.finishDate}</Typography>
+        <Typography variant="caption">Ends: {workout?.endDate}</Typography>
       </Stack>
 
       <Box my={3}>

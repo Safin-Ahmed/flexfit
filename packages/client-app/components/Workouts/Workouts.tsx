@@ -1,59 +1,35 @@
 'use client';
 import * as React from 'react';
-import {
-  Box,
-  Button,
-  Chip,
-  Divider,
-  TextField,
-  Typography,
-} from '@mui/material';
-import Stack from '@mui/material/Stack';
+import { Button, Chip, Divider, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
+import { WorkoutData } from './types';
+import WorkoutForm from './WorkoutForm';
 const shortid = require('shortid');
-
-export interface WorkoutData {
-  id: string;
-  order: number;
-  title: string;
-  startDate: Date;
-  finishDate: string;
-}
-[];
 
 const Workouts = () => {
   const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
+  const [isAdd, setIsAdd] = React.useState(false);
 
-  const [inputValue, setInputValue] = React.useState('');
-  const [inputDate, setInputDate] = React.useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    console.log(inputDate);
-  };
-
-  //create workouts
+  //lift and create workouts
   //////////////////////
-  const createWorkouts = () => {
+  const liftCreateWorkouts = (formData: object) => {
     let updatedIdAndOrder = workouts.length + 1;
     setWorkouts([
       ...workouts,
       {
         id: shortid.generate(),
         order: updatedIdAndOrder,
-        title: inputValue,
+        //@ts-ignore
+        title: formData.title,
         startDate: new Date(),
-        finishDate: inputDate,
+        //@ts-ignore
+        endDate: formData.endDate,
       },
     ]);
-
-    setInputValue('');
-
-    console.log({ workouts });
+    //closing the workout form
+    setIsAdd(false);
   };
 
   //delete a single workout
@@ -70,53 +46,47 @@ const Workouts = () => {
       </Typography>
       <Divider variant="middle" />
 
-      <Box>
-        <Typography variant="h5" my={3}>
-          Create & Customize your Workouts
-        </Typography>
+      <Typography variant="h5" my={3}>
+        Create & Customize your Workouts
+      </Typography>
 
-        <TextField
-          label="Title"
-          name="title"
-          variant="filled"
-          color="primary"
-          focused
-          value={inputValue}
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        {/* <input type={'date'} value={inputDate} onChange={handleChangeDate} /> */}
+      <Button
+        variant="contained"
+        color="info"
+        sx={{ my: '1rem' }}
+        onClick={() => setIsAdd(!isAdd)}
+      >
+        Add Your Workouts
+      </Button>
 
-        <Button
-          variant="contained"
-          sx={{ display: 'block', marginTop: '.5rem' }}
-          onClick={createWorkouts}
-        >
-          Create Workout
-        </Button>
-      </Box>
+      {isAdd && <WorkoutForm liftCreateWorkouts={liftCreateWorkouts} />}
 
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
 
-      <Stack
-        direction="row"
-        mt={4}
-        justifyContent="start"
-        alignItems="center"
-        spacing={3}
-      >
-        {workouts &&
-          workouts.map((workout) => (
-            <SingleWorkout
-              deleteWorkout={deleteWorkout}
-              workout={workout}
-              key={workout.id}
-            />
-          ))}
-      </Stack>
+      {workouts.length ? (
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {workouts &&
+            workouts.map((workout) => (
+              <Grid item xs={12} sm={12} md={12} key={workout.id}>
+                <SingleWorkout
+                  deleteWorkout={deleteWorkout}
+                  workout={workout}
+                />
+              </Grid>
+            ))}
+        </Grid>
+      ) : (
+        <Typography>Nothing to show. Please create one...</Typography>
+      )}
     </Container>
   );
 };
