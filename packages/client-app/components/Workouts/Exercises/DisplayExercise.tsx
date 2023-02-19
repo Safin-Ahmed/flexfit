@@ -11,15 +11,17 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 interface DisplayExerciseProps {
   exerciseListValues: [IndividualExerciseData];
   routine: RoutineData;
+  isCreate: boolean;
   deleteExercise: (id: string) => void;
-  UpdateExercise: (id: string) => void;
+  getExerciseId: (id: string) => void;
 }
 
 const DisplayExercise = ({
   exerciseListValues,
   routine,
   deleteExercise,
-  UpdateExercise,
+  getExerciseId,
+  isCreate,
 }: DisplayExerciseProps) => {
   return (
     <Stack>
@@ -42,8 +44,9 @@ const DisplayExercise = ({
                 <DeleteForeverIcon />
               </Button>
               <Button
+                disabled={isCreate}
                 color="secondary"
-                onClick={() => UpdateExercise(item.exerciseId)}
+                onClick={() => getExerciseId(item.exerciseId)}
               >
                 <BorderColorIcon />
               </Button>

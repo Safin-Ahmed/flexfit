@@ -6,6 +6,7 @@ import React from 'react';
 import { RoutineData } from '../types';
 import DisplayExercise from './DisplayExercise';
 import ExerciseForm from './ExerciseForm';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 interface ExerciseListProps {
   routine: RoutineData;
@@ -17,25 +18,49 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
 
   //For Updating states
   const [isUpdate, setIsUpdate] = React.useState(false);
-  const [updateData, setUpdateData] = React.useState({});
+  const [exerciseId, setExerciseId] = React.useState('');
 
   //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
+    console.log('formValues: ', data);
+
     setExerciseListValues((prev) => [...prev, data]);
     setIsCreate(!formCollapse);
+    setIsUpdate(!formCollapse);
   };
 
-  //Update data holder starts===========
-  //@ts-ignore
-  const dataHolder = (e: SelectChangeEvent<string>) => {
-    console.log(e.target.value);
+  const getExerciseId = (id: string) => {
+    //@ts-ignore
+    setExerciseId(id);
+    console.log(id);
+    setIsUpdate(!isUpdate);
   };
 
   // Update or edit a Exercise
   ///////////////////////////
-  const UpdateExercise = (id: string) => {
-    console.log({ id });
+  const UpdateExercise = (data: object) => {
     setIsUpdate(!isUpdate);
+
+    const updatedExercise = exerciseListValues.map((exercise) => {
+      //@ts-ignore
+      if (exercise.exerciseId === exerciseId) {
+        //@ts-ignore
+        return {
+          ...exercise,
+          //@ts-ignore
+          name: data.name,
+          //@ts-ignore
+          reps: data.reps,
+          //@ts-ignore
+          sets: data.sets,
+          //@ts-ignore
+          time: data.time,
+        };
+      }
+      return exercise;
+    });
+
+    setExerciseListValues(updatedExercise);
   };
 
   // Delete a Exercise
@@ -46,33 +71,66 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
       (exercise) => exercise.exerciseId !== id
     );
     setExerciseListValues(updatedExerciseList);
-    console.log(id);
   };
 
   return (
     <Box>
-      <Button variant="outlined" onClick={() => setIsCreate(!isCreate)}>
-        Create Exercises
-      </Button>
+      {isCreate ? (
+        <Button
+          disabled={isUpdate}
+          variant="outlined"
+          color="warning"
+          onClick={() => setIsCreate(!isCreate)}
+        >
+          <CancelIcon /> Cancel Creating
+        </Button>
+      ) : (
+        <Button
+          disabled={isUpdate}
+          variant="outlined"
+          sx={isUpdate ? { display: 'none' } : { display: 'inline-block' }}
+          onClick={() => setIsCreate(!isCreate)}
+        >
+          Create Exercises
+        </Button>
+      )}
 
-      {isCreate && (
+      <Box>
+        {isUpdate ? (
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={() => setIsUpdate(!isUpdate)}
+          >
+            <CancelIcon /> Cancel Updating
+          </Button>
+        ) : (
+          ''
+        )}
+      </Box>
+
+      {!isUpdate && isCreate && (
         <ExerciseForm
           formData={liftFormData}
           //@ts-ignore
           routine={routine}
           //@ts-ignore
           isUpdate={isUpdate}
-          dataHolder={dataHolder}
+          // dataHolder={dataHolder}
+          isCreate={isCreate}
+          UpdateExercise={UpdateExercise}
         />
       )}
-      {isUpdate && (
+      {!isCreate && isUpdate && (
         <ExerciseForm
           formData={liftFormData}
           //@ts-ignore
           routine={routine}
           //@ts-ignore
           isUpdate={isUpdate}
-          dataHolder={dataHolder}
+          // dataHolder={dataHolder}
+          isCreate={isCreate}
+          UpdateExercise={UpdateExercise}
         />
       )}
 
@@ -91,7 +149,8 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         // @ts-ignore
         routine={routine}
         deleteExercise={deleteExercise}
-        UpdateExercise={UpdateExercise}
+        isCreate={isCreate}
+        getExerciseId={getExerciseId}
       />
     </Box>
   );
