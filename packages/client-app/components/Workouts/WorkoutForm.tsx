@@ -32,7 +32,7 @@ const WorkoutForm = ({
 
   //lift form value
   const formData = () => {
-    if (inputValue.title && inputValue.endDate) {
+    if (inputValue.title || inputValue.endDate) {
       liftCreateWorkouts(inputValue);
       if (isUpdate) {
         updateWorkout(inputValue);

@@ -15,13 +15,9 @@ interface FormData {
 interface RoutineFormProps {
   liftRoutineData: (data: object) => void;
   handleClose: () => void;
-  updateRoutine: () => void;
-  dataHolder: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  updateRoutine: (formData: object) => void;
   open: boolean;
   isUpdate: boolean;
-  updateData: object;
 }
 
 const RoutineForm = ({
@@ -30,8 +26,6 @@ const RoutineForm = ({
   open,
   isUpdate,
   updateRoutine,
-  dataHolder,
-  updateData,
 }: RoutineFormProps) => {
   const [routineFormValue, setRoutineFormValue] = React.useState<FormData>({
     id: '',
@@ -51,6 +45,9 @@ const RoutineForm = ({
     if (routineFormValue.routineTitle) {
       //@ts-ignore
       liftRoutineData(routineFormValue);
+      if (isUpdate) {
+        updateRoutine(routineFormValue);
+      }
     }
 
     setRoutineFormValue({ id: '', routineTitle: '' });
@@ -61,38 +58,23 @@ const RoutineForm = ({
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>{isUpdate ? 'Edit Title' : 'Your Title'}</DialogTitle>
         <DialogContent>
-          {isUpdate ? (
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Update Routine Title"
-              type="text"
-              fullWidth
-              variant="standard"
-              //@ts-ignore
-              value={updateData && updateData.routineTitle}
-              onChange={(e) => dataHolder(e)}
-            />
-          ) : (
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Routine Title"
-              type="text"
-              fullWidth
-              variant="standard"
-              //@ts-ignore
-              value={routineFormValue.routineTitle}
-              onChange={handleChange}
-            />
-          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label={isUpdate ? 'Update Routine Title' : 'Routine Title'}
+            type="text"
+            fullWidth
+            variant="standard"
+            //@ts-ignore
+            value={routineFormValue.routineTitle}
+            onChange={handleChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {isUpdate ? (
-            <Button onClick={updateRoutine}>Update</Button>
+            <Button onClick={handleSubmit}>Update</Button>
           ) : (
             <Button onClick={handleSubmit}>Submit</Button>
           )}

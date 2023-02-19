@@ -20,9 +20,6 @@ const Workouts = () => {
   const liftCreateWorkouts = (formData: object) => {
     //@ts-ignore
     setWorkouts([...workouts, formData]);
-
-    console.log({ workouts });
-
     //closing the workout form
     setIsAdd(false);
   };
@@ -46,11 +43,9 @@ const Workouts = () => {
           //@ts-ignore
           ...workout,
           //@ts-ignore
-          title: formData.title,
+          title: !formData.title ? workout.title : formData.title,
           //@ts-ignore
-          id: formData.id,
-          //@ts-ignore
-          endDate: formData.endDate,
+          endDate: !formData.endDate ? workout.endDate : formData.endDate,
         };
       }
       return workout;

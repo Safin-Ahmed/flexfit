@@ -12,7 +12,6 @@ const RoutineList = () => {
   //For Updating state
   const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
   const [routineId, setRoutineId] = React.useState<string>('');
-  const [updateData, setUpdateData] = React.useState({});
 
   //Modal ================
   const [open, setOpen] = React.useState(false);
@@ -43,39 +42,20 @@ const RoutineList = () => {
     setSingleRoutine(data);
   };
 
-  //Update data holder starts===========
-  const dataHolder = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUpdateData((prev) => ({
-      ...prev,
-      //@ts-ignore
-      id: routineId,
-      routineTitle: e.target.value,
-    }));
-  };
-  //Update data holder ends===========
-
   // Update or Edit Routine
   ///////////////////////////
-  const updateRoutine = () => {
+  const updateRoutine = (formData: object) => {
     setOpen(false);
 
     const updatedRoutine = routineList.map((routine) => {
       //@ts-ignore
-      if (routine.id === routineId) return updateData;
+      if (routine.id === routineId)
+        //@ts-ignore
+        return { ...routine, routineTitle: formData.routineTitle };
       return routine;
     });
 
     setRoutineList(updatedRoutine);
-
-    //clear input field of update form
-    setUpdateData((prev) => ({
-      ...prev,
-      //@ts-ignore
-      id: routineId,
-      routineTitle: '',
-    }));
   };
 
   // Delete a Routine
@@ -115,8 +95,6 @@ const RoutineList = () => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
-          dataHolder={dataHolder}
-          updateData={updateData}
         />
       )}
       {isUpdate && (
@@ -126,8 +104,6 @@ const RoutineList = () => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
-          dataHolder={dataHolder}
-          updateData={updateData}
         />
       )}
     </Box>
