@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
@@ -95,14 +95,37 @@ const ExerciseForm = ({
           sx={{ mt: 1 }}
         />
         <br />
-        <TextField
-          label="Reps"
-          variant="filled"
-          value={formValues.reps}
-          onChange={handleChange}
-          name="reps"
-          sx={{ mt: 1 }}
-        />
+        <Typography>Please fill any one of the following:</Typography>
+        <Stack direction={'row'} justifyContent={'start'} gap={1}>
+          <TextField
+            label="Reps"
+            variant="filled"
+            value={formValues.reps}
+            onChange={handleChange}
+            name="reps"
+            sx={
+              formValues.time.length
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
+            }
+            //@ts-ignore
+            disabled={formValues.time.length}
+          />
+          <TextField
+            label="Time"
+            variant="filled"
+            value={formValues.time}
+            onChange={handleChange}
+            name="time"
+            sx={
+              formValues.reps.length
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
+            }
+            //@ts-ignore
+            disabled={formValues.reps.length}
+          />
+        </Stack>
 
         <br />
         <br />
