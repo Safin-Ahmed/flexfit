@@ -1,4 +1,5 @@
 'use client';
+//@ts-ignore
 import * as React from 'react';
 import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
@@ -9,7 +10,11 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { useAddWorkoutMutation } from '@redux/features/api/workouts-api';
 
 const Workouts = () => {
-  const {} = useAddWorkoutMutation();
+  const [addWorkout, { isError, isLoading, isSuccess }] =
+    useAddWorkoutMutation();
+  console.log(isError);
+  // console.log(isSuccess);
+
   const [workouts, setWorkouts] = React.useState([]);
   const [isAdd, setIsAdd] = React.useState(false);
 
@@ -24,6 +29,18 @@ const Workouts = () => {
     setWorkouts([...workouts, formData]);
     //closing the workout form
     setIsAdd(false);
+    const payload = {
+      data: {
+        //@ts-ignore
+        title: formData.title,
+        //@ts-ignore
+        endDate: formData.endDate,
+        //@ts-ignore
+        startDate: formData.startDate,
+      },
+    };
+    addWorkout(payload);
+    // console.log();
   };
 
   // get workout id

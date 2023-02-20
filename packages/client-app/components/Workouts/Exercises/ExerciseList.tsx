@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import Box from '@mui/material/Box/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { RoutineData } from '../types';
 import DisplayExercise from './DisplayExercise';
 import ExerciseForm from './ExerciseForm';
@@ -21,6 +21,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   const [exerciseId, setExerciseId] = React.useState('');
 
   const [isCompleted, setIsCompleted] = React.useState(false);
+  const [completeId, setCompleteId] = React.useState('');
 
   //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
@@ -38,14 +39,13 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   //Update status
   ////////////////////
   const status = (id: string) => {
-    setIsCompleted(!isCompleted);
-    console.log({ isCompleted });
-
+    setIsCompleted((prev) => !prev);
+    setCompleteId(id);
+  };
+  useEffect(() => {
     const updatedExercise = exerciseListValues.map((exercise) => {
-      console.log({ exercise });
-
       //@ts-ignore
-      if (exercise.exerciseId === id) {
+      if (exercise.exerciseId === completeId) {
         //@ts-ignore
         return {
           ...exercise,
@@ -56,9 +56,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
     });
 
     setExerciseListValues(updatedExercise);
-
-    console.log({ exerciseListValues });
-  };
+  }, [isCompleted]);
 
   // Update or edit a Exercise
   ///////////////////////////
