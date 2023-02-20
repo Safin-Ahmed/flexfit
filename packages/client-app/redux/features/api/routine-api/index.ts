@@ -4,6 +4,7 @@ export const routinesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllRoutines: builder.query<any, void>({
       query: () => "routines",
+      providesTags: ["Routines"],
     }),
     createRoutine: builder.mutation({
       query: (routine) => ({
@@ -11,6 +12,7 @@ export const routinesApi = apiSlice.injectEndpoints({
         method: "POST",
         body: routine,
       }),
+      invalidatesTags: ["Routines"],
     }),
   }),
 });

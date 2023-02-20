@@ -6,6 +6,7 @@ const workoutsApi = apiSlice.injectEndpoints({
       transformResponse: (res: any) => {
         return res.data.sort((a: any, b: any) => b.id - a.id);
       },
+      providesTags: ["Workouts"],
     }),
     getWorkout: builder.query<number, void>({
       query: (workoutId) => `workouts/${workoutId}`,
@@ -16,6 +17,7 @@ const workoutsApi = apiSlice.injectEndpoints({
         method: "POST",
         body: workout,
       }),
+      invalidatesTags: ["Workouts"],
     }),
     updateWorkout: builder.mutation({
       query: (workout) => ({
@@ -23,6 +25,7 @@ const workoutsApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: workout,
       }),
+      invalidatesTags: ["Workouts"],
     }),
     deleteWorkout: builder.mutation({
       query: ({ id }) => ({
@@ -30,6 +33,7 @@ const workoutsApi = apiSlice.injectEndpoints({
         method: "DELETE",
         body: id,
       }),
+      invalidatesTags: ["Workouts"],
     }),
   }),
 });
