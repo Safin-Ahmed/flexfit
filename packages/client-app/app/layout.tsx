@@ -5,11 +5,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
 import { apiSlice } from "@redux/features/api";
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children,}: {children: React.ReactNode;}) {
   return (
     <Provider store={store}>
       <ApiProvider api={apiSlice}>
