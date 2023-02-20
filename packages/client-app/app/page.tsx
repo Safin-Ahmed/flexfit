@@ -10,8 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
   const { data: allWorkouts } = useGetAllWorkoutsQuery();
   const { data: allRoutines } = useGetAllRoutinesQuery();
-  // console.log(allWorkouts);
-  // console.log({ allRoutines });
+
   return (
     <>
       <PageHead title="Home Page" />

@@ -53,11 +53,7 @@ const DisplayExercise = ({
                 </Typography>
                 {item.reps && (
                   <Typography mr={1}>
-                    {item.sets} * {item.reps} =
-                    {
-                      //@ts-ignore
-                      parseInt(item.sets * item.reps)
-                    }
+                    {item.sets} * {item.reps}
                   </Typography>
                 )}
                 {item.isCompleted ? (
@@ -107,7 +103,7 @@ const DisplayExercise = ({
                     </Button>
                   </Stack>
                 </Stack>
-                {/* <FormControlLabel
+                <FormControlLabel
                   sx={{ ml: 1 }}
                   control={
                     <Checkbox
@@ -117,11 +113,7 @@ const DisplayExercise = ({
                     />
                   }
                   label="Completed"
-                /> */}
-                <Button onClick={() => status(item.exerciseId)}>
-                  {item.isCompleted ? 'Completed' : 'Mark '}
-                </Button>
-                {/* <p>{item.isCompleted ? 'true' : 'false'}</p> */}
+                />
                 <Box sx={{ textAlign: 'center' }}>
                   <TextField
                     sx={{ mt: 1 }}
@@ -141,7 +133,7 @@ const DisplayExercise = ({
                     sx={
                       item.time
                         ? { mt: 1, display: 'none' }
-                        : { display: 'block' }
+                        : { display: 'block', mt: 1 }
                     }
                     variant="filled"
                     value={item.reps}

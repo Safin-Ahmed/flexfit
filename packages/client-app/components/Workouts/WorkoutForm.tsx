@@ -31,12 +31,9 @@ const WorkoutForm = ({
   };
 
   //lift form value
-  const formData = () => {
+  const createWorkout = () => {
     if (inputValue.title || inputValue.endDate) {
       liftCreateWorkouts(inputValue);
-      if (isUpdate) {
-        updateWorkout(inputValue);
-      }
     }
 
     //empty fields
@@ -46,6 +43,12 @@ const WorkoutForm = ({
       id: '',
       startDate: new Date(),
     });
+  };
+
+  const updateWorkoutData = () => {
+    if (isUpdate) {
+      updateWorkout(inputValue);
+    }
   };
   return (
     <Box my={2}>
@@ -71,13 +74,23 @@ const WorkoutForm = ({
         onChange={handleChange}
       />
 
-      <Button
-        variant="contained"
-        sx={{ display: 'block', marginTop: '.5rem' }}
-        onClick={formData}
-      >
-        {isUpdate ? 'Update Workout' : 'Create Workout'}
-      </Button>
+      {isUpdate ? (
+        <Button
+          variant="contained"
+          sx={{ display: 'block', marginTop: '.5rem' }}
+          onClick={updateWorkoutData}
+        >
+          Update
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          sx={{ display: 'block', marginTop: '.5rem' }}
+          onClick={createWorkout}
+        >
+          Create
+        </Button>
+      )}
     </Box>
   );
 };

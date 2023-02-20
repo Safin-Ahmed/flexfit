@@ -63,7 +63,6 @@ ExerciseFormProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormIsOpen(!formIsOpen);
-    console.log({ formValues });
 
     if (
       formValues.name ||
@@ -81,7 +80,12 @@ ExerciseFormProps) => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        mt: 1,
+        maxWidth: '500px',
+      }}
+    >
       <FormControl component={'form'} onSubmit={handleSubmit}>
         <Divider sx={{ my: '1rem' }} />
 
@@ -105,17 +109,19 @@ ExerciseFormProps) => {
         <br />
 
         <TextField
+          fullWidth={true}
           label="Sets"
           variant="filled"
           value={formValues.sets}
           onChange={handleChange}
           name="sets"
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, width: '300px' }}
         />
         <br />
         <br />
 
         <TextField
+          fullWidth={true}
           label="Weight"
           variant="filled"
           value={formValues.weight}
@@ -125,42 +131,34 @@ ExerciseFormProps) => {
         />
         <br />
         <Typography>Please fill any one of the following:</Typography>
-        <Stack direction={'row'} justifyContent={'start'} gap={1}>
-          <TextField
-            label="Reps"
-            variant="filled"
-            value={formValues.reps}
-            onChange={handleChange}
-            name="reps"
-            sx={
-              formValues?.time?.length
-                ? { display: 'none' }
-                : { mt: 1, display: 'block' }
-            }
-          />
-          <TextField
-            label="Time"
-            variant="filled"
-            value={formValues.time}
-            onChange={handleChange}
-            name="time"
-            sx={
-              formValues?.reps?.length
-                ? { display: 'none' }
-                : { mt: 1, display: 'block' }
-            }
-          />
-        </Stack>
-        {/* <FormControlLabel
-          control={
-            <Checkbox
-              value={formValues.isComplete}
-              onChange={handleChange}
-              name="isComplete"
-            />
+
+        <TextField
+          fullWidth={true}
+          label="Reps"
+          variant="filled"
+          value={formValues.reps}
+          onChange={handleChange}
+          name="reps"
+          sx={
+            formValues?.time?.length
+              ? { display: 'none' }
+              : { mt: 1, display: 'block' }
           }
-          label="Completed"
-        /> */}
+        />
+        <br />
+        <TextField
+          fullWidth={true}
+          label="Time"
+          variant="filled"
+          value={formValues.time}
+          onChange={handleChange}
+          name="time"
+          sx={
+            formValues?.reps?.length
+              ? { display: 'none' }
+              : { mt: 1, display: 'block' }
+          }
+        />
 
         <br />
         <br />

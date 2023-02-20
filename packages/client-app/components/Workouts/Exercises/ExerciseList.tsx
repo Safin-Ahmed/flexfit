@@ -141,10 +141,8 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           routine={routine}
           //@ts-ignore
           isUpdate={isUpdate}
-          // dataHolder={dataHolder}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
-          // isCompleted={isCompleted}
         />
       )}
       {!isCreate && isUpdate && (
@@ -154,14 +152,10 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           routine={routine}
           //@ts-ignore
           isUpdate={isUpdate}
-          // dataHolder={dataHolder}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
-          // isCompleted={isCompleted}
         />
       )}
-
-      {isCompleted && <Typography>Bismillah</Typography>}
 
       {exerciseListValues.length >= 1 ? (
         <Typography mt={2} variant="h6">

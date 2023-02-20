@@ -7,23 +7,36 @@ import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
 import WorkoutForm from './WorkoutForm';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { useAddWorkoutMutation } from '@redux/features/api/workouts-api';
+import {
+  useAddWorkoutMutation,
+  useDeleteSingleWorkoutMutation,
+  useGetAllWorkoutsQuery,
+  useUpdateSingleWorkoutMutation,
+} from '@redux/features/api/workouts-api';
 
 const Workouts = () => {
+  //RTK===================
   const [addWorkout, { isError, isLoading, isSuccess }] =
     useAddWorkoutMutation();
-  console.log(isError);
-  // console.log(isSuccess);
+
+  const { data: allWorkouts } = useGetAllWorkoutsQuery();
+
+  const [deleteSingleWorkout, { isSuccess: isDeleteSuccess }] =
+    useDeleteSingleWorkoutMutation();
+
+  const [updateSingleWorkout, { isSuccess: isUpdateSuccess }] =
+    useUpdateSingleWorkoutMutation();
+  //RTK===================
 
   const [workouts, setWorkouts] = React.useState([]);
   const [isAdd, setIsAdd] = React.useState(false);
 
   // For Update States
   const [isUpdate, setIsUpdate] = React.useState(false);
-  const [workoutId, setWorkoutId] = React.useState('');
+  const [workoutId, setWorkoutId] = React.useState(0);
 
   //lift and create workouts
-  //////////////////////
+  ///////////////////////////
   const liftCreateWorkouts = (formData: object) => {
     //@ts-ignore
     setWorkouts([...workouts, formData]);
@@ -40,11 +53,10 @@ const Workouts = () => {
       },
     };
     addWorkout(payload);
-    // console.log();
   };
 
   // get workout id
-  const getWorkoutId = (id: string) => {
+  const getWorkoutId = (id: number) => {
     setWorkoutId(id);
     setIsUpdate(!isUpdate);
   };
@@ -53,32 +65,26 @@ const Workouts = () => {
   ///////////////////////////////
   const updateWorkout = (formData: object) => {
     setIsUpdate(!isUpdate);
-    //@ts-ignore
-    const updatedWorkout = workouts.map((workout) => {
-      //@ts-ignore
-      if (workout.id === workoutId) {
+    // console.log(formData);
+
+    const payload = {
+      data: {
         //@ts-ignore
-        return {
-          //@ts-ignore
-          ...workout,
-          //@ts-ignore
-          title: !formData.title ? workout.title : formData.title,
-          //@ts-ignore
-          endDate: !formData.endDate ? workout.endDate : formData.endDate,
-        };
-      }
-      return workout;
-    });
-    //@ts-ignore
-    setWorkouts(updatedWorkout);
+        title: formData.title,
+        //@ts-ignore
+        endDate: formData.endDate,
+        //@ts-ignore
+        startDate: formData.startDate,
+      },
+    };
+
+    updateSingleWorkout({ workoutId, data: payload });
   };
 
   //delete a single workout
   //////////////////////////////
-  const deleteWorkout = (id: string) => {
-    //@ts-ignore
-    const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
-    setWorkouts(updatedWorkouts);
+  const deleteWorkout = (id: number) => {
+    deleteSingleWorkout(id);
   };
 
   return (
@@ -144,7 +150,7 @@ const Workouts = () => {
         <Chip label="Your Workout List" />
       </Divider>
 
-      {workouts.length ? (
+      {allWorkouts?.length ? (
         <Grid
           container
           spacing={{ xs: 2, md: 3 }}
@@ -153,8 +159,8 @@ const Workouts = () => {
           justifyContent="center"
           alignItems="center"
         >
-          {workouts &&
-            workouts.map((workout) => (
+          {allWorkouts &&
+            allWorkouts.map((workout: any) => (
               <Grid
                 item
                 xs={12}

@@ -6,12 +6,13 @@ import CreateIcon from '@mui/icons-material/Create';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
-  deleteWorkout: (id: string) => void;
-  getWorkoutId: (id: string) => void;
+  deleteWorkout: (id: number) => void;
+  getWorkoutId: (id: number) => void;
 }
 
 const SingleWorkout = (props: SingleWorkoutProps) => {
   const { workout, deleteWorkout, getWorkoutId } = props;
+
   return (
     <Box boxShadow={2} padding={2} borderRadius={1}>
       <Stack
@@ -19,7 +20,8 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
         alignItems={'center'}
         justifyContent="space-between"
       >
-        <Typography variant="h6">{workout.title}</Typography>
+        {/* @ts-ignore */}
+        <Typography variant="h6">{workout?.attributes?.title}</Typography>
         <Stack
           direction="row"
           alignItems={'center'}
@@ -29,14 +31,16 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
           <IconButton
             aria-label="delete"
             size="large"
-            onClick={() => deleteWorkout(workout.id)}
+            //@ts-ignore
+            onClick={() => deleteWorkout(workout?.id)}
           >
             <DeleteIcon fontSize="inherit" />
           </IconButton>
           <IconButton
             aria-label="delete"
             size="large"
-            onClick={() => getWorkoutId(workout.id)}
+            //@ts-ignore
+            onClick={() => getWorkoutId(workout?.id)}
           >
             <CreateIcon fontSize="inherit" />
           </IconButton>
@@ -44,9 +48,14 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
       </Stack>
       <Stack direction="row" mt={2} justifyContent="space-between">
         <Typography variant="caption" mr={1}>
-          Starts: {workout?.startDate.toLocaleDateString()}
+          {/* @ts-ignore */}
+          Starts: {workout?.attributes?.startDate}
         </Typography>
-        <Typography variant="caption">Ends: {workout?.endDate}</Typography>
+
+        <Typography variant="caption">
+          {/* @ts-ignore */}
+          Ends: {workout?.attributes?.endDate}
+        </Typography>
       </Stack>
 
       <Box my={3}>
