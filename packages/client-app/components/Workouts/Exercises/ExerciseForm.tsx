@@ -5,7 +5,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Button, TextField, Typography } from '@mui/material';
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
@@ -17,6 +23,8 @@ const INIT_DATA = {
   sets: '',
   reps: '',
   time: '',
+  weight: '',
+  isCompleted: false,
 };
 
 interface ExerciseFormProps {
@@ -25,6 +33,7 @@ interface ExerciseFormProps {
   isUpdate: boolean;
   isCreate: boolean;
   UpdateExercise: (data: object) => void;
+  // isCompleted: boolean;
 }
 
 const ExerciseForm = ({
@@ -33,7 +42,8 @@ const ExerciseForm = ({
   isUpdate,
   isCreate,
   UpdateExercise,
-}: ExerciseFormProps) => {
+}: // isCompleted,
+ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
@@ -46,14 +56,22 @@ const ExerciseForm = ({
       [e.target.name]: e.target.value,
       exerciseId: shortid.generate(),
       routineId: routine.id,
+      // isCompleted,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormIsOpen(!formIsOpen);
+    console.log({ formValues });
 
-    if (formValues.name && formValues.sets) {
+    if (
+      formValues.name ||
+      formValues.sets ||
+      formValues.weight ||
+      formValues.reps ||
+      formValues.time
+    ) {
       formData(formValues, formIsOpen);
       if (isUpdate) {
         UpdateExercise(formValues);
@@ -95,6 +113,17 @@ const ExerciseForm = ({
           sx={{ mt: 1 }}
         />
         <br />
+        <br />
+
+        <TextField
+          label="Weight"
+          variant="filled"
+          value={formValues.weight}
+          onChange={handleChange}
+          name="weight"
+          sx={{ mt: 1 }}
+        />
+        <br />
         <Typography>Please fill any one of the following:</Typography>
         <Stack direction={'row'} justifyContent={'start'} gap={1}>
           <TextField
@@ -104,12 +133,10 @@ const ExerciseForm = ({
             onChange={handleChange}
             name="reps"
             sx={
-              formValues.time.length
+              formValues?.time?.length
                 ? { display: 'none' }
                 : { mt: 1, display: 'block' }
             }
-            //@ts-ignore
-            disabled={formValues.time.length}
           />
           <TextField
             label="Time"
@@ -118,14 +145,22 @@ const ExerciseForm = ({
             onChange={handleChange}
             name="time"
             sx={
-              formValues.reps.length
+              formValues?.reps?.length
                 ? { display: 'none' }
                 : { mt: 1, display: 'block' }
             }
-            //@ts-ignore
-            disabled={formValues.reps.length}
           />
         </Stack>
+        {/* <FormControlLabel
+          control={
+            <Checkbox
+              value={formValues.isComplete}
+              onChange={handleChange}
+              name="isComplete"
+            />
+          }
+          label="Completed"
+        /> */}
 
         <br />
         <br />

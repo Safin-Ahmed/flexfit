@@ -6,8 +6,10 @@ import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
 import WorkoutForm from './WorkoutForm';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { useAddWorkoutMutation } from '@redux/features/api/workouts-api';
 
 const Workouts = () => {
+  const {} = useAddWorkoutMutation();
   const [workouts, setWorkouts] = React.useState([]);
   const [isAdd, setIsAdd] = React.useState(false);
 

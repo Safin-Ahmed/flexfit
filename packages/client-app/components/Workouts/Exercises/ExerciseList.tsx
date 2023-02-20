@@ -20,6 +20,8 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [exerciseId, setExerciseId] = React.useState('');
 
+  const [isCompleted, setIsCompleted] = React.useState(false);
+
   //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
     setExerciseListValues((prev) => [...prev, data]);
@@ -31,6 +33,31 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
     //@ts-ignore
     setExerciseId(id);
     setIsUpdate(!isUpdate);
+  };
+
+  //Update status
+  ////////////////////
+  const status = (id: string) => {
+    setIsCompleted(!isCompleted);
+    console.log({ isCompleted });
+
+    const updatedExercise = exerciseListValues.map((exercise) => {
+      console.log({ exercise });
+
+      //@ts-ignore
+      if (exercise.exerciseId === id) {
+        //@ts-ignore
+        return {
+          ...exercise,
+          isCompleted: isCompleted,
+        };
+      }
+      return exercise;
+    });
+
+    setExerciseListValues(updatedExercise);
+
+    console.log({ exerciseListValues });
   };
 
   // Update or edit a Exercise
@@ -45,13 +72,16 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         return {
           ...exercise,
           //@ts-ignore
-          name: data.name,
+          name: data.name ? data.name : exercise.name,
           //@ts-ignore
-          reps: data.reps,
+          reps: data.reps ? data.reps : '',
           //@ts-ignore
-          sets: data.sets,
+          sets: data.sets ? data.sets : exercise.sets,
           //@ts-ignore
-          time: data.time,
+          time: data.time ? data.time : '',
+          //@ts-ignore
+          weight: data.weight ? data.weight : exercise.weight,
+          //@ts-ignore
         };
       }
       return exercise;
@@ -116,6 +146,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           // dataHolder={dataHolder}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          // isCompleted={isCompleted}
         />
       )}
       {!isCreate && isUpdate && (
@@ -128,8 +159,11 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
           // dataHolder={dataHolder}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          // isCompleted={isCompleted}
         />
       )}
+
+      {isCompleted && <Typography>Bismillah</Typography>}
 
       {exerciseListValues.length >= 1 ? (
         <Typography mt={2} variant="h6">
@@ -148,6 +182,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         deleteExercise={deleteExercise}
         isCreate={isCreate}
         getExerciseId={getExerciseId}
+        status={status}
       />
     </Box>
   );
