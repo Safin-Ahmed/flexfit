@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React from 'react';
 import { WorkoutData } from './types';
-const shortid = require('shortid');
 
 interface WorkoutFormProps {
   liftCreateWorkouts: (formData: object) => void;
@@ -19,8 +18,6 @@ const WorkoutForm = ({
   const [inputValue, setInputValue] = React.useState<WorkoutData>({
     title: '',
     endDate: '',
-    id: shortid.generate(),
-    startDate: new Date(),
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,14 +32,6 @@ const WorkoutForm = ({
     if (inputValue.title || inputValue.endDate) {
       liftCreateWorkouts(inputValue);
     }
-
-    //empty fields
-    setInputValue({
-      title: '',
-      endDate: '',
-      id: '',
-      startDate: new Date(),
-    });
   };
 
   const updateWorkoutData = () => {

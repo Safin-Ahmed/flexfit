@@ -1,12 +1,9 @@
 export interface WorkoutData {
-  id: string;
   title: string;
-  startDate: Date;
   endDate: string;
 }
 
 export interface RoutineData {
-  id: string;
   routineTitle: string;
 }
 

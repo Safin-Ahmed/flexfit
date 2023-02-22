@@ -16,19 +16,22 @@ import {
 
 const Workouts = () => {
   //RTK===================
+  //create
   const [addWorkout, { isError, isLoading, isSuccess }] =
     useAddWorkoutMutation();
 
+  //get
   const { data: allWorkouts } = useGetAllWorkoutsQuery();
 
+  //delete
   const [deleteSingleWorkout, { isSuccess: isDeleteSuccess }] =
     useDeleteSingleWorkoutMutation();
 
+  //update
   const [updateSingleWorkout, { isSuccess: isUpdateSuccess }] =
     useUpdateSingleWorkoutMutation();
   //RTK===================
 
-  const [workouts, setWorkouts] = React.useState([]);
   const [isAdd, setIsAdd] = React.useState(false);
 
   // For Update States
@@ -38,8 +41,6 @@ const Workouts = () => {
   //lift and create workouts
   ///////////////////////////
   const liftCreateWorkouts = (formData: object) => {
-    //@ts-ignore
-    setWorkouts([...workouts, formData]);
     //closing the workout form
     setIsAdd(false);
     const payload = {
@@ -55,7 +56,7 @@ const Workouts = () => {
     addWorkout(payload);
   };
 
-  // get workout id
+  // get workout id to update the workout
   const getWorkoutId = (id: number) => {
     setWorkoutId(id);
     setIsUpdate(!isUpdate);
@@ -65,7 +66,6 @@ const Workouts = () => {
   ///////////////////////////////
   const updateWorkout = (formData: object) => {
     setIsUpdate(!isUpdate);
-    // console.log(formData);
 
     const payload = {
       data: {

@@ -1,19 +1,14 @@
 import React from 'react';
-const shortid = require('shortid');
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
-interface FormData {
-  id: string;
-  routineTitle: string;
-}
+import { RoutineData } from '../types';
 
 interface RoutineFormProps {
-  liftRoutineData: (data: object) => void;
+  liftAndCreateRoutine: (data: object) => void;
   handleClose: () => void;
   updateRoutine: (formData: object) => void;
   open: boolean;
@@ -21,36 +16,38 @@ interface RoutineFormProps {
 }
 
 const RoutineForm = ({
-  liftRoutineData,
+  liftAndCreateRoutine,
   handleClose,
   open,
   isUpdate,
   updateRoutine,
 }: RoutineFormProps) => {
-  const [routineFormValue, setRoutineFormValue] = React.useState<FormData>({
-    id: '',
+  const [routineFormValue, setRoutineFormValue] = React.useState<RoutineData>({
     routineTitle: '',
   });
   //@ts-ignore
   const handleChange = (e: React.SelectChangeEvent<string>) => {
     setRoutineFormValue((prev) => ({
       ...prev,
-      id: shortid.generate(),
       routineTitle: e.target.value,
     }));
   };
 
-  const handleSubmit = () => {
+  const createRoutine = () => {
     //@ts-ignore
     if (routineFormValue.routineTitle) {
       //@ts-ignore
-      liftRoutineData(routineFormValue);
-      if (isUpdate) {
-        updateRoutine(routineFormValue);
-      }
+      liftAndCreateRoutine(routineFormValue);
     }
 
-    setRoutineFormValue({ id: '', routineTitle: '' });
+    // setRoutineFormValue({ routineTitle: '' });
+    handleClose();
+  };
+
+  const updateRoutineData = () => {
+    if (isUpdate) {
+      updateRoutine(routineFormValue);
+    }
     handleClose();
   };
   return (
@@ -74,9 +71,9 @@ const RoutineForm = ({
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {isUpdate ? (
-            <Button onClick={handleSubmit}>Update</Button>
+            <Button onClick={updateRoutineData}>Update</Button>
           ) : (
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button onClick={createRoutine}>Create</Button>
           )}
         </DialogActions>
       </Dialog>

@@ -15,6 +15,19 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
 
   return (
     <Box boxShadow={2} padding={2} borderRadius={1}>
+      <Stack direction="row" mb={1} justifyContent="end" alignItems={'center'}>
+        <Typography
+          variant="caption"
+          border={1}
+          borderRadius={3}
+          px={1}
+          bgcolor={'#698269'}
+          sx={{ color: 'white' }}
+        >
+          {/* @ts-ignore */}
+          Ends: {workout?.attributes?.endDate}
+        </Typography>
+      </Stack>
       <Stack
         direction="row"
         alignItems={'center'}
@@ -46,20 +59,10 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
           </IconButton>
         </Stack>
       </Stack>
-      <Stack direction="row" mt={2} justifyContent="space-between">
-        <Typography variant="caption" mr={1}>
-          {/* @ts-ignore */}
-          Starts: {workout?.attributes?.startDate}
-        </Typography>
-
-        <Typography variant="caption">
-          {/* @ts-ignore */}
-          Ends: {workout?.attributes?.endDate}
-        </Typography>
-      </Stack>
 
       <Box my={3}>
-        <RoutineList />
+        {/* @ts-ignore */}
+        <RoutineList workoutId={workout?.id} />
       </Box>
     </Box>
   );
