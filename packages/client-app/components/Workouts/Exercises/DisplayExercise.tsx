@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   TextField,
 } from '@mui/material';
+import ReactPlayer from 'react-player/youtube';
 
 interface DisplayExerciseProps {
   userExercise: any;
@@ -31,7 +32,7 @@ const DisplayExercise = ({
   status,
 }: DisplayExerciseProps) => {
   return (
-    <Stack>
+    <Box>
       <Accordion sx={{ marginY: '1rem' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -114,6 +115,23 @@ const DisplayExercise = ({
             />
             {/* Is complete button=============  */}
 
+            {/* Render a YouTube video player */}
+            <Box
+              sx={{
+                width: '100%',
+                boxSizing: 'border-box',
+                overflow: 'hidden',
+              }}
+              border={1}
+              p={1}
+            >
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=lwKeQoXk4mk"
+                controls={true}
+                width={'100%'}
+              />
+            </Box>
+
             <Box sx={{ textAlign: 'center' }}>
               <TextField
                 sx={{ mt: 1 }}
@@ -155,7 +173,7 @@ const DisplayExercise = ({
           </Box>
         </AccordionDetails>
       </Accordion>
-    </Stack>
+    </Box>
   );
 };
 
