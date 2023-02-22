@@ -10,6 +10,7 @@ import {
   useAddUserExerciseMutation,
   useDeleteUserExerciseMutation,
   useGetAllUserExercisesQuery,
+  useUpdateUserExerciseMutation,
 } from '@redux/features/api/userExercise-api';
 import { useGetAllExercisesQuery } from '@redux/features/api/exercise';
 
@@ -28,6 +29,9 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
 
   //get exercise names
   const { data: exercises } = useGetAllExercisesQuery();
+
+  //update
+  const [updateUserExercise] = useUpdateUserExerciseMutation();
 
   //delete
   const [deleteUserExercise] = useDeleteUserExerciseMutation();
@@ -82,19 +86,14 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     setCompleteId(id);
   };
   useEffect(() => {
-    const updatedExercise = exerciseListValues.map((exercise) => {
-      //@ts-ignore
-      if (exercise.exerciseId === completeId) {
+    const payload = {
+      data: {
         //@ts-ignore
-        return {
-          ...exercise,
-          isCompleted: isCompleted,
-        };
-      }
-      return exercise;
-    });
+        isCompleted: isCompleted,
+      },
+    };
 
-    setExerciseListValues(updatedExercise);
+    updateUserExercise({ exerciseId: completeId, data: payload });
   }, [isCompleted]);
 
   // Update or edit a Exercise
@@ -102,29 +101,24 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   const UpdateExercise = (data: object) => {
     setIsUpdate(!isUpdate);
 
-    const updatedExercise = exerciseListValues.map((exercise) => {
-      //@ts-ignore
-      if (exercise.exerciseId === exerciseId) {
+    const payload = {
+      data: {
         //@ts-ignore
-        return {
-          ...exercise,
-          //@ts-ignore
-          name: data.name ? data.name : exercise.name,
-          //@ts-ignore
-          reps: data.reps ? data.reps : '',
-          //@ts-ignore
-          sets: data.sets ? data.sets : exercise.sets,
-          //@ts-ignore
-          time: data.time ? data.time : '',
-          //@ts-ignore
-          weight: data.weight ? data.weight : exercise.weight,
-          //@ts-ignore
-        };
-      }
-      return exercise;
-    });
+        routine: data.routine,
+        //@ts-ignore
+        exercise: data.exercise,
+        //@ts-ignore
+        sets: data.sets,
+        //@ts-ignore
+        weight: data.weight,
+        //@ts-ignore
+        reps: data.reps,
+        //@ts-ignore
+        time: data.time,
+      },
+    };
 
-    setExerciseListValues(updatedExercise);
+    updateUserExercise({ exerciseId, data: payload });
   };
 
   // Delete a Exercise

@@ -1,17 +1,9 @@
 import React from 'react';
-import { RoutineData } from '../types';
-const shortid = require('shortid');
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
@@ -45,8 +37,6 @@ const ExerciseForm = ({
   routineId,
 }: // isCompleted,
 ExerciseFormProps) => {
-  console.log(exercises);
-
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
@@ -61,10 +51,8 @@ ExerciseFormProps) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const create = () => {
     setFormIsOpen(!formIsOpen);
-    console.log({ formValues });
 
     if (
       formValues.exercise ||
@@ -74,9 +62,12 @@ ExerciseFormProps) => {
       formValues.time
     ) {
       formData(formValues, formIsOpen);
-      if (isUpdate) {
-        UpdateExercise(formValues);
-      }
+    }
+  };
+
+  const update = () => {
+    if (isUpdate) {
+      UpdateExercise(formValues);
     }
   };
 
@@ -87,7 +78,7 @@ ExerciseFormProps) => {
         maxWidth: '500px',
       }}
     >
-      <FormControl component={'form'} onSubmit={handleSubmit}>
+      <FormControl>
         <Divider sx={{ my: '1rem' }} />
 
         <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
@@ -171,11 +162,11 @@ ExerciseFormProps) => {
 
         <Stack direction={'row'} justifyContent={'space-between'}>
           {isUpdate ? (
-            <Button variant="contained" color="success" type="submit">
+            <Button variant="contained" color="success" onClick={update}>
               Update
             </Button>
           ) : (
-            <Button variant="contained" color="success" type="submit">
+            <Button variant="contained" color="success" onClick={create}>
               Submit
             </Button>
           )}

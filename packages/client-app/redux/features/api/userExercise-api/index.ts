@@ -21,9 +21,9 @@ const userExerciseApi = apiSlice.injectEndpoints({
       invalidatesTags: ['Exercises'],
     }),
     updateUserExercise: builder.mutation({
-      query: ({ id, data }) => ({
-        url: `user-exercises/${id}`,
-        method: 'PATCH',
+      query: ({ exerciseId, data }) => ({
+        url: `user-exercises/${exerciseId}`,
+        method: 'PUT',
         body: data,
       }),
       invalidatesTags: ['Exercises'],
