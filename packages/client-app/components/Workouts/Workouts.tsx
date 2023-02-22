@@ -1,5 +1,4 @@
 'use client';
-//@ts-ignore
 import * as React from 'react';
 import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';

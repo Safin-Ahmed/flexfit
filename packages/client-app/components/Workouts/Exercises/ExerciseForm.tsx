@@ -7,16 +7,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
-
-const INIT_DATA = {
-  exercise: 0,
-  routine: 0,
-  sets: 0,
-  reps: 0,
-  time: 0,
-  weight: 0,
-  isCompleted: false,
-};
+import { IndividualExerciseData } from '../types';
 
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;
@@ -25,7 +16,6 @@ interface ExerciseFormProps {
   UpdateExercise: (data: object) => void;
   exercises: any;
   routineId: any;
-  // isCompleted: boolean;
 }
 
 const ExerciseForm = ({
@@ -35,16 +25,18 @@ const ExerciseForm = ({
   UpdateExercise,
   exercises,
   routineId,
-}: // isCompleted,
-ExerciseFormProps) => {
-  const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
+}: ExerciseFormProps) => {
+  const [formValues, setFormValues] = React.useState<IndividualExerciseData>(
+    //@ts-ignore
+    {}
+  );
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
   const handleChange = (
     //@ts-ignore
     e: React.ChangeEvent<HTMLInputElement> | React.SelectChangeEvent<string>
   ) => {
-    setFormValues((prev) => ({
+    setFormValues((prev: any) => ({
       ...prev,
       [e.target.name]: e.target.value,
       routine: routineId,

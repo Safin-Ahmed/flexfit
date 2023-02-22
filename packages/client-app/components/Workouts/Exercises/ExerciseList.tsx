@@ -38,7 +38,6 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
 
   // RTK======================
 
-  const [exerciseListValues, setExerciseListValues] = React.useState<{}[]>([]);
   const [isCreate, setIsCreate] = React.useState(false);
 
   //For Updating states
@@ -121,7 +120,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     updateUserExercise({ exerciseId, data: payload });
   };
 
-  // Delete a Exercise
+  // Delete an Exercise
   ///////////////////////////
   const deleteExercise = (id: number) => {
     deleteUserExercise(id);
