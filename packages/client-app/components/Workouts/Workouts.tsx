@@ -49,8 +49,6 @@ const Workouts = () => {
         title: formData.title,
         //@ts-ignore
         endDate: formData.endDate,
-        //@ts-ignore
-        startDate: formData.startDate,
       },
     };
     addWorkout(payload);
@@ -73,8 +71,6 @@ const Workouts = () => {
         title: formData.title,
         //@ts-ignore
         endDate: formData.endDate,
-        //@ts-ignore
-        startDate: formData.startDate,
       },
     };
 

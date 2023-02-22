@@ -8,12 +8,11 @@ export interface RoutineData {
 }
 
 export interface IndividualExerciseData {
-  name: string;
-  exerciseId: string;
-  routineId: string;
-  sets: string;
-  reps?: string;
-  time?: string;
-  weight: string;
+  exercise: number;
+  routine: number;
+  sets: number;
+  reps?: number;
+  time?: number;
+  weight: number;
   isCompleted: boolean;
 }

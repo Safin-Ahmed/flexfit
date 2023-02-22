@@ -3,34 +3,73 @@ import Box from '@mui/material/Box/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
-import { RoutineData } from '../types';
 import DisplayExercise from './DisplayExercise';
 import ExerciseForm from './ExerciseForm';
 import CancelIcon from '@mui/icons-material/Cancel';
+import {
+  useAddUserExerciseMutation,
+  useDeleteUserExerciseMutation,
+  useGetAllUserExercisesQuery,
+} from '@redux/features/api/userExercise-api';
+import { useGetAllExercisesQuery } from '@redux/features/api/exercise';
 
 interface ExerciseListProps {
-  routine: RoutineData;
+  routineId: any;
 }
 
-const ExerciseList = ({ routine }: ExerciseListProps) => {
+const ExerciseList = ({ routineId }: ExerciseListProps) => {
+  // RTK======================
+  //create
+  const [addUserExercise, { isError, isLoading, isSuccess }] =
+    useAddUserExerciseMutation();
+
+  //get
+  const { data: allUserExercises } = useGetAllUserExercisesQuery();
+
+  //get exercise names
+  const { data: exercises } = useGetAllExercisesQuery();
+
+  //delete
+  const [deleteUserExercise] = useDeleteUserExerciseMutation();
+
+  // RTK======================
+
   const [exerciseListValues, setExerciseListValues] = React.useState<{}[]>([]);
   const [isCreate, setIsCreate] = React.useState(false);
 
   //For Updating states
   const [isUpdate, setIsUpdate] = React.useState(false);
-  const [exerciseId, setExerciseId] = React.useState('');
+  const [exerciseId, setExerciseId] = React.useState(0);
 
   const [isCompleted, setIsCompleted] = React.useState(false);
-  const [completeId, setCompleteId] = React.useState('');
+  const [completeId, setCompleteId] = React.useState(0);
 
   //state lifting and creating Exercises
   const liftFormData = (data: object, formCollapse: boolean) => {
-    setExerciseListValues((prev) => [...prev, data]);
+    const payload = {
+      data: {
+        //@ts-ignore
+        routine: data.routine,
+        //@ts-ignore
+        exercise: data.exercise,
+        //@ts-ignore
+        sets: data.sets,
+        //@ts-ignore
+        weight: data.weight,
+        //@ts-ignore
+        reps: data.reps,
+        //@ts-ignore
+        time: data.time,
+      },
+    };
+
+    addUserExercise(payload);
+
     setIsCreate(!formCollapse);
     setIsUpdate(!formCollapse);
   };
 
-  const getExerciseId = (id: string) => {
+  const getExerciseId = (id: number) => {
     //@ts-ignore
     setExerciseId(id);
     setIsUpdate(!isUpdate);
@@ -38,7 +77,7 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
 
   //Update status
   ////////////////////
-  const status = (id: string) => {
+  const status = (id: number) => {
     setIsCompleted((prev) => !prev);
     setCompleteId(id);
   };
@@ -90,12 +129,8 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
 
   // Delete a Exercise
   ///////////////////////////
-  const deleteExercise = (id: string) => {
-    const updatedExerciseList = exerciseListValues.filter(
-      //@ts-ignore
-      (exercise) => exercise.exerciseId !== id
-    );
-    setExerciseListValues(updatedExerciseList);
+  const deleteExercise = (id: number) => {
+    deleteUserExercise(id);
   };
 
   return (
@@ -136,9 +171,9 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
 
       {!isUpdate && isCreate && (
         <ExerciseForm
+          exercises={exercises}
           formData={liftFormData}
-          //@ts-ignore
-          routine={routine}
+          routineId={routineId}
           //@ts-ignore
           isUpdate={isUpdate}
           isCreate={isCreate}
@@ -147,9 +182,9 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
       )}
       {!isCreate && isUpdate && (
         <ExerciseForm
+          exercises={exercises}
           formData={liftFormData}
-          //@ts-ignore
-          routine={routine}
+          routineId={routineId}
           //@ts-ignore
           isUpdate={isUpdate}
           isCreate={isCreate}
@@ -157,25 +192,32 @@ const ExerciseList = ({ routine }: ExerciseListProps) => {
         />
       )}
 
-      {exerciseListValues.length >= 1 ? (
-        <Typography mt={2} variant="h6">
-          <Divider></Divider>
-          Your List: <Divider></Divider>
-        </Typography>
+      <Typography mt={2} variant="h6">
+        <Divider></Divider>
+        Your List: <Divider></Divider>
+      </Typography>
+
+      {allUserExercises?.length ? (
+        allUserExercises?.map((userExercise: any) => {
+          if (userExercise?.attributes?.routine?.data?.id === routineId) {
+            return (
+              <DisplayExercise
+                key={userExercise.id}
+                // @ts-ignore
+                userExercise={userExercise}
+                // @ts-ignore
+                routineId={routineId}
+                deleteExercise={deleteExercise}
+                isCreate={isCreate}
+                getExerciseId={getExerciseId}
+                status={status}
+              />
+            );
+          }
+        })
       ) : (
         <Typography mt={2}>Nothing to show. Please Create one...</Typography>
       )}
-
-      <DisplayExercise
-        // @ts-ignore
-        exerciseListValues={exerciseListValues}
-        // @ts-ignore
-        routine={routine}
-        deleteExercise={deleteExercise}
-        isCreate={isCreate}
-        getExerciseId={getExerciseId}
-        status={status}
-      />
     </Box>
   );
 };

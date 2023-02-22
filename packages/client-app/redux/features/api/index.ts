@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const apiSlice = createApi({
-  reducerPath: "workoutsApi",
+  reducerPath: 'workoutsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:1337/api/",
+    baseUrl: 'http://localhost:1337/api/',
   }),
-  tagTypes: ["Workouts", "Routines"],
+  tagTypes: ['Workouts', 'Routines', 'Exercises'],
   endpoints: (builder) => ({}),
 });

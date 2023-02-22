@@ -17,33 +17,36 @@ import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
 
 const INIT_DATA = {
-  name: '',
-  exerciseId: '',
-  routineId: '',
-  sets: '',
-  reps: '',
-  time: '',
-  weight: '',
+  exercise: 0,
+  routine: 0,
+  sets: 0,
+  reps: 0,
+  time: 0,
+  weight: 0,
   isCompleted: false,
 };
 
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;
-  routine: RoutineData;
   isUpdate: boolean;
   isCreate: boolean;
   UpdateExercise: (data: object) => void;
+  exercises: any;
+  routineId: any;
   // isCompleted: boolean;
 }
 
 const ExerciseForm = ({
   formData,
-  routine,
   isUpdate,
   isCreate,
   UpdateExercise,
+  exercises,
+  routineId,
 }: // isCompleted,
 ExerciseFormProps) => {
+  console.log(exercises);
+
   const [formValues, setFormValues] = React.useState({ ...INIT_DATA });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
@@ -54,18 +57,17 @@ ExerciseFormProps) => {
     setFormValues((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
-      exerciseId: shortid.generate(),
-      routineId: routine.id,
-      // isCompleted,
+      routine: routineId,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormIsOpen(!formIsOpen);
+    console.log({ formValues });
 
     if (
-      formValues.name ||
+      formValues.exercise ||
       formValues.sets ||
       formValues.weight ||
       formValues.reps ||
@@ -76,7 +78,6 @@ ExerciseFormProps) => {
         UpdateExercise(formValues);
       }
     }
-    setFormValues(INIT_DATA);
   };
 
   return (
@@ -92,17 +93,22 @@ ExerciseFormProps) => {
         <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-select-small">Select Exercise</InputLabel>
           <Select
-            labelId="demo-select-small"
-            id="demo-select-small"
-            name="name"
+            name="exercise"
             label="Select one"
-            value={formValues.name}
+            value={formValues?.exercise}
             onChange={handleChange}
-            autoWidth={true}
+            fullWidth={true}
           >
-            <MenuItem value={'Chest'}>Chest</MenuItem>
-            <MenuItem value={'Legs'}>Legs</MenuItem>
-            <MenuItem value={'Shoulders'}>Shoulders</MenuItem>
+            {
+              //@ts-ignore
+              exercises?.map((item: any) => {
+                return (
+                  <MenuItem key={item?.id} value={item?.id}>
+                    {item?.attributes?.title}
+                  </MenuItem>
+                );
+              })
+            }
           </Select>
         </FormControl>
 
@@ -112,7 +118,8 @@ ExerciseFormProps) => {
           fullWidth={true}
           label="Sets"
           variant="filled"
-          value={formValues.sets}
+          type={'number'}
+          value={formValues?.sets}
           onChange={handleChange}
           name="sets"
           sx={{ mt: 1, width: '300px' }}
@@ -124,7 +131,8 @@ ExerciseFormProps) => {
           fullWidth={true}
           label="Weight"
           variant="filled"
-          value={formValues.weight}
+          type={'number'}
+          value={formValues?.weight}
           onChange={handleChange}
           name="weight"
           sx={{ mt: 1 }}
@@ -136,13 +144,12 @@ ExerciseFormProps) => {
           fullWidth={true}
           label="Reps"
           variant="filled"
-          value={formValues.reps}
+          type={'number'}
+          value={formValues?.reps}
           onChange={handleChange}
           name="reps"
           sx={
-            formValues?.time?.length
-              ? { display: 'none' }
-              : { mt: 1, display: 'block' }
+            formValues?.time ? { display: 'none' } : { mt: 1, display: 'block' }
           }
         />
         <br />
@@ -150,13 +157,12 @@ ExerciseFormProps) => {
           fullWidth={true}
           label="Time"
           variant="filled"
-          value={formValues.time}
+          type={'number'}
+          value={formValues?.time}
           onChange={handleChange}
           name="time"
           sx={
-            formValues?.reps?.length
-              ? { display: 'none' }
-              : { mt: 1, display: 'block' }
+            formValues?.reps ? { display: 'none' } : { mt: 1, display: 'block' }
           }
         />
 

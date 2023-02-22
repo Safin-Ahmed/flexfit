@@ -51,7 +51,7 @@ const DisplayRoutines = ({
 
               <ExerciseList
                 //@ts-ignore
-                routine={routine}
+                routineId={routine?.id}
               />
             </CardContent>
           </Card>

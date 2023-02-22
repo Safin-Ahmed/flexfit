@@ -17,146 +17,147 @@ import {
 } from '@mui/material';
 
 interface DisplayExerciseProps {
-  exerciseListValues: [IndividualExerciseData];
-
+  userExercise: any;
   isCreate: boolean;
-  deleteExercise: (id: string) => void;
-  getExerciseId: (id: string) => void;
-  status: (id: string) => void;
+  deleteExercise: (id: number) => void;
+  getExerciseId: (id: number) => void;
+  status: (id: number) => void;
 }
 
 const DisplayExercise = ({
-  exerciseListValues,
+  userExercise,
   deleteExercise,
   getExerciseId,
   isCreate,
   status,
 }: DisplayExerciseProps) => {
+  // console.log({ userExercise });
+
   return (
     <Stack>
-      {exerciseListValues.map((item, index) => (
-        <>
-          <Accordion key={item.exerciseId} sx={{ marginY: '1rem' }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Stack
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'start'}
-                gap={1}
+      <Accordion sx={{ marginY: '1rem' }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Stack
+            direction={'row'}
+            alignItems={'center'}
+            justifyContent={'start'}
+            gap={1}
+          >
+            <Typography variant="h6" mr={1}>
+              {userExercise?.attributes?.exercise?.data?.attributes?.title}{' '}
+            </Typography>
+            {userExercise?.attributes?.reps && (
+              <Typography mr={1}>
+                {userExercise?.attributes?.sets} *{' '}
+                {userExercise?.attributes?.reps}
+              </Typography>
+            )}
+            {userExercise?.attributes?.isCompleted ? (
+              <Typography
+                border={1}
+                borderRadius={3}
+                px={1}
+                bgcolor={'#658864'}
+                sx={{ color: 'white' }}
               >
-                <Typography variant="h6" mr={1}>
-                  {item.name}{' '}
-                </Typography>
-                {item.reps && (
-                  <Typography mr={1}>
-                    {item.sets} * {item.reps}
-                  </Typography>
-                )}
-                {item.isCompleted ? (
-                  <Typography
-                    border={1}
-                    borderRadius={3}
-                    px={1}
-                    bgcolor={'#658864'}
-                    sx={{ color: 'white' }}
-                  >
-                    Completed
-                  </Typography>
-                ) : (
-                  <Typography
-                    border={1}
-                    borderRadius={3}
-                    px={1}
-                    bgcolor={'#F48484'}
-                    sx={{ color: 'white' }}
-                  >
-                    Not Completed
-                  </Typography>
-                )}
-              </Stack>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Box mt={1} key={index}>
-                <Stack
-                  direction={'row'}
-                  justifyContent={'end'}
-                  alignItems={'center'}
+                Completed
+              </Typography>
+            ) : (
+              <Typography
+                border={1}
+                borderRadius={3}
+                px={1}
+                bgcolor={'#F48484'}
+                sx={{ color: 'white' }}
+              >
+                Not Completed
+              </Typography>
+            )}
+          </Stack>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Box mt={1}>
+            <Stack
+              direction={'row'}
+              justifyContent={'end'}
+              alignItems={'center'}
+            >
+              <Stack direction={'row'} justifyContent={'start'}>
+                <Button
+                  color="warning"
+                  onClick={() => deleteExercise(userExercise?.id)}
                 >
-                  {/* <Typography variant="body1">{item.name}</Typography> */}
-                  <Stack direction={'row'} justifyContent={'start'}>
-                    <Button
-                      color="warning"
-                      onClick={() => deleteExercise(item.exerciseId)}
-                    >
-                      <DeleteForeverIcon />
-                    </Button>
-                    <Button
-                      disabled={isCreate}
-                      color="secondary"
-                      onClick={() => getExerciseId(item.exerciseId)}
-                    >
-                      <BorderColorIcon />
-                    </Button>
-                  </Stack>
-                </Stack>
-                <FormControlLabel
-                  sx={{ ml: 1 }}
-                  control={
-                    <Checkbox
-                      name="isComplete"
-                      //@ts-ignore
-                      onChange={() => status(item.exerciseId)}
-                    />
-                  }
-                  label="Completed"
+                  <DeleteForeverIcon />
+                </Button>
+                <Button
+                  disabled={isCreate}
+                  color="secondary"
+                  onClick={() => getExerciseId(userExercise?.id)}
+                >
+                  <BorderColorIcon />
+                </Button>
+              </Stack>
+            </Stack>
+
+            {/* Is complete button=============  */}
+            <FormControlLabel
+              sx={{ ml: 1 }}
+              control={
+                <Checkbox
+                  name="isComplete"
+                  //@ts-ignore
+                  onChange={() => status(userExercise?.id)}
                 />
-                <Box sx={{ textAlign: 'center' }}>
-                  <TextField
-                    sx={{ mt: 1 }}
-                    variant="filled"
-                    value={item.sets}
-                    color={'secondary'}
-                    label="Sets"
-                  />
-                  <TextField
-                    sx={{ ml: 1, mt: 1 }}
-                    variant="filled"
-                    value={item.weight}
-                    color={'secondary'}
-                    label="Weight"
-                  />
-                  <TextField
-                    sx={
-                      item.time
-                        ? { mt: 1, display: 'none' }
-                        : { display: 'block', mt: 1 }
-                    }
-                    variant="filled"
-                    value={item.reps}
-                    color={'secondary'}
-                    label="Reps : "
-                  />
-                  <TextField
-                    sx={
-                      item.reps
-                        ? { mt: 1, display: 'none' }
-                        : { display: 'block' }
-                    }
-                    variant="filled"
-                    value={item.time}
-                    color={'secondary'}
-                    label="Time : "
-                  />
-                </Box>
-              </Box>
-            </AccordionDetails>
-          </Accordion>
-        </>
-      ))}
+              }
+              label="Completed"
+            />
+            {/* Is complete button=============  */}
+
+            <Box sx={{ textAlign: 'center' }}>
+              <TextField
+                sx={{ mt: 1 }}
+                variant="filled"
+                value={userExercise?.attributes?.sets}
+                color={'secondary'}
+                label="Sets"
+              />
+              <TextField
+                sx={{ ml: 1, mt: 1 }}
+                variant="filled"
+                value={userExercise?.attributes?.weight}
+                color={'secondary'}
+                label="Weight"
+              />
+              <TextField
+                sx={
+                  userExercise?.attributes?.time
+                    ? { mt: 1, display: 'none' }
+                    : { display: 'block', mt: 1 }
+                }
+                variant="filled"
+                value={userExercise?.attributes?.reps}
+                color={'secondary'}
+                label="Reps : "
+              />
+              <TextField
+                sx={
+                  userExercise?.attributes?.reps
+                    ? { mt: 1, display: 'none' }
+                    : { mt: 1, display: 'block' }
+                }
+                variant="filled"
+                value={userExercise?.attributes?.time}
+                color={'secondary'}
+                label="Time : "
+              />
+            </Box>
+          </Box>
+        </AccordionDetails>
+      </Accordion>
     </Stack>
   );
 };
