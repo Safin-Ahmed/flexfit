@@ -52,6 +52,12 @@
       "relation": "oneToMany",
       "target": "api::routine.routine",
       "mappedBy": "workout"
+    },
+    "weekend": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::weekend.weekend",
+      "mappedBy": "workout"
     }
   }
 }

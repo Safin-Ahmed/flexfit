@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 module.exports = {
   /**
@@ -16,5 +16,12 @@ module.exports = {
    * This gives you an opportunity to set up your data model,
    * run jobs, or perform some special logic.
    */
-  bootstrap(/*{ strapi }*/) {},
+  async bootstrap({ strapi }) {
+    const scheduler = strapi.plugins["scheduler"].services.myService;
+    const res = await scheduler.create({
+      name: "sendReminderEmail",
+      task: "sendReminderEmail.execute",
+      options: "sendReminderEmail.options",
+    });
+  },
 };
