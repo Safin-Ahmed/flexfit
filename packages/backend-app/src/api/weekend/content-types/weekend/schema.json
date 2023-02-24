@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "weekends",
+  "info": {
+    "singularName": "weekend",
+    "pluralName": "weekends",
+    "displayName": "weekends",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "weekdays": {
+      "type": "json"
+    },
+    "workout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::workout.workout",
+      "inversedBy": "weekend"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
