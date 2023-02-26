@@ -1,61 +1,53 @@
 import React from 'react';
-const shortid = require('shortid');
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
-const RoutineData = {
-  id: '',
-  routineTitle: '',
-};
-
-interface FormData {
-  id: string;
-  routineTitle: string;
-}
+import { RoutineData } from '../types';
 
 interface RoutineFormProps {
-  liftRoutineData: (data: object) => void;
+  liftAndCreateRoutine: (data: object) => void;
   handleClose: () => void;
-  updateRoutine: () => void;
-  dataHolder: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  updateRoutine: (formData: object) => void;
   open: boolean;
   isUpdate: boolean;
-  updateData: object;
 }
 
 const RoutineForm = ({
-  liftRoutineData,
+  liftAndCreateRoutine,
   handleClose,
   open,
   isUpdate,
   updateRoutine,
-  dataHolder,
-  updateData,
 }: RoutineFormProps) => {
-  const [routineFormValue, setRoutineFormValue] = React.useState<FormData>({
-    ...RoutineData,
+  const [routineFormValue, setRoutineFormValue] = React.useState<RoutineData>({
+    routineTitle: '',
   });
   //@ts-ignore
   const handleChange = (e: React.SelectChangeEvent<string>) => {
     setRoutineFormValue((prev) => ({
       ...prev,
-      id: shortid.generate(),
       routineTitle: e.target.value,
     }));
   };
 
-  const handleSubmit = () => {
+  const createRoutine = () => {
+    //@ts-ignore
     if (routineFormValue.routineTitle) {
-      liftRoutineData(routineFormValue);
+      //@ts-ignore
+      liftAndCreateRoutine(routineFormValue);
     }
 
-    setRoutineFormValue(RoutineData);
+    // setRoutineFormValue({ routineTitle: '' });
+    handleClose();
+  };
+
+  const updateRoutineData = () => {
+    if (isUpdate) {
+      updateRoutine(routineFormValue);
+    }
     handleClose();
   };
   return (
@@ -63,39 +55,25 @@ const RoutineForm = ({
       <Dialog open={open} onClose={handleClose} fullWidth={true}>
         <DialogTitle>{isUpdate ? 'Edit Title' : 'Your Title'}</DialogTitle>
         <DialogContent>
-          {isUpdate ? (
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Update Routine Title"
-              type="text"
-              fullWidth
-              variant="standard"
-              //@ts-ignore
-              value={updateData.routineTitle}
-              onChange={(e) => dataHolder(e)}
-            />
-          ) : (
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Routine Title"
-              type="text"
-              fullWidth
-              variant="standard"
-              value={routineFormValue.routineTitle}
-              onChange={handleChange}
-            />
-          )}
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label={isUpdate ? 'Update Routine Title' : 'Routine Title'}
+            type="text"
+            fullWidth
+            variant="standard"
+            //@ts-ignore
+            value={routineFormValue.routineTitle}
+            onChange={handleChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {isUpdate ? (
-            <Button onClick={updateRoutine}>Update</Button>
+            <Button onClick={updateRoutineData}>Update</Button>
           ) : (
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button onClick={createRoutine}>Create</Button>
           )}
         </DialogActions>
       </Dialog>

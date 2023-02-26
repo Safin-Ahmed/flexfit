@@ -1,66 +1,85 @@
 'use client';
 import * as React from 'react';
-import {
-  Box,
-  Button,
-  Chip,
-  Divider,
-  TextField,
-  Typography,
-} from '@mui/material';
-import Stack from '@mui/material/Stack';
+import { Button, Chip, Divider, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import SingleWorkout from '../SingleWorkout/SingleWorkout';
-const shortid = require('shortid');
-
-export interface WorkoutData {
-  id: string;
-  order: number;
-  title: string;
-  startDate: Date;
-  finishDate: string;
-}
-[];
+import WorkoutForm from './WorkoutForm';
+import CancelIcon from '@mui/icons-material/Cancel';
+import {
+  useAddWorkoutMutation,
+  useDeleteSingleWorkoutMutation,
+  useGetAllWorkoutsQuery,
+  useUpdateSingleWorkoutMutation,
+} from '@redux/features/api/workouts-api';
 
 const Workouts = () => {
-  const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
+  //RTK===================
+  //create
+  const [addWorkout, { isError, isLoading, isSuccess }] =
+    useAddWorkoutMutation();
 
-  const [inputValue, setInputValue] = React.useState('');
-  const [inputDate, setInputDate] = React.useState('');
+  //get
+  const { data: allWorkouts } = useGetAllWorkoutsQuery();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
-  const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-    console.log(inputDate);
-  };
+  //delete
+  const [deleteSingleWorkout, { isSuccess: isDeleteSuccess }] =
+    useDeleteSingleWorkoutMutation();
 
-  //create workouts
-  //////////////////////
-  const createWorkouts = () => {
-    let updatedIdAndOrder = workouts.length + 1;
-    setWorkouts([
-      ...workouts,
-      {
-        id: shortid.generate(),
-        order: updatedIdAndOrder,
-        title: inputValue,
-        startDate: new Date(),
-        finishDate: inputDate,
+  //update
+  const [updateSingleWorkout, { isSuccess: isUpdateSuccess }] =
+    useUpdateSingleWorkoutMutation();
+  //RTK===================
+
+  const [isAdd, setIsAdd] = React.useState(false);
+
+  // For Update States
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  const [workoutId, setWorkoutId] = React.useState(0);
+
+  //lift and create workouts
+  ///////////////////////////
+  const liftCreateWorkouts = (formData: object) => {
+    //closing the workout form
+    setIsAdd(false);
+    const payload = {
+      data: {
+        //@ts-ignore
+        title: formData.title,
+        //@ts-ignore
+        endDate: formData.endDate,
       },
-    ]);
+    };
+    addWorkout(payload);
+  };
 
-    setInputValue('');
+  // get workout id to update the workout
+  const getWorkoutId = (id: number) => {
+    setWorkoutId(id);
+    setIsUpdate(!isUpdate);
+  };
 
-    console.log({ workouts });
+  //edit or update your workouts
+  ///////////////////////////////
+  const updateWorkout = (formData: object) => {
+    setIsUpdate(!isUpdate);
+
+    const payload = {
+      data: {
+        //@ts-ignore
+        title: formData.title,
+        //@ts-ignore
+        endDate: formData.endDate,
+      },
+    };
+
+    updateSingleWorkout({ workoutId, data: payload });
   };
 
   //delete a single workout
   //////////////////////////////
-  const deleteWorkout = (id: string) => {
-    const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
-    setWorkouts(updatedWorkouts);
+  const deleteWorkout = (id: number) => {
+    deleteSingleWorkout(id);
   };
 
   return (
@@ -70,53 +89,92 @@ const Workouts = () => {
       </Typography>
       <Divider variant="middle" />
 
-      <Box>
-        <Typography variant="h5" my={3}>
-          Create & Customize your Workouts
-        </Typography>
+      <Typography variant="h5" my={3}>
+        Create & Customize your Workouts
+      </Typography>
 
-        <TextField
-          label="Title"
-          name="title"
-          variant="filled"
-          color="primary"
-          focused
-          value={inputValue}
-          onChange={handleChange}
-        />
-        <br />
-        <br />
-        {/* <input type={'date'} value={inputDate} onChange={handleChangeDate} /> */}
-
+      {!isAdd ? (
         <Button
           variant="contained"
-          sx={{ display: 'block', marginTop: '.5rem' }}
-          onClick={createWorkouts}
+          color="info"
+          sx={isUpdate ? { display: 'none' } : { my: '1rem', display: 'block' }}
+          onClick={() => setIsAdd(!isAdd)}
+          disabled={isUpdate}
         >
-          Create Workout
+          Add Your Workouts
         </Button>
-      </Box>
+      ) : (
+        <Button
+          variant="outlined"
+          color="warning"
+          sx={{ my: '1rem' }}
+          onClick={() => setIsAdd(!isAdd)}
+          disabled={isUpdate}
+        >
+          <CancelIcon /> Cancel
+        </Button>
+      )}
+
+      {isUpdate && (
+        <Button
+          variant="outlined"
+          color="warning"
+          onClick={() => setIsUpdate(!isUpdate)}
+        >
+          <CancelIcon /> Cancel Update
+        </Button>
+      )}
+
+      {!isUpdate && isAdd && (
+        <WorkoutForm
+          liftCreateWorkouts={liftCreateWorkouts}
+          updateWorkout={updateWorkout}
+          isUpdate={isUpdate}
+        />
+      )}
+
+      {!isAdd && isUpdate && (
+        <WorkoutForm
+          liftCreateWorkouts={liftCreateWorkouts}
+          updateWorkout={updateWorkout}
+          isUpdate={isUpdate}
+        />
+      )}
 
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
 
-      <Stack
-        direction="row"
-        mt={4}
-        justifyContent="start"
-        alignItems="center"
-        spacing={3}
-      >
-        {workouts &&
-          workouts.map((workout) => (
-            <SingleWorkout
-              deleteWorkout={deleteWorkout}
-              workout={workout}
-              key={workout.id}
-            />
-          ))}
-      </Stack>
+      {allWorkouts?.length ? (
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {allWorkouts &&
+            allWorkouts.map((workout: any) => (
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                //@ts-ignore
+                key={workout.id}
+              >
+                <SingleWorkout
+                  deleteWorkout={deleteWorkout}
+                  workout={workout}
+                  getWorkoutId={getWorkoutId}
+                />
+              </Grid>
+            ))}
+        </Grid>
+      ) : (
+        <Typography>Nothing to show. Please create one...</Typography>
+      )}
     </Container>
   );
 };
