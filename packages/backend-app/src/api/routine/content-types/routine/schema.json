@@ -37,6 +37,10 @@
       "relation": "manyToOne",
       "target": "api::workout.workout",
       "inversedBy": "routines"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
