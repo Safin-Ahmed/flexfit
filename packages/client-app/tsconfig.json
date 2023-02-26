@@ -35,8 +35,11 @@
       "@components/*": [
         "./components/*"
       ],
-      "@data/*": [
-        "./data/*"
+      "@layout/*": [
+        "./layout/*"
+      ],
+      "@styles/*": [
+        "./styles/*"
       ],
       "@shared/*": [
         "./shared/*"

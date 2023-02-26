@@ -1,0 +1,33 @@
+.sidebar {
+  .sidebar__logo {
+    padding: 0.5rem 0;
+  }
+
+  .profile {
+    margin: 1rem 0;
+  }
+
+  .list {
+    margin-bottom: 0.5rem;
+
+    .icon {
+    }
+
+    .text {
+      margin-left: -1rem !important;
+    }
+  }
+
+  .logout__btn {
+    margin-top: 20vh;
+  }
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.active {
+  background: #eeeeee;
+}
