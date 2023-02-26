@@ -1,7 +1,6 @@
 import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import {
   Avatar,
@@ -15,8 +14,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useGetUserProfileQuery } from "@redux/features/api/profile/profileApi";
 import { SwitchButton } from "@shared/switch";
 import styles from "@styles/dashboard-layout.module.scss";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -28,19 +29,14 @@ const navLinks = [
     icon: <OtherHousesOutlinedIcon />,
   },
   {
-    name: "Workout",
-    link: "/dashboard/workout",
+    name: "Workouts",
+    link: "/dashboard/workouts",
     icon: <FitnessCenterOutlinedIcon />,
   },
   {
     name: "Progress",
     link: "/dashboard/progress",
     icon: <InsightsOutlinedIcon />,
-  },
-  {
-    name: "Reminder",
-    link: "/dashboard/reminder",
-    icon: <NotificationsActiveOutlinedIcon />,
   },
 ];
 
@@ -51,6 +47,10 @@ const DashboardLayout = ({
 }): JSX.Element => {
   // Path name
   const pathName = usePathname();
+
+  // Get user profile info
+  const { data: profileInfo } = useGetUserProfileQuery();
+  console.log(profileInfo?.avatar?.url);
 
   return (
     <Grid container spacing={2}>
@@ -83,7 +83,16 @@ const DashboardLayout = ({
           <Box className={styles.profile}>
             <Link href="/dashboard/profile" className={styles.link}>
               <Box component="center">
-                <Avatar sx={{ width: 80, height: 80 }} />
+                {profileInfo?.avatar ? (
+                  <Image
+                    src={profileInfo?.avatar?.url}
+                    width={80}
+                    height={80}
+                    alt="Profile Picture"
+                  />
+                ) : (
+                  <Avatar sx={{ width: 80, height: 80 }} />
+                )}
               </Box>
             </Link>
 

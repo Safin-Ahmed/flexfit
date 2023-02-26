@@ -1,17 +1,16 @@
-'use client';
-import * as React from 'react';
-import { Button, Chip, Divider, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import SingleWorkout from '../SingleWorkout/SingleWorkout';
-import WorkoutForm from './WorkoutForm';
-import CancelIcon from '@mui/icons-material/Cancel';
+"use client";
+import CancelIcon from "@mui/icons-material/Cancel";
+import { Box, Button, Chip, Divider, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import {
   useAddWorkoutMutation,
   useDeleteSingleWorkoutMutation,
   useGetAllWorkoutsQuery,
   useUpdateSingleWorkoutMutation,
-} from '@redux/features/api/workouts-api';
+} from "@redux/features/api/workouts-api";
+import * as React from "react";
+import SingleWorkout from "../SingleWorkout/SingleWorkout";
+import WorkoutForm from "./WorkoutForm";
 
 const Workouts = () => {
   //RTK===================
@@ -83,11 +82,11 @@ const Workouts = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h2" sx={{ textAlign: 'center' }}>
+    <Box>
+      <Typography variant="h5" fontWeight={700} gutterBottom>
         Workouts
       </Typography>
-      <Divider variant="middle" />
+      <Divider />
 
       <Typography variant="h5" my={3}>
         Create & Customize your Workouts
@@ -97,7 +96,7 @@ const Workouts = () => {
         <Button
           variant="contained"
           color="info"
-          sx={isUpdate ? { display: 'none' } : { my: '1rem', display: 'block' }}
+          sx={isUpdate ? { display: "none" } : { my: "1rem", display: "block" }}
           onClick={() => setIsAdd(!isAdd)}
           disabled={isUpdate}
         >
@@ -107,7 +106,7 @@ const Workouts = () => {
         <Button
           variant="outlined"
           color="warning"
-          sx={{ my: '1rem' }}
+          sx={{ my: "1rem" }}
           onClick={() => setIsAdd(!isAdd)}
           disabled={isUpdate}
         >
@@ -141,7 +140,7 @@ const Workouts = () => {
         />
       )}
 
-      <Divider sx={{ marginY: '2rem' }}>
+      <Divider sx={{ marginY: "2rem" }}>
         <Chip label="Your Workout List" />
       </Divider>
 
@@ -175,7 +174,7 @@ const Workouts = () => {
       ) : (
         <Typography>Nothing to show. Please create one...</Typography>
       )}
-    </Container>
+    </Box>
   );
 };
 

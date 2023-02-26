@@ -1,56 +1,42 @@
 "use client";
 
+import PieChart from "@components/pie-chart/pie-chart";
 import DashboardLayout from "@layout/DashboardLayout";
-import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
-import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
-import {
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
+import { useGetUserProfileQuery } from "@redux/features/api/profile/profileApi";
+import { useGetAllWorkoutsQuery } from "@redux/features/api/workouts-api";
 import PageHead from "@shared/head";
 import styles from "@styles/dashboard.module.scss";
-import Link from "next/link";
-
-const navLinks = [
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    icon: <OtherHousesOutlinedIcon />,
-  },
-  {
-    name: "Workout",
-    link: "/dashboard/workout",
-    icon: <FitnessCenterOutlinedIcon />,
-  },
-  {
-    name: "Progress",
-    link: "/dashboard/progress",
-    icon: <InsightsOutlinedIcon />,
-  },
-  {
-    name: "Reminder",
-    link: "/dashboard/reminder",
-    icon: <NotificationsActiveOutlinedIcon />,
-  },
-];
 
 const Dashboard = (): JSX.Element => {
+  // Get user profile
+  const { data: userInfo } = useGetUserProfileQuery();
+
+  // Get all workouts
+  const { data: workoutData } = useGetAllWorkoutsQuery();
+
   return (
     <>
       <PageHead title="Dashboard" />
 
       <DashboardLayout>
-        <h3>Dashboard</h3>
-     </DashboardLayout>
+        <Box className={styles.content__wrapper}>
+          <Typography variant="h5" fontWeight={600} gutterBottom>
+            Dashboard
+          </Typography>
+          <Divider />
+
+          <Typography className={styles.wc__msg} variant="h4">
+            Welcome {userInfo?.username || "Brother"}
+          </Typography>
+
+          <Box className={styles.content}>
+            <Box className={styles["progress__chart"]}>
+              <PieChart workoutData={workoutData} />
+            </Box>
+          </Box>
+        </Box>
+      </DashboardLayout>
     </>
   );
 };

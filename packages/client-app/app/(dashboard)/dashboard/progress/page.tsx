@@ -10,40 +10,24 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
+import { useGetAllWorkoutsQuery } from "@redux/features/api/workouts-api";
 import PageHead from "@shared/head";
 import styles from "@styles/progress.module.scss";
 import { getRoutineProgress } from "@utils/getRoutineProgress";
 import { getWorkoutProgress } from "@utils/getWorkoutProgress";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
 const Progress: React.FC = () => {
-  const [workoutData, setWorkoutData] = useState([]);
-
-  useEffect(() => {
-    const getWorkoutInfo = async () => {
-      const res = await fetch(
-        "http://localhost:1337/api/workouts?populate=deep",
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTH_TOKEN}`,
-          },
-        }
-      );
-      const workoutInfo = await res.json();
-      setWorkoutData(workoutInfo.data);
-    };
-    getWorkoutInfo();
-  }, []);
+  // Get all workouts
+  const { data: workoutData } = useGetAllWorkoutsQuery();
 
   // @ts-ignore
   const result = getRoutineProgress(workoutData);
 
   return (
     <>
-      <PageHead title="Dashboard || User Progress" />
+      <PageHead title="Dashboard | User Progress" />
 
       <DashboardLayout>
         <Box className={styles.progress__wrapper}>
