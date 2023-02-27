@@ -25,6 +25,8 @@ const Progress: React.FC = () => {
   // @ts-ignore
   const result = getRoutineProgress(workoutData);
 
+  console.log(workoutData);
+
   return (
     <>
       <PageHead title="Dashboard | User Progress" />

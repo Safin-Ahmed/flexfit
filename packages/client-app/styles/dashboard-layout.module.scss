@@ -5,6 +5,12 @@
 
   .profile {
     margin: 1rem 0;
+
+    .profile__pic {
+      width: 90px;
+      height: 90px;
+      border-radius: 100%;
+    }
   }
 
   .list {

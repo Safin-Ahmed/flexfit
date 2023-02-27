@@ -50,7 +50,6 @@ const DashboardLayout = ({
 
   // Get user profile info
   const { data: profileInfo } = useGetUserProfileQuery();
-  console.log(profileInfo?.avatar?.url);
 
   return (
     <Grid container spacing={2}>
@@ -85,13 +84,14 @@ const DashboardLayout = ({
               <Box component="center">
                 {profileInfo?.avatar ? (
                   <Image
+                    className={styles.profile__pic}
                     src={profileInfo?.avatar?.url}
-                    width={80}
-                    height={80}
+                    width={90}
+                    height={90}
                     alt="Profile Picture"
                   />
                 ) : (
-                  <Avatar sx={{ width: 80, height: 80 }} />
+                  <Avatar sx={{ width: 90, height: 90 }} />
                 )}
               </Box>
             </Link>
