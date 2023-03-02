@@ -67,71 +67,85 @@ const DashboardLayout = ({
           anchor="left"
           className={styles.sidebar}
         >
-          <Box>
-            <Typography
-              className={styles.sidebar__logo}
-              variant="h5"
-              align="center"
-              fontWeight={700}
-            >
-              FlexFit
-            </Typography>
-            <Divider />
-          </Box>
-
-          <Box className={styles.profile}>
-            <Link href="/dashboard/profile" className={styles.link}>
-              <Box component="center">
-                {profileInfo?.avatar ? (
-                  <Image
-                    className={styles.profile__pic}
-                    src={profileInfo?.avatar?.url}
-                    width={90}
-                    height={90}
-                    alt="Profile Picture"
-                  />
-                ) : (
-                  <Avatar sx={{ width: 90, height: 90 }} />
-                )}
-              </Box>
-            </Link>
-
-            <Box component="center" sx={{ mt: 2 }}>
-              <SwitchButton />
-            </Box>
-          </Box>
-
-          <List>
-            {navLinks.map((route) => (
-              <Link
-                key={Math.random()}
-                className={styles.link}
-                href={route.link}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100vh",
+            }}
+          >
+            <Box>
+              <Typography
+                className={styles.sidebar__logo}
+                variant="h5"
+                align="center"
+                fontWeight={700}
               >
-                <ListItemButton
-                  className={
-                    pathName === route.link
-                      ? `${styles.list} ${styles.active}`
-                      : styles.list
-                  }
-                  disableRipple
-                >
-                  <ListItemIcon>{route.icon}</ListItemIcon>
-                  <ListItemText className={styles.text} primary={route.name} />
-                </ListItemButton>
-              </Link>
-            ))}
+                FlexFit
+              </Typography>
+              <Divider />
 
-            <ListItemButton
-              className={`${styles.list} ${styles.logout__btn}`}
-              disableRipple
-            >
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText className={styles.text} primary="Logout" />
-            </ListItemButton>
-          </List>
+              <Box className={styles.profile}>
+                <Link href="/dashboard/profile" className={styles.link}>
+                  <Box component="center">
+                    {profileInfo?.avatar ? (
+                      <Image
+                        className={styles.profile__pic}
+                        src={profileInfo?.avatar?.url}
+                        width={90}
+                        height={90}
+                        alt="Profile Picture"
+                      />
+                    ) : (
+                      <Avatar sx={{ width: 90, height: 90 }} />
+                    )}
+                  </Box>
+                </Link>
+
+                <Box component="center" sx={{ mt: 2 }}>
+                  <SwitchButton />
+                </Box>
+              </Box>
+
+              <List>
+                {navLinks.map((route) => (
+                  <Link
+                    key={Math.random()}
+                    className={styles.link}
+                    href={route.link}
+                  >
+                    <ListItemButton
+                      className={
+                        pathName === route.link
+                          ? `${styles.list} ${styles.active}`
+                          : styles.list
+                      }
+                      disableRipple
+                    >
+                      <ListItemIcon>{route.icon}</ListItemIcon>
+                      <ListItemText
+                        className={styles.text}
+                        primary={route.name}
+                      />
+                    </ListItemButton>
+                  </Link>
+                ))}
+              </List>
+            </Box>
+
+            <List>
+              <ListItemButton
+                className={`${styles.list} ${styles.logout__btn}`}
+                disableRipple
+              >
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.text} primary="Logout" />
+              </ListItemButton>
+            </List>
+          </Box>
         </Drawer>
       </Grid>
       <Grid item md={10}>
