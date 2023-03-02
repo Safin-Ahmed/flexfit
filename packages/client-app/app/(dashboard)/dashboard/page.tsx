@@ -1,24 +1,14 @@
 "use client";
 
+import { useAppSelector } from "@hooks/reduxHooks";
 import DashboardLayout from "@layout/DashboardLayout";
 import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
-import {
-  Box,
-  Divider,
-  Drawer,
-  Grid,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
 import PageHead from "@shared/head";
-import styles from "@styles/dashboard.module.scss";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const navLinks = [
   {
@@ -44,13 +34,28 @@ const navLinks = [
 ];
 
 const Dashboard = (): JSX.Element => {
+  const auth = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (!auth.isAuthenticated) {
+      router.replace("/auth");
+      return;
+    }
+    setIsLoading(false);
+    return;
+  }, [auth.isAuthenticated]);
   return (
     <>
       <PageHead title="Dashboard" />
 
-      <DashboardLayout>
-        <h3>Dashboard</h3>
-     </DashboardLayout>
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <DashboardLayout>
+          <h3>Dashboard</h3>
+        </DashboardLayout>
+      )}
     </>
   );
 };

@@ -1,3 +1,5 @@
+"use client";
+import { useAppDispatch } from "@hooks/reduxHooks";
 import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -15,6 +17,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { logout } from "@redux/features/Auth";
 import { SwitchButton } from "@shared/switch";
 import styles from "@styles/dashboard-layout.module.scss";
 import Link from "next/link";
@@ -51,6 +54,7 @@ const DashboardLayout = ({
 }): JSX.Element => {
   // Path name
   const pathName = usePathname();
+  const dispatch = useAppDispatch();
 
   return (
     <Grid container spacing={2}>
@@ -116,6 +120,7 @@ const DashboardLayout = ({
             <ListItemButton
               className={`${styles.list} ${styles.logout__btn}`}
               disableRipple
+              onClick={() => dispatch(logout())}
             >
               <ListItemIcon>
                 <LogoutIcon />
