@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import SingleWorkout from '../SingleWorkout/SingleWorkout';
+import SingleWorkout from './SingleWorkout/SingleWorkout';
 import WorkoutForm from './WorkoutForm';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {
@@ -12,6 +12,14 @@ import {
   useGetAllWorkoutsQuery,
   useUpdateSingleWorkoutMutation,
 } from '@redux/features/api/workouts-api';
+import {
+  useDeleteSingleRoutineMutation,
+  useGetAllRoutinesQuery,
+} from '@redux/features/api/routine-api';
+import {
+  useDeleteUserExerciseMutation,
+  useGetAllUserExercisesQuery,
+} from '@redux/features/api/userExercise-api';
 
 const Workouts = () => {
   //RTK===================
@@ -20,6 +28,7 @@ const Workouts = () => {
     useAddWorkoutMutation();
 
   //get
+  //@ts-ignore
   const { data: allWorkouts } = useGetAllWorkoutsQuery();
 
   //delete
@@ -29,6 +38,18 @@ const Workouts = () => {
   //update
   const [updateSingleWorkout, { isSuccess: isUpdateSuccess }] =
     useUpdateSingleWorkoutMutation();
+
+  //get all routines
+  const { data: allRoutines } = useGetAllRoutinesQuery();
+
+  //delete a routine
+  const [deleteSingleRoutine] = useDeleteSingleRoutineMutation();
+
+  //get all exercises
+  const { data: allUserExercises } = useGetAllUserExercisesQuery();
+
+  //delete a exercise
+  const [deleteUserExercise] = useDeleteUserExerciseMutation();
   //RTK===================
 
   const [isAdd, setIsAdd] = React.useState(false);
@@ -80,6 +101,18 @@ const Workouts = () => {
   //////////////////////////////
   const deleteWorkout = (id: number) => {
     deleteSingleWorkout(id);
+
+    //delete related routines
+    allRoutines?.data?.map((routine: any) => {
+      if (routine?.attributes?.workout?.data?.id === id) {
+        allUserExercises?.map((userExercise: any) => {
+          if (userExercise?.attributes?.routine?.data?.id === routine?.id) {
+            deleteUserExercise(userExercise?.id);
+          }
+        });
+        deleteSingleRoutine(routine?.id);
+      }
+    });
   };
 
   return (
@@ -144,7 +177,7 @@ const Workouts = () => {
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
-
+      {/* @ts-ignore */}
       {allWorkouts?.length ? (
         <Grid
           container
@@ -154,7 +187,7 @@ const Workouts = () => {
           justifyContent="center"
           alignItems="center"
         >
-          {allWorkouts &&
+          {allWorkouts && //@ts-ignore
             allWorkouts.map((workout: any) => (
               <Grid
                 item

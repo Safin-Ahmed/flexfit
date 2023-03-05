@@ -5,6 +5,10 @@ import {
   useGetAllRoutinesQuery,
   useUpdateSingleRoutineMutation,
 } from '@redux/features/api/routine-api';
+import {
+  useDeleteUserExerciseMutation,
+  useGetAllUserExercisesQuery,
+} from '@redux/features/api/userExercise-api';
 import React from 'react';
 import DisplayRoutines from './DisplayRoutines';
 import RoutineForm from './RoutineForm';
@@ -27,6 +31,12 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
 
   //update or edit a routine
   const [updateSingleRoutine] = useUpdateSingleRoutineMutation();
+
+  //get all exercises
+  const { data: allUserExercises } = useGetAllUserExercisesQuery();
+
+  //delete a exercise
+  const [deleteUserExercise] = useDeleteUserExerciseMutation();
 
   //RTK========================
 
@@ -91,6 +101,13 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   ///////////////////////////
   const deleteRoutine = (id: number) => {
     deleteSingleRoutine(id);
+
+    //delete related exercises
+    allUserExercises?.map((userExercise: any) => {
+      if (userExercise?.attributes?.routine?.data?.id === id) {
+        deleteUserExercise(userExercise?.id);
+      }
+    });
   };
 
   return (
