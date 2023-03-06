@@ -16,21 +16,31 @@ interface ExerciseFormProps {
   UpdateExercise: (data: object) => void;
   exercises: any;
   routineId: any;
+  userExercise: any;
 }
 
 const ExerciseForm = ({
   formData,
   isUpdate,
-  isCreate,
   UpdateExercise,
   exercises,
   routineId,
+  userExercise,
 }: ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState<IndividualExerciseData>(
     //@ts-ignore
     {}
   );
+  const [updateForm, setUpdateForm] = React.useState({
+    exercise: userExercise?.data?.attributes?.exercise?.data?.id,
+    sets: userExercise?.data?.attributes?.sets,
+    weight: userExercise?.data?.attributes?.weight,
+    reps: userExercise?.data?.attributes?.reps || 0,
+    time: userExercise?.data?.attributes?.time || 0,
+  });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
+
+  console.log('From form: ', userExercise);
 
   const handleChange = (
     //@ts-ignore
@@ -42,6 +52,20 @@ const ExerciseForm = ({
       routine: routineId,
     }));
   };
+
+  const handleChangeToUpdate = (e: any) => {
+    console.log(e.target.value);
+
+    if (isUpdate) {
+      setUpdateForm((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+        routine: routineId,
+      }));
+    }
+  };
+
+  console.log({ updateForm });
 
   const create = () => {
     setFormIsOpen(!formIsOpen);
@@ -59,7 +83,7 @@ const ExerciseForm = ({
 
   const update = () => {
     if (isUpdate) {
-      UpdateExercise(formValues);
+      UpdateExercise(updateForm);
     }
   };
 
@@ -70,100 +94,196 @@ const ExerciseForm = ({
         maxWidth: '500px',
       }}
     >
-      <FormControl>
-        <Divider sx={{ my: '1rem' }} />
+      {isUpdate ? (
+        <FormControl>
+          <Divider sx={{ my: '1rem' }} />
 
-        <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-select-small">Select Exercise</InputLabel>
-          <Select
-            name="exercise"
-            label="Select one"
-            value={formValues?.exercise}
-            onChange={handleChange}
+          <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Select Exercise</InputLabel>
+            <Select
+              name="exercise"
+              label="Select one"
+              value={updateForm?.exercise}
+              onChange={(e) => handleChangeToUpdate(e)}
+              fullWidth={true}
+            >
+              {
+                //@ts-ignore
+                exercises?.map((item: any) => {
+                  return (
+                    <MenuItem key={item?.id} value={item?.id}>
+                      {item?.attributes?.title}
+                    </MenuItem>
+                  );
+                })
+              }
+            </Select>
+          </FormControl>
+
+          <br />
+
+          <TextField
             fullWidth={true}
-          >
-            {
-              //@ts-ignore
-              exercises?.map((item: any) => {
-                return (
-                  <MenuItem key={item?.id} value={item?.id}>
-                    {item?.attributes?.title}
-                  </MenuItem>
-                );
-              })
+            label="Sets"
+            variant="filled"
+            type={'number'}
+            value={updateForm?.sets}
+            onChange={(e) => handleChangeToUpdate(e)}
+            name="sets"
+            sx={{ mt: 1, width: '300px' }}
+          />
+          <br />
+          <br />
+
+          <TextField
+            fullWidth={true}
+            label="Weight"
+            variant="filled"
+            type={'number'}
+            value={updateForm?.weight}
+            onChange={(e) => handleChangeToUpdate(e)}
+            name="weight"
+            sx={{ mt: 1 }}
+          />
+          <br />
+          <Typography>Please fill any one of the following:</Typography>
+
+          <TextField
+            fullWidth={true}
+            label="Reps"
+            variant="filled"
+            type={'number'}
+            value={updateForm?.reps}
+            onChange={(e) => handleChangeToUpdate(e)}
+            name="reps"
+            sx={
+              updateForm?.time
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
             }
-          </Select>
+          />
+          <br />
+          <TextField
+            fullWidth={true}
+            label="Time"
+            variant="filled"
+            type={'number'}
+            value={updateForm?.time}
+            onChange={(e) => handleChangeToUpdate(e)}
+            name="time"
+            sx={
+              updateForm?.reps
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
+            }
+          />
+
+          <br />
+          <br />
+          <Button variant="contained" color="success" onClick={update}>
+            Update
+          </Button>
         </FormControl>
+      ) : (
+        <FormControl>
+          <Divider sx={{ my: '1rem' }} />
 
-        <br />
+          <FormControl sx={{ my: 1, minWidth: 120 }} size="small">
+            <InputLabel id="demo-select-small">Select Exercise</InputLabel>
+            <Select
+              name="exercise"
+              label="Select one"
+              value={formValues?.exercise}
+              onChange={handleChange}
+              fullWidth={true}
+            >
+              {
+                //@ts-ignore
+                exercises?.map((item: any) => {
+                  return (
+                    <MenuItem key={item?.id} value={item?.id}>
+                      {item?.attributes?.title}
+                    </MenuItem>
+                  );
+                })
+              }
+            </Select>
+          </FormControl>
 
-        <TextField
-          fullWidth={true}
-          label="Sets"
-          variant="filled"
-          type={'number'}
-          value={formValues?.sets}
-          onChange={handleChange}
-          name="sets"
-          sx={{ mt: 1, width: '300px' }}
-        />
-        <br />
-        <br />
+          <br />
 
-        <TextField
-          fullWidth={true}
-          label="Weight"
-          variant="filled"
-          type={'number'}
-          value={formValues?.weight}
-          onChange={handleChange}
-          name="weight"
-          sx={{ mt: 1 }}
-        />
-        <br />
-        <Typography>Please fill any one of the following:</Typography>
+          <TextField
+            fullWidth={true}
+            label="Sets"
+            variant="filled"
+            type={'number'}
+            value={formValues?.sets}
+            onChange={handleChange}
+            name="sets"
+            sx={{ mt: 1, width: '300px' }}
+          />
+          <br />
+          <br />
 
-        <TextField
-          fullWidth={true}
-          label="Reps"
-          variant="filled"
-          type={'number'}
-          value={formValues?.reps}
-          onChange={handleChange}
-          name="reps"
-          sx={
-            formValues?.time ? { display: 'none' } : { mt: 1, display: 'block' }
-          }
-        />
-        <br />
-        <TextField
-          fullWidth={true}
-          label="Time"
-          variant="filled"
-          type={'number'}
-          value={formValues?.time}
-          onChange={handleChange}
-          name="time"
-          sx={
-            formValues?.reps ? { display: 'none' } : { mt: 1, display: 'block' }
-          }
-        />
+          <TextField
+            fullWidth={true}
+            label="Weight"
+            variant="filled"
+            type={'number'}
+            value={formValues?.weight}
+            onChange={handleChange}
+            name="weight"
+            sx={{ mt: 1 }}
+          />
+          <br />
+          <Typography>Please fill any one of the following:</Typography>
 
-        <br />
-        <br />
+          <TextField
+            fullWidth={true}
+            label="Reps"
+            variant="filled"
+            type={'number'}
+            value={formValues?.reps}
+            onChange={handleChange}
+            name="reps"
+            sx={
+              formValues?.time
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
+            }
+          />
+          <br />
+          <TextField
+            fullWidth={true}
+            label="Time"
+            variant="filled"
+            type={'number'}
+            value={formValues?.time}
+            onChange={handleChange}
+            name="time"
+            sx={
+              formValues?.reps
+                ? { display: 'none' }
+                : { mt: 1, display: 'block' }
+            }
+          />
 
-        <Stack direction={'row'} justifyContent={'space-between'}>
-          {isUpdate ? (
-            <Button variant="contained" color="success" onClick={update}>
-              Update
-            </Button>
-          ) : (
-            <Button variant="contained" color="success" onClick={create}>
-              Submit
-            </Button>
-          )}
-        </Stack>
-      </FormControl>
+          <br />
+          <br />
+
+          <Stack direction={'row'} justifyContent={'space-between'}>
+            {isUpdate ? (
+              <Button variant="contained" color="success" onClick={update}>
+                Update
+              </Button>
+            ) : (
+              <Button variant="contained" color="success" onClick={create}>
+                Submit
+              </Button>
+            )}
+          </Stack>
+        </FormControl>
+      )}
     </Box>
   );
 };

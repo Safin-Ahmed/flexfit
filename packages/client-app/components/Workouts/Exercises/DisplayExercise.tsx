@@ -20,14 +20,14 @@ interface DisplayExerciseProps {
   userExercise: any;
   isCreate: boolean;
   deleteExercise: (id: number) => void;
-  getExerciseId: (id: number) => void;
+  getExercise: (data: object) => void;
   status: (id: number) => void;
 }
 
 const DisplayExercise = ({
   userExercise,
   deleteExercise,
-  getExerciseId,
+  getExercise,
   isCreate,
   status,
 }: DisplayExerciseProps) => {
@@ -103,7 +103,7 @@ const DisplayExercise = ({
                 <Button
                   disabled={isCreate}
                   color="secondary"
-                  onClick={() => getExerciseId(userExercise?.id)}
+                  onClick={() => getExercise(userExercise)}
                 >
                   <BorderColorIcon />
                 </Button>

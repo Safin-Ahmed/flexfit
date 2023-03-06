@@ -43,6 +43,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   //For Updating states
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [exerciseId, setExerciseId] = React.useState(0);
+  const [userExercise, setUserExercise] = React.useState({});
 
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [completeId, setCompleteId] = React.useState(0);
@@ -72,9 +73,11 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     setIsUpdate(!formCollapse);
   };
 
-  const getExerciseId = (id: number) => {
+  const getExercise = (data: object) => {
+    setUserExercise((prev) => ({ ...prev, data }));
+
     //@ts-ignore
-    setExerciseId(id);
+    setExerciseId(data?.id);
     setIsUpdate(!isUpdate);
   };
 
@@ -171,6 +174,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
           isUpdate={isUpdate}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          userExercise={userExercise}
         />
       )}
       {!isCreate && isUpdate && (
@@ -182,12 +186,13 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
           isUpdate={isUpdate}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          userExercise={userExercise}
         />
       )}
 
       <Typography mt={2} variant="h6">
         <Divider></Divider>
-        Your List: <Divider></Divider>
+        Your Exercises: <Divider></Divider>
       </Typography>
 
       {allUserExercises?.length ? (
@@ -202,7 +207,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
                 routineId={routineId}
                 deleteExercise={deleteExercise}
                 isCreate={isCreate}
-                getExerciseId={getExerciseId}
+                getExercise={getExercise}
                 status={status}
               />
             );
