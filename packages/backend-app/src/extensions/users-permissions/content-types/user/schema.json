@@ -63,7 +63,7 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "lavel": {
+    "level": {
       "type": "enumeration",
       "enum": [
         "Beginner",
@@ -77,11 +77,12 @@
       "min": 16
     },
     "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "workout_histories": {
       "type": "relation",
@@ -100,6 +101,18 @@
       "relation": "oneToMany",
       "target": "api::workout.workout",
       "mappedBy": "user"
+    },
+    "phoneNumber": {
+      "type": "integer"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female",
+        "Others"
+      ],
+      "default": "Male"
     }
   }
 }
