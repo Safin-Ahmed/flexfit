@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from '@mui/material';
 import React from 'react';
 import ExerciseList from '../Exercises/ExerciseList';
-import { RoutineData } from '../types';
+import { RoutineData } from '../Types/types';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -28,7 +28,7 @@ const DisplayRoutines = ({
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         <Grid item xs={12} sm={12} md={12} key={routine?.id}>
-          <Card>
+          <Card sx={{ bgcolor: '#F7F7F7', my: 1 }}>
             <CardContent>
               <Stack
                 direction={'row'}

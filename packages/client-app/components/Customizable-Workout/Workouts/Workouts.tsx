@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Button, Chip, Divider, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import SingleWorkout from './SingleWorkout/SingleWorkout';
 import WorkoutForm from './WorkoutForm';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {
@@ -20,6 +19,9 @@ import {
   useDeleteUserExerciseMutation,
   useGetAllUserExercisesQuery,
 } from '@redux/features/api/userExercise-api';
+import AddIcon from '@mui/icons-material/Add';
+import DisplayWorkout from './DisplayWorkout';
+import { StyledBox, StyledButton } from './Styles/Styles';
 
 const Workouts = () => {
   //RTK===================
@@ -116,26 +118,21 @@ const Workouts = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ bgcolor: '#F7F7F7' }}>
       <Typography variant="h2" sx={{ textAlign: 'center' }}>
         Workouts
       </Typography>
-      <Divider variant="middle" />
-
-      <Typography variant="h5" my={3}>
+      <Typography variant="h5" my={2} sx={{ textAlign: 'center' }}>
         Create & Customize your Workouts
       </Typography>
+      <Divider variant="middle" />
 
       {!isAdd ? (
-        <Button
-          variant="contained"
-          color="info"
-          sx={isUpdate ? { display: 'none' } : { my: '1rem', display: 'block' }}
-          onClick={() => setIsAdd(!isAdd)}
-          disabled={isUpdate}
-        >
-          Add Your Workouts
-        </Button>
+        <StyledBox sx={isUpdate ? { display: 'none' } : { display: 'flex' }}>
+          <StyledButton onClick={() => setIsAdd(!isAdd)} disabled={isUpdate}>
+            <AddIcon fontSize="large" />
+          </StyledButton>
+        </StyledBox>
       ) : (
         <Button
           variant="outlined"
@@ -152,6 +149,7 @@ const Workouts = () => {
         <Button
           variant="outlined"
           color="warning"
+          sx={{ my: 1 }}
           onClick={() => setIsUpdate(!isUpdate)}
         >
           <CancelIcon /> Cancel Update
@@ -184,7 +182,7 @@ const Workouts = () => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
           direction="row"
-          justifyContent="center"
+          justifyContent="start"
           alignItems="center"
         >
           {allWorkouts && //@ts-ignore
@@ -197,7 +195,7 @@ const Workouts = () => {
                 //@ts-ignore
                 key={workout.id}
               >
-                <SingleWorkout
+                <DisplayWorkout
                   deleteWorkout={deleteWorkout}
                   workout={workout}
                   getWorkoutId={getWorkoutId}

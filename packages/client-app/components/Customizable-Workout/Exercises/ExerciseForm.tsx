@@ -7,7 +7,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
-import { IndividualExerciseData } from '../types';
+import { IndividualExerciseData } from '../Types/types';
 
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;
@@ -35,12 +35,10 @@ const ExerciseForm = ({
     exercise: userExercise?.data?.attributes?.exercise?.data?.id,
     sets: userExercise?.data?.attributes?.sets,
     weight: userExercise?.data?.attributes?.weight,
-    reps: userExercise?.data?.attributes?.reps || 0,
-    time: userExercise?.data?.attributes?.time || 0,
+    reps: userExercise?.data?.attributes?.reps,
+    time: userExercise?.data?.attributes?.time,
   });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
-
-  console.log('From form: ', userExercise);
 
   const handleChange = (
     //@ts-ignore
@@ -54,8 +52,6 @@ const ExerciseForm = ({
   };
 
   const handleChangeToUpdate = (e: any) => {
-    console.log(e.target.value);
-
     if (isUpdate) {
       setUpdateForm((prev) => ({
         ...prev,

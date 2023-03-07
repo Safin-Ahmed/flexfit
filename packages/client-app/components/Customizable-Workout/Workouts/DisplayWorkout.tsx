@@ -1,8 +1,8 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import RoutineList from '@components/Workouts/Routines/RoutineList';
-import { WorkoutData } from '@components/Workouts/types';
 import CreateIcon from '@mui/icons-material/Create';
+import { WorkoutData } from '../Types/types';
+import RoutineList from '../Routines/RoutineList';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
@@ -10,11 +10,11 @@ interface SingleWorkoutProps {
   getWorkoutId: (id: number) => void;
 }
 
-const SingleWorkout = (props: SingleWorkoutProps) => {
+const DisplayWorkout = (props: SingleWorkoutProps) => {
   const { workout, deleteWorkout, getWorkoutId } = props;
 
   return (
-    <Box boxShadow={2} padding={2} borderRadius={1}>
+    <Box boxShadow={2} padding={2} borderRadius={1} bgcolor={'white'}>
       <Stack direction="row" mb={1} justifyContent="end" alignItems={'center'}>
         <Typography
           variant="caption"
@@ -52,8 +52,11 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
           <IconButton
             aria-label="delete"
             size="large"
-            //@ts-ignore
-            onClick={() => getWorkoutId(workout?.id)}
+            onClick={() => {
+              //@ts-ignore
+              getWorkoutId(workout?.id);
+              window.scrollTo(0, 0);
+            }}
           >
             <CreateIcon fontSize="inherit" />
           </IconButton>
@@ -68,4 +71,4 @@ const SingleWorkout = (props: SingleWorkoutProps) => {
   );
 };
 
-export default SingleWorkout;
+export default DisplayWorkout;
