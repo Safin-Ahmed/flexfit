@@ -2,18 +2,18 @@ import { apiSlice } from "..";
 const workoutsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllWorkouts: builder.query<any, void>({
-      query: () => "workouts",
+      query: () => "/workouts?populate=deep",
       transformResponse: (res: any) => {
         return res.data.sort((a: any, b: any) => b.id - a.id);
       },
       providesTags: ["Workouts"],
     }),
     getWorkout: builder.query<number, void>({
-      query: (workoutId) => `workouts/${workoutId}`,
+      query: (workoutId) => `/workouts/${workoutId}`,
     }),
     addWorkout: builder.mutation({
       query: (workout) => ({
-        url: `workouts`,
+        url: `/workouts`,
         method: "POST",
         body: workout,
       }),
@@ -21,22 +21,17 @@ const workoutsApi = apiSlice.injectEndpoints({
     }),
     updateSingleWorkout: builder.mutation({
       query: ({ workoutId, data }) => ({
-        url: `workouts/${workoutId}`,
+        url: `/workouts/${workoutId}`,
         method: "PUT",
         body: data,
       }),
       invalidatesTags: ["Workouts"],
     }),
     deleteSingleWorkout: builder.mutation({
-      query: (id) => {
-        // custom logic
-
-        // return object
-        return {
-          url: `workouts/${id}`,
-          method: "DELETE",
-        };
-      },
+      query: (id) => ({
+        url: `/workouts/${id}`,
+        method: "DELETE",
+      }),
       invalidatesTags: ["Workouts"],
     }),
   }),

@@ -6,44 +6,32 @@ import {
   Box,
   Card,
   CardContent,
+  Chip,
   Divider,
+  Grid,
   LinearProgress,
   Typography,
 } from "@mui/material";
+import { useGetAllWorkoutsQuery } from "@redux/features/api/workouts-api";
 import PageHead from "@shared/head";
 import styles from "@styles/progress.module.scss";
 import { getRoutineProgress } from "@utils/getRoutineProgress";
 import { getWorkoutProgress } from "@utils/getWorkoutProgress";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
 const Progress: React.FC = () => {
-  const [workoutData, setWorkoutData] = useState([]);
-
-  useEffect(() => {
-    const getWorkoutInfo = async () => {
-      const res = await fetch(
-        "http://localhost:1337/api/workouts?populate=deep",
-        {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_AUTH_TOKEN}`,
-          },
-        }
-      );
-      const workoutInfo = await res.json();
-      setWorkoutData(workoutInfo.data);
-    };
-    getWorkoutInfo();
-  }, []);
+  // Get all workouts
+  const { data: workoutData } = useGetAllWorkoutsQuery();
 
   // @ts-ignore
   const result = getRoutineProgress(workoutData);
+  const exercisesLists =
+    result?.activeRoutine?.attributes?.exercise_lists?.data;
 
   return (
     <>
-      <PageHead title="Dashboard || User Progress" />
+      <PageHead title="Dashboard | User Progress" />
 
       <DashboardLayout>
         <Box className={styles.progress__wrapper}>
@@ -52,12 +40,24 @@ const Progress: React.FC = () => {
           </Typography>
           <Divider />
 
-          <Box className={styles.progress__content}>
-            <Box className={styles["progress--chart"]}>
-              <PieChart workoutData={workoutData} />
-            </Box>
+          <Grid container className={styles.progress__content}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className={styles["progress--chart"]}
+            >
+              <Box sx={{ width: "90%", height: "90%" }}>
+                <PieChart workoutData={workoutData} />
+              </Box>
+            </Grid>
 
-            <Box
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
               className={`${styles["progress--chart"]} ${styles["circular--progress"]}`}
             >
               <Typography variant="h5">Current Workout</Typography>
@@ -66,15 +66,21 @@ const Progress: React.FC = () => {
                 value={getWorkoutProgress(workoutData)}
                 text={`${getWorkoutProgress(workoutData)}%`}
               />
-            </Box>
+            </Grid>
 
-            <Box className={styles["progress--chart"]}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              className={styles["progress--chart"]}
+            >
               <Typography className={styles.routine__title} variant="h5">
                 Today Routine
               </Typography>
               <Card className={styles.routine__content}>
                 <CardContent>
-                  <Typography variant="h6">
+                  <Typography variant="h6" fontWeight={600}>
                     {/* @ts-ignore */}
                     {result?.activeRoutine
                       ? // @ts-ignore
@@ -90,10 +96,46 @@ const Progress: React.FC = () => {
                     // @ts-ignore
                     title={result?.progress && result.progress}
                   />
+
+                  <Box className={styles.exercise__list}>
+                    {exercisesLists?.length > 0 ? (
+                      <Box>
+                        <Typography fontWeight={600}>Exercise Lists</Typography>
+                        {exercisesLists.map((exercise: any) => (
+                          <Box
+                            className={styles.exercise}
+                            key={exercise.id}
+                            sx={{ boxShadow: 1, m: 1 }}
+                          >
+                            <Typography>
+                              {
+                                exercise?.attributes?.exercise?.data?.attributes
+                                  ?.title
+                              }
+                            </Typography>
+                            <Chip
+                              label={
+                                exercise?.attributes?.isCompleted
+                                  ? "Completed"
+                                  : "Incomplete"
+                              }
+                              color={
+                                exercise?.attributes?.isCompleted
+                                  ? "success"
+                                  : "error"
+                              }
+                            />
+                          </Box>
+                        ))}
+                      </Box>
+                    ) : (
+                      <Typography>There are no exercises</Typography>
+                    )}
+                  </Box>
                 </CardContent>
               </Card>
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
         </Box>
       </DashboardLayout>
     </>
