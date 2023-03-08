@@ -17,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useGetUserProfileQuery } from "@redux/features/api/profile/profileApi";
+import { logout } from "@redux/features/Auth";
 import { SwitchButton } from "@shared/switch";
 import styles from "@styles/dashboard-layout.module.scss";
 import Image from "next/image";
@@ -141,6 +142,7 @@ const DashboardLayout = ({
               <ListItemButton
                 className={`${styles.list} ${styles.logout__btn}`}
                 disableRipple
+                onClick={() => dispatch(logout())}
               >
                 <ListItemIcon>
                   <LogoutIcon />
