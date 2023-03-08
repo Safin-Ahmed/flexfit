@@ -5,19 +5,23 @@ import React from 'react';
 import { WorkoutData } from '../Types/types';
 
 interface WorkoutFormProps {
-  liftCreateWorkouts: (formData: object) => void;
-  updateWorkout: (formData: object) => void;
+  liftAndCreateWorkouts: (formData: WorkoutData) => void;
+  updateWorkout: (formData: WorkoutData) => void;
   isUpdate: boolean;
+  singleWorkout: any;
 }
 
 const WorkoutForm = ({
-  liftCreateWorkouts,
+  liftAndCreateWorkouts,
   updateWorkout,
   isUpdate,
+  singleWorkout,
 }: WorkoutFormProps) => {
+  console.log({ singleWorkout });
+
   const [inputValue, setInputValue] = React.useState<WorkoutData>({
-    title: '',
-    endDate: '',
+    title: singleWorkout?.data?.attributes?.title || '',
+    endDate: singleWorkout?.data?.attributes?.endDate || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +34,7 @@ const WorkoutForm = ({
   //lift form value
   const createWorkout = () => {
     if (inputValue.title || inputValue.endDate) {
-      liftCreateWorkouts(inputValue);
+      liftAndCreateWorkouts(inputValue);
     }
   };
 

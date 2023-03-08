@@ -7,11 +7,11 @@ import RoutineList from '../Routines/RoutineList';
 interface SingleWorkoutProps {
   workout: WorkoutData;
   deleteWorkout: (id: number) => void;
-  getWorkoutId: (id: number) => void;
+  getWorkoutData: (data: any) => void;
 }
 
 const DisplayWorkout = (props: SingleWorkoutProps) => {
-  const { workout, deleteWorkout, getWorkoutId } = props;
+  const { workout, deleteWorkout, getWorkoutData } = props;
 
   return (
     <Box boxShadow={2} padding={2} borderRadius={1} bgcolor={'white'}>
@@ -53,8 +53,7 @@ const DisplayWorkout = (props: SingleWorkoutProps) => {
             aria-label="delete"
             size="large"
             onClick={() => {
-              //@ts-ignore
-              getWorkoutId(workout?.id);
+              getWorkoutData(workout);
               window.scrollTo(0, 0);
             }}
           >

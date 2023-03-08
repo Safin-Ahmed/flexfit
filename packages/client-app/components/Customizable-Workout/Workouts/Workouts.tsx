@@ -22,6 +22,7 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import DisplayWorkout from './DisplayWorkout';
 import { StyledBox, StyledButton } from './Styles/Styles';
+import { WorkoutData } from '../Types/types';
 
 const Workouts = () => {
   //RTK===================
@@ -59,17 +60,16 @@ const Workouts = () => {
   // For Update States
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [workoutId, setWorkoutId] = React.useState(0);
+  const [singleWorkout, setSingleWorkout] = React.useState<any>({});
 
   //lift and create workouts
   ///////////////////////////
-  const liftCreateWorkouts = (formData: object) => {
+  const liftAndCreateWorkouts = (formData: WorkoutData) => {
     //closing the workout form
     setIsAdd(false);
     const payload = {
       data: {
-        //@ts-ignore
         title: formData.title,
-        //@ts-ignore
         endDate: formData.endDate,
       },
     };
@@ -77,21 +77,22 @@ const Workouts = () => {
   };
 
   // get workout id to update the workout
-  const getWorkoutId = (id: number) => {
-    setWorkoutId(id);
+  const getWorkoutData = (data: any) => {
+    console.log(data);
+    setSingleWorkout((prev: any) => ({ ...prev, data }));
+
+    setWorkoutId(data?.id);
     setIsUpdate(!isUpdate);
   };
 
   //edit or update your workouts
   ///////////////////////////////
-  const updateWorkout = (formData: object) => {
+  const updateWorkout = (formData: WorkoutData) => {
     setIsUpdate(!isUpdate);
 
     const payload = {
       data: {
-        //@ts-ignore
         title: formData.title,
-        //@ts-ignore
         endDate: formData.endDate,
       },
     };
@@ -122,10 +123,12 @@ const Workouts = () => {
       <Typography variant="h2" sx={{ textAlign: 'center' }}>
         Workouts
       </Typography>
-      <Typography variant="h5" my={2} sx={{ textAlign: 'center' }}>
+
+      <Divider variant="middle" />
+
+      <Typography variant="h5" my={2}>
         Create & Customize your Workouts
       </Typography>
-      <Divider variant="middle" />
 
       {!isAdd ? (
         <StyledBox sx={isUpdate ? { display: 'none' } : { display: 'flex' }}>
@@ -158,23 +161,26 @@ const Workouts = () => {
 
       {!isUpdate && isAdd && (
         <WorkoutForm
-          liftCreateWorkouts={liftCreateWorkouts}
+          liftAndCreateWorkouts={liftAndCreateWorkouts}
           updateWorkout={updateWorkout}
           isUpdate={isUpdate}
+          singleWorkout={singleWorkout}
         />
       )}
 
       {!isAdd && isUpdate && (
         <WorkoutForm
-          liftCreateWorkouts={liftCreateWorkouts}
+          liftAndCreateWorkouts={liftAndCreateWorkouts}
           updateWorkout={updateWorkout}
           isUpdate={isUpdate}
+          singleWorkout={singleWorkout}
         />
       )}
 
       <Divider sx={{ marginY: '2rem' }}>
         <Chip label="Your Workout List" />
       </Divider>
+
       {/* @ts-ignore */}
       {allWorkouts?.length ? (
         <Grid
@@ -198,7 +204,7 @@ const Workouts = () => {
                 <DisplayWorkout
                   deleteWorkout={deleteWorkout}
                   workout={workout}
-                  getWorkoutId={getWorkoutId}
+                  getWorkoutData={getWorkoutData}
                 />
               </Grid>
             ))}
