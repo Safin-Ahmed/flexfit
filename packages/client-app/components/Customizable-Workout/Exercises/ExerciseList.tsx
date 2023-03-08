@@ -121,6 +121,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     };
 
     updateUserExercise({ exerciseId, data: payload });
+    setUserExercise({});
   };
 
   // Delete an Exercise

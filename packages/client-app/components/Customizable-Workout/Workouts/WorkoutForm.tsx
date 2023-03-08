@@ -17,12 +17,14 @@ const WorkoutForm = ({
   isUpdate,
   singleWorkout,
 }: WorkoutFormProps) => {
-  console.log({ singleWorkout });
-
   const [inputValue, setInputValue] = React.useState<WorkoutData>({
-    title: singleWorkout?.data?.attributes?.title || '',
-    endDate: singleWorkout?.data?.attributes?.endDate || '',
+    title: isUpdate ? singleWorkout?.data?.attributes?.title : '',
+    endDate: isUpdate ? singleWorkout?.data?.attributes?.endDate : '',
   });
+  // const [updateValue, setUpdateValue] = React.useState<WorkoutData>({
+  //   title: singleWorkout?.data?.attributes?.title ,
+  //   endDate: singleWorkout?.data?.attributes?.endDate ,
+  // });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue((prev) => ({

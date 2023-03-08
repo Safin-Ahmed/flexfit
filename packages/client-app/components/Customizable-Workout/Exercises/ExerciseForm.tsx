@@ -28,11 +28,11 @@ const ExerciseForm = ({
   userExercise,
 }: ExerciseFormProps) => {
   const [formValues, setFormValues] = React.useState({
-    exercise: userExercise?.data?.attributes?.exercise?.data?.id || 0,
-    sets: userExercise?.data?.attributes?.sets || 0,
-    weight: userExercise?.data?.attributes?.weight || 0,
-    reps: userExercise?.data?.attributes?.reps || 0,
-    time: userExercise?.data?.attributes?.time || 0,
+    exercise: isUpdate ? userExercise?.data?.attributes?.exercise?.data?.id : 0,
+    sets: isUpdate ? userExercise?.data?.attributes?.sets : 0,
+    weight: isUpdate ? userExercise?.data?.attributes?.weight : 0,
+    reps: isUpdate ? userExercise?.data?.attributes?.reps : 0,
+    time: isUpdate ? userExercise?.data?.attributes?.time : 0,
   });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 

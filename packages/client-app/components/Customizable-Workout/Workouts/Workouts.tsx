@@ -67,6 +67,7 @@ const Workouts = () => {
   const liftAndCreateWorkouts = (formData: WorkoutData) => {
     //closing the workout form
     setIsAdd(false);
+
     const payload = {
       data: {
         title: formData.title,
@@ -78,7 +79,6 @@ const Workouts = () => {
 
   // get workout id to update the workout
   const getWorkoutData = (data: any) => {
-    console.log(data);
     setSingleWorkout((prev: any) => ({ ...prev, data }));
 
     setWorkoutId(data?.id);
@@ -98,6 +98,7 @@ const Workouts = () => {
     };
 
     updateSingleWorkout({ workoutId, data: payload });
+    setSingleWorkout({});
   };
 
   //delete a single workout
