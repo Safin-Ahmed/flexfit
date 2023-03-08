@@ -37,5 +37,29 @@
         }
       }
     }
+
+    .curr__workout {
+      width: 100%;
+      .workout__card {
+        .title__wrap {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .routines__wrapper {
+          margin-top: 1rem;
+          max-height: 180px;
+          overflow-y: auto;
+
+          .routine {
+            padding: 10px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
   }
 }
