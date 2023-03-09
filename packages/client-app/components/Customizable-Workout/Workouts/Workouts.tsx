@@ -23,16 +23,19 @@ import AddIcon from '@mui/icons-material/Add';
 import DisplayWorkout from './DisplayWorkout';
 import { StyledBox, StyledButton } from './Styles/Styles';
 import { WorkoutData } from '../Types/types';
+import LinearProgress from '@mui/material/LinearProgress';
+import { Box } from '@mui/system';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Workouts = () => {
   //RTK===================
   //create
-  const [addWorkout, { isError, isLoading, isSuccess }] =
-    useAddWorkoutMutation();
+  const [addWorkout, { isError, isSuccess }] = useAddWorkoutMutation();
 
   //get
   //@ts-ignore
-  const { data: allWorkouts } = useGetAllWorkoutsQuery();
+  const { data: allWorkouts, isLoading } = useGetAllWorkoutsQuery();
 
   //delete
   const [deleteSingleWorkout, { isSuccess: isDeleteSuccess }] =
@@ -119,101 +122,136 @@ const Workouts = () => {
     });
   };
 
+  //Notification alerts============
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success('Workout Created !', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 1300,
+      });
+    }
+  }, [isSuccess]);
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.error('Deleted', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 1000,
+      });
+    }
+  }, [isDeleteSuccess]);
+
   return (
-    <Container sx={{ bgcolor: '#F7F7F7' }}>
-      <Typography variant="h2" sx={{ textAlign: 'center' }}>
-        Workouts
-      </Typography>
-
-      <Divider variant="middle" />
-
-      <Typography variant="h5" my={2}>
-        Create & Customize your Workouts
-      </Typography>
-
-      {!isAdd ? (
-        <StyledBox sx={isUpdate ? { display: 'none' } : { display: 'flex' }}>
-          <StyledButton onClick={() => setIsAdd(!isAdd)} disabled={isUpdate}>
-            <AddIcon fontSize="large" />
-          </StyledButton>
-        </StyledBox>
+    <>
+      {isSuccess && <ToastContainer />}
+      {isDeleteSuccess && <ToastContainer />}
+      {isLoading ? (
+        <Box sx={{ width: '100%', position: 'fixed', top: 0 }}>
+          <LinearProgress />
+        </Box>
       ) : (
-        <Button
-          variant="outlined"
-          color="warning"
-          sx={{ my: '1rem' }}
-          onClick={() => setIsAdd(!isAdd)}
-          disabled={isUpdate}
-        >
-          <CancelIcon /> Cancel
-        </Button>
-      )}
+        <Container sx={{ bgcolor: '#F7F7F7' }}>
+          <Typography variant="h2" sx={{ textAlign: 'center' }}>
+            Workouts
+          </Typography>
 
-      {isUpdate && (
-        <Button
-          variant="outlined"
-          color="warning"
-          sx={{ my: 1 }}
-          onClick={() => setIsUpdate(!isUpdate)}
-        >
-          <CancelIcon /> Cancel Update
-        </Button>
-      )}
+          <Divider variant="middle" />
 
-      {!isUpdate && isAdd && (
-        <WorkoutForm
-          liftAndCreateWorkouts={liftAndCreateWorkouts}
-          updateWorkout={updateWorkout}
-          isUpdate={isUpdate}
-          singleWorkout={singleWorkout}
-        />
-      )}
+          <Typography variant="h5" my={2}>
+            Create & Customize your Workouts
+          </Typography>
 
-      {!isAdd && isUpdate && (
-        <WorkoutForm
-          liftAndCreateWorkouts={liftAndCreateWorkouts}
-          updateWorkout={updateWorkout}
-          isUpdate={isUpdate}
-          singleWorkout={singleWorkout}
-        />
-      )}
-
-      <Divider sx={{ marginY: '2rem' }}>
-        <Chip label="Your Workout List" />
-      </Divider>
-
-      {/* @ts-ignore */}
-      {allWorkouts?.length ? (
-        <Grid
-          container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 4, sm: 8, md: 12 }}
-          direction="row"
-          justifyContent="start"
-          alignItems="center"
-        >
-          {allWorkouts && //@ts-ignore
-            allWorkouts.map((workout: any) => (
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                //@ts-ignore
-                key={workout.id}
+          {!isAdd ? (
+            <StyledBox
+              sx={isUpdate ? { display: 'none' } : { display: 'flex' }}
+            >
+              <StyledButton
+                onClick={() => setIsAdd(!isAdd)}
+                disabled={isUpdate}
               >
-                <DisplayWorkout
-                  deleteWorkout={deleteWorkout}
-                  workout={workout}
-                  getWorkoutData={getWorkoutData}
-                />
-              </Grid>
-            ))}
-        </Grid>
-      ) : (
-        <Typography>Nothing to show. Please create one...</Typography>
+                <AddIcon fontSize="large" />
+              </StyledButton>
+            </StyledBox>
+          ) : (
+            <Button
+              variant="outlined"
+              color="warning"
+              sx={{ my: '1rem' }}
+              onClick={() => setIsAdd(!isAdd)}
+              disabled={isUpdate}
+            >
+              <CancelIcon /> Cancel
+            </Button>
+          )}
+
+          {isUpdate && (
+            <Button
+              variant="outlined"
+              color="warning"
+              sx={{ my: 1 }}
+              onClick={() => setIsUpdate(!isUpdate)}
+            >
+              <CancelIcon /> Cancel Update
+            </Button>
+          )}
+
+          {!isUpdate && isAdd && (
+            <WorkoutForm
+              liftAndCreateWorkouts={liftAndCreateWorkouts}
+              updateWorkout={updateWorkout}
+              isUpdate={isUpdate}
+              singleWorkout={singleWorkout}
+              isSuccess={isSuccess}
+            />
+          )}
+
+          {!isAdd && isUpdate && (
+            <WorkoutForm
+              liftAndCreateWorkouts={liftAndCreateWorkouts}
+              updateWorkout={updateWorkout}
+              isUpdate={isUpdate}
+              singleWorkout={singleWorkout}
+              isSuccess={isSuccess}
+            />
+          )}
+
+          <Divider sx={{ marginY: '2rem' }}>
+            <Chip label="Your Workout List" />
+          </Divider>
+
+          {/* @ts-ignore */}
+          {allWorkouts?.length ? (
+            <Grid
+              container
+              spacing={{ xs: 2, md: 3 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+              direction="row"
+              justifyContent="start"
+              alignItems="center"
+            >
+              {allWorkouts && //@ts-ignore
+                allWorkouts.map((workout: any) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    //@ts-ignore
+                    key={workout.id}
+                  >
+                    <DisplayWorkout
+                      deleteWorkout={deleteWorkout}
+                      workout={workout}
+                      getWorkoutData={getWorkoutData}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          ) : (
+            <Typography>Nothing to show. Please create one...</Typography>
+          )}
+        </Container>
       )}
-    </Container>
+    </>
   );
 };
 

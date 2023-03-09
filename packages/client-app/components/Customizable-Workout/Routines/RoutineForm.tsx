@@ -39,8 +39,6 @@ const RoutineForm = ({
       //@ts-ignore
       liftAndCreateRoutine(routineFormValue);
     }
-
-    // setRoutineFormValue({ routineTitle: '' });
     handleClose();
   };
 

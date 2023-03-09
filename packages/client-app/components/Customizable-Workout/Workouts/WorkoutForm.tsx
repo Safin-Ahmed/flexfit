@@ -8,6 +8,7 @@ interface WorkoutFormProps {
   liftAndCreateWorkouts: (formData: WorkoutData) => void;
   updateWorkout: (formData: WorkoutData) => void;
   isUpdate: boolean;
+  isSuccess: boolean;
   singleWorkout: any;
 }
 
@@ -21,10 +22,6 @@ const WorkoutForm = ({
     title: isUpdate ? singleWorkout?.data?.attributes?.title : '',
     endDate: isUpdate ? singleWorkout?.data?.attributes?.endDate : '',
   });
-  // const [updateValue, setUpdateValue] = React.useState<WorkoutData>({
-  //   title: singleWorkout?.data?.attributes?.title ,
-  //   endDate: singleWorkout?.data?.attributes?.endDate ,
-  // });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue((prev) => ({

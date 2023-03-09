@@ -1,8 +1,8 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { WorkoutData } from '../Types/types';
 import RoutineList from '../Routines/RoutineList';
+import AlertDialog from '@components/Shared/Alert';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
@@ -35,20 +35,15 @@ const DisplayWorkout = (props: SingleWorkoutProps) => {
       >
         {/* @ts-ignore */}
         <Typography variant="h6">{workout?.attributes?.title}</Typography>
+
         <Stack
           direction="row"
           alignItems={'center'}
           justifyContent="center"
           gap={1}
         >
-          <IconButton
-            aria-label="delete"
-            size="large"
-            //@ts-ignore
-            onClick={() => deleteWorkout(workout?.id)}
-          >
-            <DeleteIcon fontSize="inherit" />
-          </IconButton>
+          <AlertDialog deleteWorkout={deleteWorkout} workout={workout} />
+
           <IconButton
             aria-label="delete"
             size="large"
