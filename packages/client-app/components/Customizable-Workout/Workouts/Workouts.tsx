@@ -127,7 +127,7 @@ const Workouts = () => {
     if (isSuccess) {
       toast.success('Workout Created !', {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 1300,
+        autoClose: 2000,
       });
     }
   }, [isSuccess]);
@@ -135,15 +135,24 @@ const Workouts = () => {
     if (isDeleteSuccess) {
       toast.error('Deleted', {
         position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 1000,
+        autoClose: 2000,
       });
     }
   }, [isDeleteSuccess]);
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.info('Updated Successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }
+  }, [isUpdateSuccess]);
 
   return (
     <>
       {isSuccess && <ToastContainer />}
       {isDeleteSuccess && <ToastContainer />}
+      {isUpdateSuccess && <ToastContainer />}
       {isLoading ? (
         <Box sx={{ width: '100%', position: 'fixed', top: 0 }}>
           <LinearProgress />

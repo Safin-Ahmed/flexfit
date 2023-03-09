@@ -10,9 +10,10 @@ import {
   useGetAllUserExercisesQuery,
 } from '@redux/features/api/userExercise-api';
 import React from 'react';
-import { RoutineData } from '../Types/types';
 import DisplayRoutines from './DisplayRoutines';
 import RoutineForm from './RoutineForm';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface RoutineListProps {
   workoutId: number;
@@ -28,10 +29,12 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   const { data: allRoutines } = useGetAllRoutinesQuery();
 
   //delete a routine
-  const [deleteSingleRoutine] = useDeleteSingleRoutineMutation();
+  const [deleteSingleRoutine, { isSuccess: isDeleteSuccess }] =
+    useDeleteSingleRoutineMutation();
 
   //update or edit a routine
-  const [updateSingleRoutine] = useUpdateSingleRoutineMutation();
+  const [updateSingleRoutine, { isSuccess: isUpdateSuccess }] =
+    useUpdateSingleRoutineMutation();
 
   //get all exercises
   const { data: allUserExercises } = useGetAllUserExercisesQuery();
@@ -115,8 +118,38 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
     });
   };
 
+  //Notification alerts============
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success('Routine Created', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isSuccess]);
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.error('Deleted', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isDeleteSuccess]);
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.info('Updated Successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }
+  }, [isUpdateSuccess]);
+
   return (
     <Box>
+      {isSuccess && <ToastContainer />}
+      {isDeleteSuccess && <ToastContainer />}
+      {isUpdateSuccess && <ToastContainer />}
+
       {allRoutines?.data?.map((routine: any) => {
         if (routine?.attributes?.workout?.data?.id === workoutId) {
           return (

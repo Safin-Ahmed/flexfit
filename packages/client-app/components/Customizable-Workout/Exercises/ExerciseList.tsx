@@ -14,6 +14,9 @@ import {
 } from '@redux/features/api/userExercise-api';
 import { useGetAllExercisesQuery } from '@redux/features/api/exercise';
 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 interface ExerciseListProps {
   routineId: any;
 }
@@ -31,10 +34,12 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   const { data: exercises } = useGetAllExercisesQuery();
 
   //update
-  const [updateUserExercise] = useUpdateUserExerciseMutation();
+  const [updateUserExercise, { isSuccess: isUpdateSuccess }] =
+    useUpdateUserExerciseMutation();
 
   //delete
-  const [deleteUserExercise] = useDeleteUserExerciseMutation();
+  const [deleteUserExercise, { isSuccess: isDeleteSuccess }] =
+    useDeleteUserExerciseMutation();
 
   // RTK======================
 
@@ -130,8 +135,38 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     deleteUserExercise(id);
   };
 
+  //Notification alerts============
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success('Routine Created', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isSuccess]);
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.error('Deleted', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isDeleteSuccess]);
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.info('Updated Successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }
+  }, [isUpdateSuccess]);
+
   return (
     <Box>
+      {isSuccess && <ToastContainer />}
+      {isDeleteSuccess && <ToastContainer />}
+      {isUpdateSuccess && <ToastContainer />}
+
       {isCreate ? (
         <Button
           disabled={isUpdate}

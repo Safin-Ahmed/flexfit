@@ -15,6 +15,7 @@ import {
   TextField,
 } from '@mui/material';
 import ReactPlayer from 'react-player/youtube';
+import AlertDialog from '@components/Shared/Alert';
 
 interface DisplayExerciseProps {
   userExercise: any;
@@ -94,12 +95,7 @@ const DisplayExercise = ({
               alignItems={'center'}
             >
               <Stack direction={'row'} justifyContent={'start'}>
-                <Button
-                  color="warning"
-                  onClick={() => deleteExercise(userExercise?.id)}
-                >
-                  <DeleteForeverIcon />
-                </Button>
+                <AlertDialog deleteFunc={deleteExercise} data={userExercise} />
                 <Button
                   disabled={isCreate}
                   color="secondary"

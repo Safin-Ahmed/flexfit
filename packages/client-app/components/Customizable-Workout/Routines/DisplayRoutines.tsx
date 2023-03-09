@@ -1,13 +1,12 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import React from 'react';
 import ExerciseList from '../Exercises/ExerciseList';
-import { RoutineData } from '../Types/types';
 
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import AlertDialog from '@components/Shared/Alert';
 
 export interface DisplayRoutines {
   routine: any;
@@ -43,9 +42,9 @@ const DisplayRoutines = ({
                   <Button onClick={() => handleClickOpenForUpdate(routine)}>
                     <EditIcon />
                   </Button>
-                  <Button onClick={() => deleteRoutine(routine?.id)}>
-                    <DeleteForeverIcon />
-                  </Button>
+                  <>
+                    <AlertDialog deleteFunc={deleteRoutine} data={routine} />
+                  </>
                 </Stack>
               </Stack>
 
