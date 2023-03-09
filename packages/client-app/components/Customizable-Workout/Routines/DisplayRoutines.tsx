@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 
 export interface DisplayRoutines {
   routine: any;
-  handleClickOpenForUpdate: (id: number) => void;
+  handleClickOpenForUpdate: (data: any) => void;
   deleteRoutine: (id: number) => void;
 }
 
@@ -40,7 +40,7 @@ const DisplayRoutines = ({
                   {routine?.attributes?.title}
                 </Typography>
                 <Stack direction={'row'} justifyContent={'start'}>
-                  <Button onClick={() => handleClickOpenForUpdate(routine?.id)}>
+                  <Button onClick={() => handleClickOpenForUpdate(routine)}>
                     <EditIcon />
                   </Button>
                   <Button onClick={() => deleteRoutine(routine?.id)}>

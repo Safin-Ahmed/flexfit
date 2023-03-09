@@ -10,6 +10,7 @@ import {
   useGetAllUserExercisesQuery,
 } from '@redux/features/api/userExercise-api';
 import React from 'react';
+import { RoutineData } from '../Types/types';
 import DisplayRoutines from './DisplayRoutines';
 import RoutineForm from './RoutineForm';
 
@@ -45,6 +46,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   //For Updating state
   const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
   const [routineId, setRoutineId] = React.useState<number>(0);
+  const [routineData, setRoutineData] = React.useState({});
 
   //Modal ================
   const [open, setOpen] = React.useState(false);
@@ -55,8 +57,11 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
     setIsCreate(true);
   };
 
-  const handleClickOpenForUpdate = (id: number) => {
-    setRoutineId(id);
+  const handleClickOpenForUpdate = (data: any) => {
+    console.log({ data });
+
+    setRoutineData(data);
+    setRoutineId(data?.id);
     setOpen(true);
     setIsUpdate(true);
   };
@@ -139,6 +144,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
+          routineData={routineData}
         />
       )}
       {isUpdate && (
@@ -148,6 +154,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
+          routineData={routineData}
         />
       )}
     </Box>

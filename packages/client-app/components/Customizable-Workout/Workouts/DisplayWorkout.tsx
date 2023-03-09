@@ -42,7 +42,7 @@ const DisplayWorkout = (props: SingleWorkoutProps) => {
           justifyContent="center"
           gap={1}
         >
-          <AlertDialog deleteWorkout={deleteWorkout} workout={workout} />
+          <AlertDialog deleteFunc={deleteWorkout} data={workout} />
 
           <IconButton
             aria-label="delete"

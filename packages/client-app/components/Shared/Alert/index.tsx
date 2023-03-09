@@ -5,10 +5,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { IconButton } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ErrorIcon from '@mui/icons-material/Error';
+import { Stack } from '@mui/system';
 
-export default function AlertDialog({ deleteWorkout, workout }: any) {
+export default function AlertDialog({ deleteFunc, data }: any) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -16,7 +18,7 @@ export default function AlertDialog({ deleteWorkout, workout }: any) {
   };
 
   const handleDelete = () => {
-    deleteWorkout(workout?.id);
+    deleteFunc(data?.id);
     setOpen(false);
   };
   const handleClose = () => {
@@ -36,7 +38,12 @@ export default function AlertDialog({ deleteWorkout, workout }: any) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Delete Workout'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <ErrorIcon color="error" />
+            <Typography variant="body1">{'Delete'}</Typography>{' '}
+          </Stack>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure?

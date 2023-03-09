@@ -11,6 +11,7 @@ interface RoutineFormProps {
   liftAndCreateRoutine: (data: object) => void;
   handleClose: () => void;
   updateRoutine: (formData: object) => void;
+  routineData: any;
   open: boolean;
   isUpdate: boolean;
 }
@@ -21,9 +22,10 @@ const RoutineForm = ({
   open,
   isUpdate,
   updateRoutine,
+  routineData,
 }: RoutineFormProps) => {
   const [routineFormValue, setRoutineFormValue] = React.useState<RoutineData>({
-    routineTitle: '',
+    routineTitle: isUpdate ? routineData?.attributes?.title : '',
   });
   //@ts-ignore
   const handleChange = (e: React.SelectChangeEvent<string>) => {
