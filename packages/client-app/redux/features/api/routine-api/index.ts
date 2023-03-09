@@ -3,15 +3,15 @@ import { apiSlice } from '..';
 export const routinesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllRoutines: builder.query<any, void>({
-      query: () => `routines?populate=*`,
+      query: () => `/routines?populate=*`,
       providesTags: ['Routines'],
     }),
     getRoutine: builder.query<number, void>({
-      query: (id) => `routines/${id}`,
+      query: (id) => `/routines/${id}`,
     }),
     createRoutine: builder.mutation({
       query: (routine) => ({
-        url: 'routines',
+        url: '/routines',
         method: 'POST',
         body: routine,
       }),
@@ -19,7 +19,7 @@ export const routinesApi = apiSlice.injectEndpoints({
     }),
     updateSingleRoutine: builder.mutation({
       query: ({ routineId, data }) => ({
-        url: `routines/${routineId}`,
+        url: `/routines/${routineId}`,
         method: 'PUT',
         body: data,
       }),
@@ -27,7 +27,7 @@ export const routinesApi = apiSlice.injectEndpoints({
     }),
     deleteSingleRoutine: builder.mutation({
       query: (id) => ({
-        url: `routines/${id}`,
+        url: `/routines/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Routines'],

@@ -12,8 +12,8 @@ export const getRoutineProgress = (workoutData: any) => {
   let progress = 0;
 
   // Calculate current workout
-  for (let i = 0; i < workoutData.length; i++) {
-    let workout = workoutData[i].attributes;
+  for (let i = 0; i < workoutData?.length; i++) {
+    let workout = workoutData[i]?.attributes;
     if (!workout.isCompleted) {
       currentWorkout = workout;
       break;

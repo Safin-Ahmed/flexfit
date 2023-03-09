@@ -3,7 +3,7 @@ import { apiSlice } from '..';
 const exerciseApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllExercises: builder.query<any, void>({
-      query: () => 'exercises',
+      query: () => '/exercises',
       transformResponse: (res: any) => {
         return res.data.sort((a: any, b: any) => b.id - a.id);
       },

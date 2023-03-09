@@ -3,7 +3,6 @@ import { useAppDispatch } from "@hooks/reduxHooks";
 import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
 import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
 import {
   Avatar,
@@ -17,9 +16,11 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { useGetUserProfileQuery } from "@redux/features/api/profile/profileApi";
 import { logout } from "@redux/features/Auth";
 import { SwitchButton } from "@shared/switch";
 import styles from "@styles/dashboard-layout.module.scss";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -31,19 +32,14 @@ const navLinks = [
     icon: <OtherHousesOutlinedIcon />,
   },
   {
-    name: "Workout",
-    link: "/dashboard/workout",
+    name: "Workouts",
+    link: "/dashboard/workouts",
     icon: <FitnessCenterOutlinedIcon />,
   },
   {
     name: "Progress",
     link: "/dashboard/progress",
     icon: <InsightsOutlinedIcon />,
-  },
-  {
-    name: "Reminder",
-    link: "/dashboard/reminder",
-    icon: <NotificationsActiveOutlinedIcon />,
   },
 ];
 
@@ -55,6 +51,9 @@ const DashboardLayout = ({
   // Path name
   const pathName = usePathname();
   const dispatch = useAppDispatch();
+
+  // Get user profile info
+  const { data: profileInfo } = useGetUserProfileQuery();
 
   return (
     <Grid container spacing={2}>
@@ -72,62 +71,86 @@ const DashboardLayout = ({
           anchor="left"
           className={styles.sidebar}
         >
-          <Box>
-            <Typography
-              className={styles.sidebar__logo}
-              variant="h5"
-              align="center"
-              fontWeight={700}
-            >
-              FlexFit
-            </Typography>
-            <Divider />
-          </Box>
-
-          <Box className={styles.profile}>
-            <Link href="/dashboard/profile" className={styles.link}>
-              <Box component="center">
-                <Avatar sx={{ width: 80, height: 80 }} />
-              </Box>
-            </Link>
-
-            <Box component="center" sx={{ mt: 2 }}>
-              <SwitchButton />
-            </Box>
-          </Box>
-
-          <List>
-            {navLinks.map((route) => (
-              <Link
-                key={Math.random()}
-                className={styles.link}
-                href={route.link}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100vh",
+            }}
+          >
+            <Box>
+              <Typography
+                className={styles.sidebar__logo}
+                variant="h5"
+                align="center"
+                fontWeight={700}
               >
-                <ListItemButton
-                  className={
-                    pathName === route.link
-                      ? `${styles.list} ${styles.active}`
-                      : styles.list
-                  }
-                  disableRipple
-                >
-                  <ListItemIcon>{route.icon}</ListItemIcon>
-                  <ListItemText className={styles.text} primary={route.name} />
-                </ListItemButton>
-              </Link>
-            ))}
+                FlexFit
+              </Typography>
+              <Divider />
 
-            <ListItemButton
-              className={`${styles.list} ${styles.logout__btn}`}
-              disableRipple
-              onClick={() => dispatch(logout())}
-            >
-              <ListItemIcon>
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText className={styles.text} primary="Logout" />
-            </ListItemButton>
-          </List>
+              <Box className={styles.profile}>
+                <Link href="/dashboard/profile" className={styles.link}>
+                  <Box component="center">
+                    {profileInfo?.avatar ? (
+                      <Image
+                        className={styles.profile__pic}
+                        src={profileInfo?.avatar?.url}
+                        width={90}
+                        height={90}
+                        alt="Profile Picture"
+                      />
+                    ) : (
+                      <Avatar sx={{ width: 90, height: 90 }} />
+                    )}
+                  </Box>
+                </Link>
+
+                <Box component="center" sx={{ mt: 2 }}>
+                  <SwitchButton />
+                </Box>
+              </Box>
+
+              <List>
+                {navLinks.map((route) => (
+                  <Link
+                    key={Math.random()}
+                    className={styles.link}
+                    href={route.link}
+                  >
+                    <ListItemButton
+                      className={
+                        pathName === route.link
+                          ? `${styles.list} ${styles.active}`
+                          : styles.list
+                      }
+                      disableRipple
+                    >
+                      <ListItemIcon>{route.icon}</ListItemIcon>
+                      <ListItemText
+                        className={styles.text}
+                        primary={route.name}
+                      />
+                    </ListItemButton>
+                  </Link>
+                ))}
+              </List>
+            </Box>
+
+            <List>
+              <ListItemButton
+                className={`${styles.list} ${styles.logout__btn}`}
+                disableRipple
+                onClick={() => dispatch(logout())}
+              >
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText className={styles.text} primary="Logout" />
+              </ListItemButton>
+            </List>
+          </Box>
         </Drawer>
       </Grid>
       <Grid item md={10}>
