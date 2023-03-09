@@ -246,7 +246,7 @@ const Workouts = () => {
                     <Grid
                       item
                       xs={12}
-                      md={6}
+                      md={4}
                       //@ts-ignore
                       key={workout.id}
                     >
