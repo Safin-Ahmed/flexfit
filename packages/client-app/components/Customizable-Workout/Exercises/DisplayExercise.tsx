@@ -2,7 +2,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/system';
 import React from 'react';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Button from '@mui/material/Button';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import Accordion from '@mui/material/Accordion';

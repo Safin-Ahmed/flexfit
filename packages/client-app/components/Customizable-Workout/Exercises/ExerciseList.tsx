@@ -138,9 +138,10 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   //Notification alerts============
   React.useEffect(() => {
     if (isSuccess) {
-      toast.success('Routine Created', {
+      toast.success('Exercise Created', {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
+        theme: 'colored',
       });
     }
   }, [isSuccess]);
@@ -149,6 +150,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
       toast.error('Deleted', {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
+        theme: 'colored',
       });
     }
   }, [isDeleteSuccess]);
@@ -157,6 +159,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
       toast.info('Updated Successfully!', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
+        theme: 'colored',
       });
     }
   }, [isUpdateSuccess]);

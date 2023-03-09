@@ -1,9 +1,8 @@
 'use client';
 import * as React from 'react';
-import { Button, Chip, Divider, Typography } from '@mui/material';
+import { Button, Chip, Divider, Stack, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import WorkoutForm from './WorkoutForm';
+import WorkoutForm from './Workout-Form/WorkoutForm';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {
   useAddWorkoutMutation,
@@ -20,8 +19,8 @@ import {
   useGetAllUserExercisesQuery,
 } from '@redux/features/api/userExercise-api';
 import AddIcon from '@mui/icons-material/Add';
-import DisplayWorkout from './DisplayWorkout';
-import { StyledBox, StyledButton } from './Styles/Styles';
+import DisplayWorkout from './Display-Workout/DisplayWorkout';
+import { StyledBox, StyledButton } from './Styles';
 import { WorkoutData } from '../Types/types';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Box } from '@mui/system';
@@ -31,6 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Workouts = () => {
   //RTK===================
   //create
+  //@ts-ignore
   const [addWorkout, { isError, isSuccess }] = useAddWorkoutMutation();
 
   //get
@@ -128,6 +128,7 @@ const Workouts = () => {
       toast.success('Workout Created !', {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
+        theme: 'dark',
       });
     }
   }, [isSuccess]);
@@ -136,6 +137,7 @@ const Workouts = () => {
       toast.error('Deleted', {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
+        theme: 'dark',
       });
     }
   }, [isDeleteSuccess]);
@@ -144,6 +146,7 @@ const Workouts = () => {
       toast.info('Updated Successfully!', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 2000,
+        theme: 'dark',
       });
     }
   }, [isUpdateSuccess]);
@@ -158,107 +161,109 @@ const Workouts = () => {
           <LinearProgress />
         </Box>
       ) : (
-        <Container sx={{ bgcolor: '#F7F7F7' }}>
+        <Box>
           <Typography variant="h2" sx={{ textAlign: 'center' }}>
             Workouts
           </Typography>
-
           <Divider variant="middle" />
+          <Box>
+            <Typography variant="h5" my={2}>
+              Create & Customize your Workouts
+            </Typography>
 
-          <Typography variant="h5" my={2}>
-            Create & Customize your Workouts
-          </Typography>
-
-          {!isAdd ? (
-            <StyledBox
-              sx={isUpdate ? { display: 'none' } : { display: 'flex' }}
-            >
-              <StyledButton
+            {!isAdd ? (
+              <StyledBox
+                sx={isUpdate ? { display: 'none' } : { display: 'flex' }}
+              >
+                <StyledButton
+                  onClick={() => setIsAdd(!isAdd)}
+                  disabled={isUpdate}
+                >
+                  <AddIcon fontSize="large" />
+                </StyledButton>
+              </StyledBox>
+            ) : (
+              <Button
+                variant="outlined"
+                color="warning"
+                sx={{ my: '1rem' }}
                 onClick={() => setIsAdd(!isAdd)}
                 disabled={isUpdate}
               >
-                <AddIcon fontSize="large" />
-              </StyledButton>
-            </StyledBox>
-          ) : (
-            <Button
-              variant="outlined"
-              color="warning"
-              sx={{ my: '1rem' }}
-              onClick={() => setIsAdd(!isAdd)}
-              disabled={isUpdate}
-            >
-              <CancelIcon /> Cancel
-            </Button>
-          )}
+                <CancelIcon /> Cancel
+              </Button>
+            )}
 
-          {isUpdate && (
-            <Button
-              variant="outlined"
-              color="warning"
-              sx={{ my: 1 }}
-              onClick={() => setIsUpdate(!isUpdate)}
-            >
-              <CancelIcon /> Cancel Update
-            </Button>
-          )}
+            {isUpdate && (
+              <Button
+                variant="outlined"
+                color="warning"
+                sx={{ my: 1 }}
+                onClick={() => setIsUpdate(!isUpdate)}
+              >
+                <CancelIcon /> Cancel Update
+              </Button>
+            )}
 
-          {!isUpdate && isAdd && (
-            <WorkoutForm
-              liftAndCreateWorkouts={liftAndCreateWorkouts}
-              updateWorkout={updateWorkout}
-              isUpdate={isUpdate}
-              singleWorkout={singleWorkout}
-              isSuccess={isSuccess}
-            />
-          )}
+            {!isUpdate && isAdd && (
+              <WorkoutForm
+                liftAndCreateWorkouts={liftAndCreateWorkouts}
+                updateWorkout={updateWorkout}
+                isUpdate={isUpdate}
+                singleWorkout={singleWorkout}
+                isSuccess={isSuccess}
+              />
+            )}
 
-          {!isAdd && isUpdate && (
-            <WorkoutForm
-              liftAndCreateWorkouts={liftAndCreateWorkouts}
-              updateWorkout={updateWorkout}
-              isUpdate={isUpdate}
-              singleWorkout={singleWorkout}
-              isSuccess={isSuccess}
-            />
-          )}
+            {!isAdd && isUpdate && (
+              <WorkoutForm
+                liftAndCreateWorkouts={liftAndCreateWorkouts}
+                updateWorkout={updateWorkout}
+                isUpdate={isUpdate}
+                singleWorkout={singleWorkout}
+                isSuccess={isSuccess}
+              />
+            )}
 
-          <Divider sx={{ marginY: '2rem' }}>
-            <Chip label="Your Workout List" />
-          </Divider>
+            <Divider sx={{ marginY: '2rem' }}>
+              <Chip label="Your Workout List" />
+            </Divider>
+          </Box>
 
-          {/* @ts-ignore */}
-          {allWorkouts?.length ? (
-            <Grid
-              container
-              spacing={{ xs: 2, md: 3 }}
-              columns={{ xs: 4, sm: 8, md: 12 }}
-              direction="row"
-              justifyContent="start"
-              alignItems="center"
-            >
-              {allWorkouts && //@ts-ignore
-                allWorkouts.map((workout: any) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={12}
-                    md={6}
-                    //@ts-ignore
-                    key={workout.id}
-                  >
-                    <DisplayWorkout
-                      deleteWorkout={deleteWorkout}
-                      workout={workout}
-                      getWorkoutData={getWorkoutData}
-                    />
-                  </Grid>
-                ))}
-            </Grid>
-          ) : (
-            <Typography>Nothing to show. Please create one...</Typography>
-          )}
-        </Container>
+          <Box>
+            {/* @ts-ignore */}
+            {allWorkouts?.length ? (
+              <Grid
+                spacing={{ xs: 2 }}
+                // columns={{ xs: 4, sm: 8, md: 12 }}
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                {allWorkouts && //@ts-ignore
+                  allWorkouts.map((workout: any, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      md={6}
+                      //@ts-ignore
+                      key={workout.id}
+                    >
+                      <DisplayWorkout
+                        deleteWorkout={deleteWorkout}
+                        workout={workout}
+                        getWorkoutData={getWorkoutData}
+                        index={index}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
+            ) : (
+              <Typography>Nothing to show. Please create one...</Typography>
+            )}
+          </Box>
+        </Box>
       )}
     </>
   );

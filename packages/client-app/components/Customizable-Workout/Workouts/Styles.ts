@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import { Box, Button, Link } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 export const StyledBox = styled(Box)(() => ({
   width: '12rem',
   height: '15rem',
+  backgroundColor: '#F7F7F7',
   justifyContent: 'center',
   alignItems: 'center',
-  borderRadius: 1,
-  backgroundColor: 'white',
+  borderRadius: '.8rem',
   margin: '20px 0px',
 }));
 
@@ -18,10 +18,10 @@ export const StyledButton = styled(Button)(() => ({
   height: '50px',
   borderRadius: '50%',
   padding: '35px',
-  backgroundColor: `#1976D2`,
+  backgroundColor: `#00BFA6`,
   color: 'white',
   '&:hover': {
-    backgroundColor: `#1976D2`,
+    backgroundColor: `#3F3D56`,
     color: 'white',
   },
 }));

@@ -1,6 +1,6 @@
 'use client';
 
-import Workouts from '@components/Customizable-Workout/Workouts/Workouts';
+import Workouts from '@components/Customizable-Workout/Workouts';
 import { Inter } from '@next/font/google';
 import { useGetAllRoutinesQuery } from '@redux/features/api/routine-api';
 import { useGetAllWorkoutsQuery } from '@redux/features/api/workouts-api';
