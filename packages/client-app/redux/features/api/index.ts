@@ -6,7 +6,6 @@ export const apiSlice = createApi({
     baseUrl: "http://localhost:1337/api",
     prepareHeaders: async (headers, { getState }) => {
       const token = process.env.NEXT_PUBLIC_USER_AUTH_TOKEN;
-      console.log("Token: ", token);
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }

@@ -24,6 +24,9 @@ const Progress: React.FC = () => {
   // Get all workouts
   const { data: workoutData } = useGetAllWorkoutsQuery();
 
+  // Get workout progress
+  const workoutInfo = getWorkoutProgress(workoutData);
+
   // @ts-ignore
   const result = getRoutineProgress(workoutData);
   const exercisesLists =
@@ -63,8 +66,10 @@ const Progress: React.FC = () => {
               <Typography variant="h5">Current Workout</Typography>
 
               <CircularProgressbar
-                value={getWorkoutProgress(workoutData)}
-                text={`${getWorkoutProgress(workoutData)}%`}
+                // @ts-ignore
+                value={workoutInfo?.progress || 0}
+                // @ts-ignore
+                text={`${workoutInfo?.progress || 0}%`}
               />
             </Grid>
 
@@ -100,7 +105,7 @@ const Progress: React.FC = () => {
                   <Box className={styles.exercise__list}>
                     {exercisesLists?.length > 0 ? (
                       <Box>
-                        <Typography fontWeight={600}>Exercise Lists</Typography>
+                        <Typography fontWeight={600}>Exercises List</Typography>
                         {exercisesLists.map((exercise: any) => (
                           <Box
                             className={styles.exercise}

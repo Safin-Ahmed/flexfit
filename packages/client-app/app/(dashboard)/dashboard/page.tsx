@@ -1,42 +1,34 @@
 "use client";
 
+import PieChart from "@components/pie-chart/pie-chart";
 import { useAppSelector } from "@hooks/reduxHooks";
 import DashboardLayout from "@layout/DashboardLayout";
-import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
-import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
-import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
-import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Divider,
+  Typography,
+} from "@mui/material";
+import { useGetAllWorkoutsQuery } from "@redux/features/api/workouts-api";
 import PageHead from "@shared/head";
+import styles from "@styles/dashboard.module.scss";
+import { getWorkoutProgress } from "@utils/getWorkoutProgress";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const navLinks = [
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    icon: <OtherHousesOutlinedIcon />,
-  },
-  {
-    name: "Workout",
-    link: "/dashboard/workout",
-    icon: <FitnessCenterOutlinedIcon />,
-  },
-  {
-    name: "Progress",
-    link: "/dashboard/progress",
-    icon: <InsightsOutlinedIcon />,
-  },
-  {
-    name: "Reminder",
-    link: "/dashboard/reminder",
-    icon: <NotificationsActiveOutlinedIcon />,
-  },
-];
 
 const Dashboard = (): JSX.Element => {
   const auth = useAppSelector((state) => state.auth);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+
+  // Get all workouts
+  const { data: workoutData } = useGetAllWorkoutsQuery();
+
+  // Get workout progress
+  const workoutInfo = getWorkoutProgress(workoutData);
+
   useEffect(() => {
     if (!auth.isAuthenticated) {
       router.replace("/auth");
@@ -45,6 +37,7 @@ const Dashboard = (): JSX.Element => {
     setIsLoading(false);
     return;
   }, [auth.isAuthenticated]);
+
   return (
     <>
       <PageHead title="Dashboard" />
@@ -52,9 +45,92 @@ const Dashboard = (): JSX.Element => {
       {isLoading ? (
         <h1>Loading...</h1>
       ) : (
-        <DashboardLayout>
-          <h3>Dashboard</h3>
-        </DashboardLayout>
+        <>
+          <DashboardLayout>
+            <Box className={styles.content__wrapper}>
+              <Typography variant="h5" fontWeight={700} gutterBottom>
+                Dashboard
+              </Typography>
+              <Divider />
+
+              <Typography className={styles.wc__msg} variant="h4">
+                Welcome {auth?.name}
+              </Typography>
+
+              <Box className={styles.content}>
+                <Box className={styles.progress__chart}>
+                  <PieChart workoutData={workoutData} />
+                </Box>
+
+                <Box className={styles.curr__workout}>
+                  <Typography variant="h5" marginBottom={2}>
+                    Running Workout
+                  </Typography>
+
+                  <Card>
+                    <CardContent className={styles.workout__card}>
+                      <Box className={styles.title__wrap}>
+                        <Typography>
+                          {/* @ts-ignore */}
+                          {workoutInfo?.currentWorkout?.title}
+                        </Typography>
+
+                        <Chip
+                          label={
+                            // @ts-ignore
+                            workoutInfo?.currentWorkout?.isCompleted
+                              ? "Completed"
+                              : "Incomplete"
+                          }
+                          color={
+                            // @ts-ignore
+                            workoutInfo?.currentWorkout?.isCompleted
+                              ? "success"
+                              : "error"
+                          }
+                        />
+                      </Box>
+
+                      <Box className={styles.routines__wrapper}>
+                        <Typography fontWeight={600}>Routines List</Typography>
+
+                        {/* @ts-ignore */}
+                        {workoutInfo?.currentWorkout?.routines?.data?.map(
+                          (routine: any) => (
+                            <Box
+                              className={styles.routine}
+                              key={routine?.id}
+                              sx={{ boxShadow: 1, m: 1, mb: 2 }}
+                            >
+                              <Typography>
+                                {routine?.attributes?.title}
+                              </Typography>
+
+                              <Chip
+                                label={
+                                  // @ts-ignore
+                                  routine?.attributes?.isCompleted
+                                    ? "Completed"
+                                    : "Incomplete"
+                                }
+                                color={
+                                  // @ts-ignore
+                                  routine?.attributes?.isCompleted
+                                    ? "success"
+                                    : "error"
+                                }
+                              />
+                            </Box>
+                          )
+                        )}
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </Box>
+            </Box>
+          </DashboardLayout>
+        </>
       )}
     </>
   );
