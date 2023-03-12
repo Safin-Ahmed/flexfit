@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { RoutineData } from '../Types/types';
+import { RoutineData } from '../../Types/types';
 
 interface RoutineFormProps {
   liftAndCreateRoutine: (data: object) => void;

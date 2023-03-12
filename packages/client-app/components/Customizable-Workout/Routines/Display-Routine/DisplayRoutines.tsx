@@ -1,12 +1,13 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Stack, Typography } from '@mui/material';
 import React from 'react';
-import ExerciseList from '../Exercises/ExerciseList';
+import ExerciseList from '../../Exercises/ExerciseList';
 
 import EditIcon from '@mui/icons-material/Edit';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import AlertDialog from '@components/Shared/Alert';
+import { StyledStack } from './Styles';
 
 export interface DisplayRoutines {
   routine: any;
@@ -38,14 +39,22 @@ const DisplayRoutines = ({
                 <Typography variant="h4">
                   {routine?.attributes?.title}
                 </Typography>
-                <Stack direction={'row'} justifyContent={'start'}>
-                  <Button onClick={() => handleClickOpenForUpdate(routine)}>
+                <StyledStack
+                  direction={'row'}
+                  justifyContent={'start'}
+                  alignItems={'center'}
+                >
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => handleClickOpenForUpdate(routine)}
+                  >
                     <EditIcon />
-                  </Button>
+                  </IconButton>
                   <>
                     <AlertDialog deleteFunc={deleteRoutine} data={routine} />
                   </>
-                </Stack>
+                </StyledStack>
               </Stack>
 
               <ExerciseList

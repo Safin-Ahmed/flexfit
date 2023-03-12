@@ -10,8 +10,8 @@ import {
   useGetAllUserExercisesQuery,
 } from '@redux/features/api/userExercise-api';
 import React from 'react';
-import DisplayRoutines from './DisplayRoutines';
-import RoutineForm from './RoutineForm';
+import DisplayRoutines from './Display-Routine/DisplayRoutines';
+import RoutineForm from './Routine-Form/RoutineForm';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

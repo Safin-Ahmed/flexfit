@@ -1,5 +1,12 @@
 import styled from '@emotion/styled';
-import { CardHeader, CardMedia, Card, Slider, Stack } from '@mui/material';
+import {
+  CardHeader,
+  CardMedia,
+  Card,
+  Slider,
+  Stack,
+  Button,
+} from '@mui/material';
 
 export const StyledCard = styled(Card)(() => ({
   border: '1px solid #E6E6E6',
@@ -77,5 +84,15 @@ export const StyledStack = styled(Stack)(() => ({
   boxShadow: '0 55px 86px -35px #ecf2f6',
   '&:hover': {
     boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+  },
+}));
+export const StyledButton = styled(Button)(() => ({
+  color: ' #3F3D56',
+  backgroundColor: '#00BFA6',
+  border: '1px solid #00BFA6',
+  '&:hover': {
+    backgroundColor: '#fff',
+    color: '#3F3D56',
+    border: '1px solid #3F3D56',
   },
 }));

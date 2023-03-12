@@ -7,7 +7,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
-import { IndividualExerciseData } from '../Types/types';
+import { IndividualExerciseData } from '../../Types/types';
 
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;

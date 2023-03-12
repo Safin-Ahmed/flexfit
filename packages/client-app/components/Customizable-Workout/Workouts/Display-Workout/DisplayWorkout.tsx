@@ -18,12 +18,14 @@ import RoutineList from '../../Routines/RoutineList';
 import AlertDialog from '@components/Shared/Alert';
 import {
   PrettoSlider,
+  StyledButton,
   StyledCard,
   StyledCardHeader,
   StyledCardMedia,
   StyledStack,
 } from './Styles';
 import { useState } from 'react';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 interface SingleWorkoutProps {
   workout: WorkoutData;
@@ -94,14 +96,7 @@ const DisplayWorkout = (props: SingleWorkoutProps) => {
                         fontWeight: '800',
                       }}
                       aria-label="recipe"
-                    >
-                      {index + 1}
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      {/* <MoreVertIcon /> */}
-                    </IconButton>
+                    ></Avatar>
                   }
                   title={
                     <Typography variant="h5">
@@ -129,7 +124,12 @@ const DisplayWorkout = (props: SingleWorkoutProps) => {
       {toggle && (
         <>
           <Box my={3}>
-            <Button onClick={() => setToggle(!toggle)}>Back</Button>
+            <StyledButton
+              onClick={() => setToggle(!toggle)}
+              variant="contained"
+            >
+              <ArrowBackIcon /> Back
+            </StyledButton>
             {/* @ts-ignore */}
             <RoutineList workoutId={workout?.id} />
           </Box>

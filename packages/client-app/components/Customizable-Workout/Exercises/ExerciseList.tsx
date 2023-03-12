@@ -3,8 +3,8 @@ import Box from '@mui/material/Box/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
-import DisplayExercise from './DisplayExercise';
-import ExerciseForm from './ExerciseForm';
+import DisplayExercise from './Display-Exercise/DisplayExercise';
+import ExerciseForm from './Exercise-Form/ExerciseForm';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {
   useAddUserExerciseMutation,
