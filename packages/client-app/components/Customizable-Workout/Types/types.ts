@@ -14,5 +14,5 @@ export interface IndividualExerciseData {
   reps?: number;
   time?: number;
   weight: number;
-  isCompleted: boolean;
+  isCompleted?: boolean;
 }

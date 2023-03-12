@@ -5,9 +5,15 @@ import {
   useGetAllRoutinesQuery,
   useUpdateSingleRoutineMutation,
 } from '@redux/features/api/routine-api';
+import {
+  useDeleteUserExerciseMutation,
+  useGetAllUserExercisesQuery,
+} from '@redux/features/api/userExercise-api';
 import React from 'react';
-import DisplayRoutines from './DisplayRoutines';
-import RoutineForm from './RoutineForm';
+import DisplayRoutines from './Display-Routine/DisplayRoutines';
+import RoutineForm from './Routine-Form/RoutineForm';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface RoutineListProps {
   workoutId: number;
@@ -23,10 +29,18 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   const { data: allRoutines } = useGetAllRoutinesQuery();
 
   //delete a routine
-  const [deleteSingleRoutine] = useDeleteSingleRoutineMutation();
+  const [deleteSingleRoutine, { isSuccess: isDeleteSuccess }] =
+    useDeleteSingleRoutineMutation();
 
   //update or edit a routine
-  const [updateSingleRoutine] = useUpdateSingleRoutineMutation();
+  const [updateSingleRoutine, { isSuccess: isUpdateSuccess }] =
+    useUpdateSingleRoutineMutation();
+
+  //get all exercises
+  const { data: allUserExercises } = useGetAllUserExercisesQuery();
+
+  //delete a exercise
+  const [deleteUserExercise] = useDeleteUserExerciseMutation();
 
   //RTK========================
 
@@ -35,6 +49,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   //For Updating state
   const [isUpdate, setIsUpdate] = React.useState<boolean>(false);
   const [routineId, setRoutineId] = React.useState<number>(0);
+  const [routineData, setRoutineData] = React.useState({});
 
   //Modal ================
   const [open, setOpen] = React.useState(false);
@@ -45,8 +60,11 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
     setIsCreate(true);
   };
 
-  const handleClickOpenForUpdate = (id: number) => {
-    setRoutineId(id);
+  const handleClickOpenForUpdate = (data: any) => {
+    console.log({ data });
+
+    setRoutineData(data);
+    setRoutineId(data?.id);
     setOpen(true);
     setIsUpdate(true);
   };
@@ -91,10 +109,47 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
   ///////////////////////////
   const deleteRoutine = (id: number) => {
     deleteSingleRoutine(id);
+
+    //delete related exercises
+    allUserExercises?.map((userExercise: any) => {
+      if (userExercise?.attributes?.routine?.data?.id === id) {
+        deleteUserExercise(userExercise?.id);
+      }
+    });
   };
+
+  //Notification alerts============
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success('Routine Created', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isSuccess]);
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.error('Deleted', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  }, [isDeleteSuccess]);
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.info('Updated Successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+      });
+    }
+  }, [isUpdateSuccess]);
 
   return (
     <Box>
+      {isSuccess && <ToastContainer />}
+      {isDeleteSuccess && <ToastContainer />}
+      {isUpdateSuccess && <ToastContainer />}
+
       {allRoutines?.data?.map((routine: any) => {
         if (routine?.attributes?.workout?.data?.id === workoutId) {
           return (
@@ -122,6 +177,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
+          routineData={routineData}
         />
       )}
       {isUpdate && (
@@ -131,6 +187,7 @@ const RoutineList = ({ workoutId }: RoutineListProps) => {
           open={open}
           isUpdate={isUpdate}
           updateRoutine={updateRoutine}
+          routineData={routineData}
         />
       )}
     </Box>

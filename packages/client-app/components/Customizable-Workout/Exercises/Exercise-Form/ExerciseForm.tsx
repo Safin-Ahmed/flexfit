@@ -7,7 +7,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box/Box';
 import { Stack } from '@mui/system';
-import { IndividualExerciseData } from '../types';
+import { IndividualExerciseData } from '../../Types/types';
 
 interface ExerciseFormProps {
   formData: (data: object, formCollapse: boolean) => void;
@@ -16,20 +16,24 @@ interface ExerciseFormProps {
   UpdateExercise: (data: object) => void;
   exercises: any;
   routineId: any;
+  userExercise: any;
 }
 
 const ExerciseForm = ({
   formData,
   isUpdate,
-  isCreate,
   UpdateExercise,
   exercises,
   routineId,
+  userExercise,
 }: ExerciseFormProps) => {
-  const [formValues, setFormValues] = React.useState<IndividualExerciseData>(
-    //@ts-ignore
-    {}
-  );
+  const [formValues, setFormValues] = React.useState({
+    exercise: isUpdate ? userExercise?.data?.attributes?.exercise?.data?.id : 0,
+    sets: isUpdate ? userExercise?.data?.attributes?.sets : 0,
+    weight: isUpdate ? userExercise?.data?.attributes?.weight : 0,
+    reps: isUpdate ? userExercise?.data?.attributes?.reps : 0,
+    time: isUpdate ? userExercise?.data?.attributes?.time : 0,
+  });
   const [formIsOpen, setFormIsOpen] = React.useState(true);
 
   const handleChange = (

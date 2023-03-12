@@ -1,9 +1,9 @@
-"use client";
-import { useAppDispatch } from "@hooks/reduxHooks";
-import FitnessCenterOutlinedIcon from "@mui/icons-material/FitnessCenterOutlined";
-import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
-import LogoutIcon from "@mui/icons-material/Logout";
-import OtherHousesOutlinedIcon from "@mui/icons-material/OtherHousesOutlined";
+'use client';
+import { useAppDispatch } from '@hooks/reduxHooks';
+import FitnessCenterOutlinedIcon from '@mui/icons-material/FitnessCenterOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import LogoutIcon from '@mui/icons-material/Logout';
+import OtherHousesOutlinedIcon from '@mui/icons-material/OtherHousesOutlined';
 import {
   Avatar,
   Box,
@@ -15,30 +15,30 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
-} from "@mui/material";
-import { useGetUserProfileQuery } from "@redux/features/api/profile/profileApi";
-import { logout } from "@redux/features/Auth";
-import { SwitchButton } from "@shared/switch";
-import styles from "@styles/dashboard-layout.module.scss";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+} from '@mui/material';
+import { useGetUserProfileQuery } from '@redux/features/api/profile/profileApi';
+import { logout } from '@redux/features/Auth';
+import { SwitchButton } from '@shared/switch';
+import styles from '@styles/dashboard-layout.module.scss';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 const navLinks = [
   {
-    name: "Dashboard",
-    link: "/dashboard",
+    name: 'Dashboard',
+    link: '/dashboard',
     icon: <OtherHousesOutlinedIcon />,
   },
   {
-    name: "Workouts",
-    link: "/dashboard/workouts",
+    name: 'Workouts',
+    link: '/dashboard/workouts',
     icon: <FitnessCenterOutlinedIcon />,
   },
   {
-    name: "Progress",
-    link: "/dashboard/progress",
+    name: 'Progress',
+    link: '/dashboard/progress',
     icon: <InsightsOutlinedIcon />,
   },
 ];
@@ -56,15 +56,15 @@ const DashboardLayout = ({
   const { data: profileInfo } = useGetUserProfileQuery();
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item md={2}>
         <Drawer
           sx={{
             width: 220,
             flexShrink: 0,
-            "& .MuiDrawer-paper": {
+            '& .MuiDrawer-paper': {
               width: 220,
-              boxSizing: "border-box",
+              boxSizing: 'border-box',
             },
           }}
           variant="permanent"
@@ -73,10 +73,10 @@ const DashboardLayout = ({
         >
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "100vh",
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              height: '100vh',
             }}
           >
             <Box>

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Workouts from "@components/Workouts/Workouts";
-import DashboardLayout from "@layout/DashboardLayout";
-import PageHead from "@shared/head";
+import Workouts from '@components/Customizable-Workout/Workouts';
+import DashboardLayout from '@layout/DashboardLayout';
+import PageHead from '@shared/head';
 
 const WorkoutsPage = (): JSX.Element => {
   return (

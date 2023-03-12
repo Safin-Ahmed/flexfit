@@ -1,38 +1,40 @@
-import { apiSlice } from "..";
+import { apiSlice } from '..';
 const workoutsApi = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: (builder: any) => ({
+    //@ts-ignore
     getAllWorkouts: builder.query<any, void>({
-      query: () => "/workouts?populate=deep",
+      query: () => '/workouts?populate=deep',
       transformResponse: (res: any) => {
         return res.data.sort((a: any, b: any) => b.id - a.id);
       },
-      providesTags: ["Workouts"],
+      providesTags: ['Workouts'],
     }),
+    //@ts-ignore
     getWorkout: builder.query<number, void>({
-      query: (workoutId) => `/workouts/${workoutId}`,
+      query: (workoutId: any) => `workouts/${workoutId}`,
     }),
     addWorkout: builder.mutation({
-      query: (workout) => ({
-        url: `/workouts`,
-        method: "POST",
+      query: (workout: any) => ({
+        url: `workouts`,
+        method: 'POST',
         body: workout,
       }),
-      invalidatesTags: ["Workouts"],
+      invalidatesTags: ['Workouts'],
     }),
     updateSingleWorkout: builder.mutation({
-      query: ({ workoutId, data }) => ({
-        url: `/workouts/${workoutId}`,
-        method: "PUT",
+      query: ({ workoutId, data }: any) => ({
+        url: `workouts/${workoutId}`,
+        method: 'PUT',
         body: data,
       }),
-      invalidatesTags: ["Workouts"],
+      invalidatesTags: ['Workouts'],
     }),
     deleteSingleWorkout: builder.mutation({
-      query: (id) => ({
-        url: `/workouts/${id}`,
-        method: "DELETE",
+      query: (id: any) => ({
+        url: `workouts/${id}`,
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Workouts"],
+      invalidatesTags: ['Workouts'],
     }),
   }),
 });

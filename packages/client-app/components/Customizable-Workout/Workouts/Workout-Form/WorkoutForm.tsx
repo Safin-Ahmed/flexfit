@@ -2,22 +2,25 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import React from 'react';
-import { WorkoutData } from './types';
+import { WorkoutData } from '../../Types/types';
 
 interface WorkoutFormProps {
-  liftCreateWorkouts: (formData: object) => void;
-  updateWorkout: (formData: object) => void;
+  liftAndCreateWorkouts: (formData: WorkoutData) => void;
+  updateWorkout: (formData: WorkoutData) => void;
   isUpdate: boolean;
+  isSuccess: boolean;
+  singleWorkout: any;
 }
 
 const WorkoutForm = ({
-  liftCreateWorkouts,
+  liftAndCreateWorkouts,
   updateWorkout,
   isUpdate,
+  singleWorkout,
 }: WorkoutFormProps) => {
   const [inputValue, setInputValue] = React.useState<WorkoutData>({
-    title: '',
-    endDate: '',
+    title: isUpdate ? singleWorkout?.data?.attributes?.title : '',
+    endDate: isUpdate ? singleWorkout?.data?.attributes?.endDate : '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +33,7 @@ const WorkoutForm = ({
   //lift form value
   const createWorkout = () => {
     if (inputValue.title || inputValue.endDate) {
-      liftCreateWorkouts(inputValue);
+      liftAndCreateWorkouts(inputValue);
     }
   };
 
