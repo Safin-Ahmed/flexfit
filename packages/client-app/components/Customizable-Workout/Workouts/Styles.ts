@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
 
+export const StyledParentBox = styled(Box)(() => ({
+  position: 'relative',
+}));
+
 export const StyledBox = styled(Box)(() => ({
   width: '12rem',
   height: '15rem',
