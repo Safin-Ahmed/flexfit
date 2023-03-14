@@ -46,21 +46,21 @@ const Profile = (): JSX.Element => {
   ] = useUpdateProfileMutation();
 
   // Handle input change
-  const handleInputChange = (e) =>
+  const handleInputChange = (e: any) =>
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   // Handle gender select
-  const handleGenderSelect = (e) => {
+  const handleGenderSelect = (e: any) => {
     setGender(e.target.value);
   };
 
   // Handle level select
-  const handleLevelSelect = (e) => {
+  const handleLevelSelect = (e: any) => {
     setLevel(e.target.value);
   };
 
   // Handle profile info update
-  const handleProfileUpdate = (e) => {
+  const handleProfileUpdate = (e: any) => {
     e.preventDefault();
     const id = userData?.id;
 
