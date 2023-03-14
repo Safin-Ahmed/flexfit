@@ -24,6 +24,7 @@ const Dashboard = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(true);
 
   // Get all workouts
+  // @ts-ignore
   const { data: workoutData } = useGetAllWorkoutsQuery();
 
   // Get workout progress
