@@ -14,16 +14,19 @@ export const useAuth = (data: any) => {
       return;
     }
     setError("");
-    const response = await fetch(`http://localhost:1337/api/auth/local`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        identifier: data.identifier,
-        password: data.password,
-      }),
-    });
+    const response = await fetch(
+      `https://flexfit-production.up.railway.app/api/auth/local`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          identifier: data.identifier,
+          password: data.password,
+        }),
+      }
+    );
 
     const user = await response.json();
     if (!user) {
@@ -44,7 +47,7 @@ export const useAuth = (data: any) => {
     setError("");
 
     const response = await fetch(
-      `http://localhost:1337/api/auth/local/register`,
+      `https://flexfit-production.up.railway.app/api/auth/local/register`,
       {
         method: "POST",
         headers: {
