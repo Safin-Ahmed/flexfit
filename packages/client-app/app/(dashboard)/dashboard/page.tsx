@@ -32,7 +32,7 @@ const Dashboard = (): JSX.Element => {
 
   useEffect(() => {
     if (!auth.isAuthenticated) {
-      router.replace("/auth");
+      router.replace("/");
       return;
     }
     setIsLoading(false);
