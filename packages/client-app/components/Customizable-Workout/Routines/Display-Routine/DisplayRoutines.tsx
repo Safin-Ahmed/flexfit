@@ -1,17 +1,17 @@
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, IconButton, Stack, Typography } from '@mui/material';
 import React from 'react';
-import ExerciseList from '../Exercises/ExerciseList';
-import { RoutineData } from '../types';
+import ExerciseList from '../../Exercises/ExerciseList';
 
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
+import AlertDialog from '@components/Shared/Alert';
+import { StyledCard, StyledStack } from './Styles';
 
 export interface DisplayRoutines {
   routine: any;
-  handleClickOpenForUpdate: (id: number) => void;
+  handleClickOpenForUpdate: (data: any) => void;
   deleteRoutine: (id: number) => void;
 }
 
@@ -39,14 +39,22 @@ const DisplayRoutines = ({
                 <Typography variant="h4">
                   {routine?.attributes?.title}
                 </Typography>
-                <Stack direction={'row'} justifyContent={'start'}>
-                  <Button onClick={() => handleClickOpenForUpdate(routine?.id)}>
+                <StyledStack
+                  direction={'row'}
+                  justifyContent={'start'}
+                  alignItems={'center'}
+                >
+                  <IconButton
+                    aria-label="delete"
+                    size="large"
+                    onClick={() => handleClickOpenForUpdate(routine)}
+                  >
                     <EditIcon />
-                  </Button>
-                  <Button onClick={() => deleteRoutine(routine?.id)}>
-                    <DeleteForeverIcon />
-                  </Button>
-                </Stack>
+                  </IconButton>
+                  <>
+                    <AlertDialog deleteFunc={deleteRoutine} data={routine} />
+                  </>
+                </StyledStack>
               </Stack>
 
               <ExerciseList

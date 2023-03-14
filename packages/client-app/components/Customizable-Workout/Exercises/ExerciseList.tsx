@@ -3,8 +3,8 @@ import Box from '@mui/material/Box/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import React, { useEffect } from 'react';
-import DisplayExercise from './DisplayExercise';
-import ExerciseForm from './ExerciseForm';
+import DisplayExercise from './Display-Exercise/DisplayExercise';
+import ExerciseForm from './Exercise-Form/ExerciseForm';
 import CancelIcon from '@mui/icons-material/Cancel';
 import {
   useAddUserExerciseMutation,
@@ -13,6 +13,9 @@ import {
   useUpdateUserExerciseMutation,
 } from '@redux/features/api/userExercise-api';
 import { useGetAllExercisesQuery } from '@redux/features/api/exercise';
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface ExerciseListProps {
   routineId: any;
@@ -31,10 +34,12 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   const { data: exercises } = useGetAllExercisesQuery();
 
   //update
-  const [updateUserExercise] = useUpdateUserExerciseMutation();
+  const [updateUserExercise, { isSuccess: isUpdateSuccess }] =
+    useUpdateUserExerciseMutation();
 
   //delete
-  const [deleteUserExercise] = useDeleteUserExerciseMutation();
+  const [deleteUserExercise, { isSuccess: isDeleteSuccess }] =
+    useDeleteUserExerciseMutation();
 
   // RTK======================
 
@@ -43,6 +48,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
   //For Updating states
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [exerciseId, setExerciseId] = React.useState(0);
+  const [userExercise, setUserExercise] = React.useState({});
 
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [completeId, setCompleteId] = React.useState(0);
@@ -72,9 +78,11 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     setIsUpdate(!formCollapse);
   };
 
-  const getExerciseId = (id: number) => {
+  const getExercise = (data: object) => {
+    setUserExercise((prev) => ({ ...prev, data }));
+
     //@ts-ignore
-    setExerciseId(id);
+    setExerciseId(data?.id);
     setIsUpdate(!isUpdate);
   };
 
@@ -118,6 +126,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     };
 
     updateUserExercise({ exerciseId, data: payload });
+    setUserExercise({});
   };
 
   // Delete an Exercise
@@ -126,8 +135,41 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
     deleteUserExercise(id);
   };
 
+  //Notification alerts============
+  React.useEffect(() => {
+    if (isSuccess) {
+      toast.success('Exercise Created', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+        theme: 'colored',
+      });
+    }
+  }, [isSuccess]);
+  React.useEffect(() => {
+    if (isDeleteSuccess) {
+      toast.error('Deleted', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+        theme: 'colored',
+      });
+    }
+  }, [isDeleteSuccess]);
+  React.useEffect(() => {
+    if (isUpdateSuccess) {
+      toast.info('Updated Successfully!', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2000,
+        theme: 'colored',
+      });
+    }
+  }, [isUpdateSuccess]);
+
   return (
     <Box>
+      {isSuccess && <ToastContainer />}
+      {isDeleteSuccess && <ToastContainer />}
+      {isUpdateSuccess && <ToastContainer />}
+
       {isCreate ? (
         <Button
           disabled={isUpdate}
@@ -171,6 +213,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
           isUpdate={isUpdate}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          userExercise={userExercise}
         />
       )}
       {!isCreate && isUpdate && (
@@ -182,12 +225,13 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
           isUpdate={isUpdate}
           isCreate={isCreate}
           UpdateExercise={UpdateExercise}
+          userExercise={userExercise}
         />
       )}
 
       <Typography mt={2} variant="h6">
         <Divider></Divider>
-        Your List: <Divider></Divider>
+        Your Exercises: <Divider></Divider>
       </Typography>
 
       {allUserExercises?.length ? (
@@ -202,7 +246,7 @@ const ExerciseList = ({ routineId }: ExerciseListProps) => {
                 routineId={routineId}
                 deleteExercise={deleteExercise}
                 isCreate={isCreate}
-                getExerciseId={getExerciseId}
+                getExercise={getExercise}
                 status={status}
               />
             );
