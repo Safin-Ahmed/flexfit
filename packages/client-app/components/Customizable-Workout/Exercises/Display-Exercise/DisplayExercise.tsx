@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import ReactPlayer from 'react-player/youtube';
 import AlertDialog from '@components/Shared/Alert';
+import { StyledBox } from './Styles';
 
 interface DisplayExerciseProps {
   userExercise: any;
@@ -41,7 +42,7 @@ const DisplayExercise = ({
     },
   } = userExercise;
   return (
-    <Box>
+    <StyledBox>
       <Accordion sx={{ marginY: '1rem' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -181,7 +182,7 @@ const DisplayExercise = ({
           </Box>
         </AccordionDetails>
       </Accordion>
-    </Box>
+    </StyledBox>
   );
 };
 

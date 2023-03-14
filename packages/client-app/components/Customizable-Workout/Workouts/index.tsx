@@ -20,7 +20,7 @@ import {
 } from '@redux/features/api/userExercise-api';
 import AddIcon from '@mui/icons-material/Add';
 import DisplayWorkout from './Display-Workout/DisplayWorkout';
-import { StyledBox, StyledButton } from './Styles';
+import { StyledBox, StyledButton, StyledParentBox } from './Styles';
 import { WorkoutData } from '../Types/types';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Box } from '@mui/system';
@@ -235,10 +235,10 @@ const Workouts = () => {
             {allWorkouts?.length ? (
               <Grid
                 spacing={{ xs: 2 }}
-                // columns={{ xs: 4, sm: 8, md: 12 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}
                 container
                 direction="row"
-                justifyContent="space-between"
+                justifyContent="start"
                 alignItems="center"
               >
                 {allWorkouts && //@ts-ignore

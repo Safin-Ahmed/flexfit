@@ -7,7 +7,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import AlertDialog from '@components/Shared/Alert';
-import { StyledStack } from './Styles';
+import { StyledCard, StyledStack } from './Styles';
 
 export interface DisplayRoutines {
   routine: any;
@@ -28,7 +28,7 @@ const DisplayRoutines = ({
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
         <Grid item xs={12} sm={12} md={12} key={routine?.id}>
-          <Card sx={{ bgcolor: '#F7F7F7', my: 1 }}>
+          <Card>
             <CardContent>
               <Stack
                 direction={'row'}

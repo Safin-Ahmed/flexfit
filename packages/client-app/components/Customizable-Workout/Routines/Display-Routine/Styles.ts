@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Card, Stack } from '@mui/material';
 
 export const StyledBox = styled(Box)(() => ({
   width: '12rem',
@@ -31,4 +31,9 @@ export const StyledStack = styled(Stack)(() => ({
   borderRadius: '30px',
   boxShadow: '0 55px 86px -35px #ecf2f6',
   padding: '0 3px',
+}));
+export const StyledCard = styled(Card)(() => ({
+  position: 'absolute',
+  backgroundColor: '#F7F7F7',
+  margin: '1rem 0rem',
 }));
