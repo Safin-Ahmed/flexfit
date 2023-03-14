@@ -22,6 +22,7 @@ import { CircularProgressbar } from "react-circular-progressbar";
 
 const Progress: React.FC = () => {
   // Get all workouts
+  // @ts-ignore
   const { data: workoutData } = useGetAllWorkoutsQuery();
 
   // Get workout progress
